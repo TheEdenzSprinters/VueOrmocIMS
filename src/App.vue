@@ -1,28 +1,59 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <b-container fluid id="app">
+    <b-row>
+      <b-col cols="2" class="navigation">
+        <DashNav />
+      </b-col>
+      <b-col cols="10" class="content-body">
+        <router-view/>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import DashNav from './components/GlobalComponents/DashNav';
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
-    HelloWorld
-  }
+    DashNav,
+  },
 }
 </script>
+
 
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+}
+
+.navigation, .content-body {
+    height: 800px;
+    padding: 0px;
+}
+
+.appPrimaryBackgroundColor {
+  background-color: #283593;
+}
+
+.appPrimaryTextColor {
+  color: #283593;
+}
+
+.appSecondaryBackgroundColor {
+  color: #ffffff;
+}
+
+.appSecondaryTextColor {
+  color: #ffffff;
+}
+
+.appBackgroundShadeColor {
+  background-color: #e8eaf6;
 }
 </style>
