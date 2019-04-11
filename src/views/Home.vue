@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import Header from './Header'
-import MainDashboard from '../components/DashboardComponents/MainDashboard'
+import Header from './Header';
+import MainDashboard from '../components/DashboardComponents/MainDashboard';
 
 export default {
   name: 'home',
