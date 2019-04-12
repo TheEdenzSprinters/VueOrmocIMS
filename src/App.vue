@@ -12,16 +12,16 @@
 </template>
 
 <script>
-import DashNav from './components/GlobalComponents/DashNav';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
+import DashNav from "./components/GlobalComponents/DashNav";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
 
 export default {
   name: "app",
   components: {
     DashNav,
   },
-}
+};
 </script>
 
 
