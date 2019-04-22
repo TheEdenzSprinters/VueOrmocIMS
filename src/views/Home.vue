@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Header />
+    <Header currentPage="Home" />
     <MainDashboard />
   </div>
 </template>
@@ -14,6 +14,6 @@ export default {
   components: {
    Header,
    MainDashboard
-  }
+  },
 }
 </script>
