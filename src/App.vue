@@ -37,6 +37,10 @@ export default {
     padding: 0px;
 }
 
+.main-content-body {
+  height: 650px;
+}
+
 .appPrimaryBackgroundColor {
   background-color: #283593;
 }
