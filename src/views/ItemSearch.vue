@@ -1,15 +1,16 @@
 <template>
     <div>
         <Header currentPage="ItemSearch" />
-        Item Search
+        <MainItemSearch class="main-content-body" />
     </div>
 </template>
 
 <script>
-import Header from "./Header"
+import Header from "./Header";
+import MainItemSearch from "../components/ItemSearchComponents/MainItemSearch";
 
 export default {
     name: "ItemSearch",
-    components: {Header},
+    components: {Header, MainItemSearch},
 }
 </script>

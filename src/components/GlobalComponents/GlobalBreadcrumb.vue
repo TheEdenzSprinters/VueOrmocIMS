@@ -37,5 +37,7 @@ export default {
 <style scoped>
     .breadcrumb {
         background-color: white;
+        margin-bottom: 0px;
+        font-size: 14px;
     }
 </style>

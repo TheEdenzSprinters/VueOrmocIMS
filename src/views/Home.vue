@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header currentPage="Home" />
-    <MainDashboard />
+    <MainDashboard class="main-content-body" />
   </div>
 </template>
 
