@@ -5,7 +5,7 @@
         <DashNav />
       </b-col>
       <b-col cols="10" class="content-body">
-        <router-view/>
+        <router-view />
       </b-col>
     </b-row>
   </b-container>
