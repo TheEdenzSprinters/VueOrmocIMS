@@ -12,7 +12,7 @@
       <b-collapse id="sub1">
         <b-nav vertical class="appPrimaryBackgroundColor">
           <b-nav-item>
-            <router-link class="appSecondaryTextColor secondaryNav" to="/category-management">CATEGORY MANAGEMENT</router-link>
+            <router-link class="appSecondaryTextColor secondaryNav" to="/item-requests">CATEGORY MANAGEMENT</router-link>
           </b-nav-item>
           <b-nav-item>
             <router-link class="appSecondaryTextColor secondaryNav" to="/category-management">CATEGORY MANAGEMENT</router-link>
