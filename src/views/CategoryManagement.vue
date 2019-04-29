@@ -1,12 +1,19 @@
 <template>
     <div>
-        Category Management
+      <!-- <Header /> -->
+      <MainCategoryManagement />
     </div>
 </template>
 
 <script>
+// import Header from "./Header";
+import MainCategoryManagement from "../components/CategoryManagementComponents/MainCategoryManagement";
+
 export default {
-    name: "CategoryManagement"
+    name: "CategoryManagement",
+    components: {
+      // Header,
+      MainCategoryManagement
+    },
 }
 </script>
-
