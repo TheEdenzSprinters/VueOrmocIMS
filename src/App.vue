@@ -5,23 +5,23 @@
         <DashNav />
       </b-col>
       <b-col cols="10" class="content-body">
-        <router-view/>
+        <router-view />
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import DashNav from './components/GlobalComponents/DashNav';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
+import DashNav from "./components/GlobalComponents/DashNav";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
 
 export default {
   name: "app",
   components: {
     DashNav,
   },
-}
+};
 </script>
 
 
@@ -35,6 +35,10 @@ export default {
 .navigation, .content-body {
     height: 800px;
     padding: 0px;
+}
+
+.main-content-body {
+  height: 650px;
 }
 
 .appPrimaryBackgroundColor {

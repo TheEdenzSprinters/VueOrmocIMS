@@ -5,13 +5,18 @@
         </h1>
         <hr class="headerBorder"/>
 
-        <b-breadcrumb></b-breadcrumb>
+    <GlobalBreadcrumb v-bind:currentPage="currentPage" />
+
     </div>
 </template>
 
 <script>
+import GlobalBreadcrumb from "../components/GlobalComponents/GlobalBreadcrumb";
+
 export default {
-    name: "Header"
+    name: "Header",
+    components: {GlobalBreadcrumb},
+    props: ["currentPage"],
 }
 </script>
 
