@@ -1,7 +1,7 @@
 <template>
     <b-container fluid class="">
         <b-col class="whiteWrapper borders auto-height no-gaps">
-            <h2 class="headline">Main Categories</h2>
+            <h2 class="headline">Sub-Categories</h2>
             <hr>
         </b-col>
     </b-container>
@@ -9,10 +9,10 @@
 
 <script>
 export default {
-  name: "MainCategoryManagement"
+  name: "SubCategoryManagement"
 }
 </script>
 
 <style scoped>
-    
+
 </style>
