@@ -29,6 +29,17 @@ export default {
                         active: true
                     }
                 ]}
+            case "CategoryManagement":
+                return {items: [
+                    {
+                        text: "Home",
+                        href: "/"
+                    },
+                    {
+                        text: "Category Management",
+                        active: true
+                    }
+                ]}
         }
     }
 }

@@ -11,6 +11,9 @@ import MainItemSearch from "../components/ItemSearchComponents/MainItemSearch";
 
 export default {
     name: "ItemSearch",
-    components: {Header, MainItemSearch},
+    components: {
+      Header, 
+      MainItemSearch
+    },
 }
 </script>
