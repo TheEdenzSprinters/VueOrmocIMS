@@ -11,11 +11,16 @@
     </b-nav-item>
       <b-collapse id="sub1">
         <b-nav vertical class="appPrimaryBackgroundColor">
+<<<<<<< HEAD
           <b-nav-item>
             <router-link class="appSecondaryTextColor secondaryNav" to="/category-management">ITEM REQUEST FORM</router-link>
+=======
+          <b-nav-item v-on:click="setActive('itemrequest')" :class="{active: isActive('itemrequest')}">
+            <router-link class="appSecondaryTextColor secondaryNav" to="/item-request-form">ITEM REQUEST FORM</router-link>
+>>>>>>> master
           </b-nav-item>
           <b-nav-item v-on:click="setActive('quotations')" :class="{active: isActive('quotations')}">
-            <router-link class="appSecondaryTextColor secondaryNav" to="/category-management">SUPPLIER QUOTATIONS</router-link>
+            <router-link class="appSecondaryTextColor secondaryNav" to="/supplier-quotations">SUPPLIER QUOTATIONS</router-link>
           </b-nav-item>
         </b-nav>
       </b-collapse>

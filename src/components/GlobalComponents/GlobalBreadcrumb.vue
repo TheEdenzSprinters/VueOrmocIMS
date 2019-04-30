@@ -29,14 +29,22 @@ export default {
                         active: true
                     }
                 ]}
+<<<<<<< HEAD
                 case "ItemRequests":
+=======
+            case "CategoryManagement":
+>>>>>>> master
                 return {items: [
                     {
                         text: "Home",
                         href: "/"
                     },
                     {
+<<<<<<< HEAD
                         text: "Item Requests",
+=======
+                        text: "Category Management",
+>>>>>>> master
                         active: true
                     }
                 ]}
