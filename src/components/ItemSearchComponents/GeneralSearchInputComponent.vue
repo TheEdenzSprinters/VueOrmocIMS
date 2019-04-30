@@ -8,12 +8,13 @@
             @hit="selectedItem = $event"
         />
         
-        <b-button class="appPrimaryBackgroundColor simpleSearch" block v-on:click="ItemNameSearch(itemName)" size="sm">SEARCH</b-button>
+        <b-button class="appPrimaryBackgroundColor simpleSearch" v-on:click="ItemNameSearch(itemName)" size="sm">SEARCH</b-button>
     </div>
 </template>
 
 <script>
 import _ from "underscore";
+import axios from "axios";
 import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
 
 export default {
@@ -23,16 +24,20 @@ export default {
         return {
             items: [],
             itemName: '',
-            selectedItem: null
+            selectedItem: null,
+            itemList: [],
         }
     },
     methods: {
         async getItems(query){
-            let dummyData = ["test", "test1", "item"];
-            this.items = dummyData.filter(item => {return item.indexOf(query) > -1 ? item : null});
+            let searchString = query;
+            axios.post("http://localhost:49995/api/ItemManagement/ItemAutoComplete",{searchString},{headers: {"Content-Type":"application/json"}})
+                .then(res => { this.items = res.data.Result; })
+                .catch(err => console.log(err));
         },
         ItemNameSearch(item){
-            alert(item);
+            this.itemList = item;
+            this.$emit('items-list', this.itemList);
         }
     },
     watch: {
@@ -45,6 +50,6 @@ export default {
     .simpleSearch {
         margin: 0 auto;
         margin-top: 10px;
-        float: left;
+        display: block;
     }
 </style>

@@ -1,62 +1,98 @@
 <template>
-        
-<b-container fluid class="whiteWrapper">
-    <b-row>
-        <b-col lg="12" sm="12">
-            <b-container fluid class="appBackgroundShadeColor mainItemContainer">
-                <b-row>
-                    <b-col lg="5" md="5" sm="12" class="whiteWrapper searchColumn">
-                        <b-container fluid>
-                            <b-row>
-                                <b-col lg="12" md="12" sm="12">
-                                    <GeneralSearchInputComponent/>
-                                </b-col>
-                            </b-row>
+    <b-container fluid class="whiteWrapper">
+        <b-row>
+            <b-col lg="12" sm="12">
+                <b-container fluid class="appBackgroundShadeColor mainItemContainer">
+                    <b-row>
+                        <b-col lg="6" md="6" sm="12" class="whiteWrapper">
+                            <b-container fluid class="searchColumn">
+                                <b-row>
+                                    <b-col lg="12" md="12" sm="12">
+                                        <GeneralSearchInputComponent v-on:items-list="showResults"/>
+                                    </b-col>
+                                </b-row>
 
-                            <b-row>
-                                <b-col lg="12" md="12" sm="12" class="advancedSearchContainer">
-                                    <span>Advanced Search</span>
-                                    <hr class="advancedSearchDivider"/>
-                                </b-col>
-                            </b-row>
-                        </b-container>
-                    </b-col>
-                    <b-col lg="7" md="7" sm="12">
-                    </b-col>
-                </b-row>
-            </b-container>
-        </b-col>
-    </b-row>
-</b-container>
+                                <b-row>
+                                    <b-col lg="12" md="12" sm="12" class="advancedSearchContainer">
+                                        <span v-b-toggle.advanceSearch class="advancedSearchToggle">Advanced Search</span>
+                                        <hr class="advancedSearchDivider"/>
+                                        <b-collapse id="advanceSearch">
+                                            <ItemAdvancedSearch/>
+                                        </b-collapse>
+                                    </b-col>
+                                </b-row>
 
+                                <b-row>
+                                    <b-col lg="12" md="12" sm="12">
+                                        <ItemSearchResults v-on:selected-item="viewItemDetails"/>
+                                    </b-col>
+                                </b-row>
+                            </b-container>
+                        </b-col>
+                        <b-col lg="6" md="6" sm="12" class="whiteWrapper">
+                            <IndividualItemsComponent/>
+                        </b-col>
+                    </b-row>
+                </b-container>
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 
 <script>
 import GeneralSearchInputComponent from "./GeneralSearchInputComponent";
+import ItemAdvancedSearch from "./ItemAdvancedSearch";
+import ItemSearchResults from "./ItemSearchResults";
+import IndividualItemsComponent from "./IndividualItemsComponent"
 
 export default {
     name: "MainItemSearch",
-    components: {GeneralSearchInputComponent},
+    components: {GeneralSearchInputComponent, ItemAdvancedSearch, ItemSearchResults, IndividualItemsComponent},
+    methods: {
+        showResults(results) {
+            alert(results);
+        },
+        viewItemDetails(item){
+            if(item !== []){
+                alert(item[0].ItemID);
+            }
+        }
+    },
 }
 </script>
 
 <style scoped>
     .whiteWrapper {
-        height: 100%;
-        background-color: #ffffff;
+        background-color: none;
+        font-size: 12px;
     }
 
     .mainItemContainer{
-        padding: 10px 10px 0px 30px;
+        padding: 20px 15px;
         height: 672px;
     }
     
     .searchColumn {
-        padding: 20px 10px;
+        max-height: 630px;
+        padding: 20px;
+        overflow: auto;
+        background-color: #ffffff;
+    }
+
+    .searchColumn::-webkit-scrollbar
+    {
+        width: 2px;
+        background-color: #F5F5F5;
+    }
+
+    .searchColumn::-webkit-scrollbar-thumb
+    {
+        background-color: #283593;
+        border: 1px solid #283593;
     }
 
     .advancedSearchContainer {
-        margin-top: 15px;
+        margin:15px 0px;
         text-align: center;
     }
     
@@ -67,5 +103,9 @@ export default {
     hr.advancedSearchDivider {
         border: 0.5px solid #283593;
         margin: 5px 0px;
+    }
+
+    .advancedSearchToggle {
+        cursor: pointer;
     }
 </style>
