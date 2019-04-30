@@ -29,6 +29,17 @@ export default {
                         active: true
                     }
                 ]}
+                case "ItemRequests":
+                return {items: [
+                    {
+                        text: "Home",
+                        href: "/"
+                    },
+                    {
+                        text: "Item Requests",
+                        active: true
+                    }
+                ]}
         }
     }
 }
