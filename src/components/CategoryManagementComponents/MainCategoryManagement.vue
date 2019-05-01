@@ -7,10 +7,36 @@
             </b-col>
         </b-row>
         <b-row>
-            Existing Main Categories here
+            <b-col>
+                <b-container>
+                    <b-row>
+                        <b-col cols="auto" class="list">
+                            Hardware
+                        </b-col>
+                        <b-col cols="auto" class="list">
+                            Electrical
+                        </b-col>
+                        <b-col cols="auto" class="list">
+                            Industrial Tools
+                        </b-col>
+                        <b-col cols="auto" class="list">
+                            Auto Parts
+                        </b-col>
+                        <b-col cols="auto" class="list">
+                            $MainCategory
+                        </b-col>
+                        <b-col cols="auto" class="list">
+                            $MainCategory
+                        </b-col>
+                        <b-col cols="auto" class="list">
+                            $MainCategory
+                        </b-col>
+                    </b-row>
+                </b-container>
+            </b-col>
         </b-row>
         <b-row>
-            <b-button class="button appPrimaryBackgroundColor" v-on:click="ItemNameSearch(itemName)">Add New Category</b-button>
+            <b-button class="button appPrimaryBackgroundColor" v-on:click="">Add New Category</b-button>
         </b-row>
     </b-container>
 </template>
@@ -56,5 +82,18 @@ export default {
     hr {
         border: 0.5px solid #283593;
         margin: 5px 0px 10px;
+    }
+
+    .list {
+        padding: 0px 20px 0px 10px;
+        margin: 0px 20px 10px 0px;
+        border-style: solid;
+        border-color: #7c7c7c;
+        border-width: 0.5px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 18px;
+        font-weight: bold;
+        color:  #283593;
+        background-color: #ececec;
     }
 </style>
