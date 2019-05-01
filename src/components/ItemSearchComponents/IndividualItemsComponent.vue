@@ -235,6 +235,6 @@ export default {
     }
 
     .detailedInformationContainer {
-        padding-top: 20px;
+        padding-top: 20px;  
     }
 </style>
