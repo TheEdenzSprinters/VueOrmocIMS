@@ -31,7 +31,7 @@ export default {
     methods: {
         async getItems(query){
             let searchString = query;
-            axios.post("http://localhost:49995/api/ItemManagement/ItemAutoComplete",{searchString},{headers: {"Content-Type":"application/json"}})
+            axios.post("http://localhost:49995/api/ItemManagement/ItemAutoComplete",{searchString})
                 .then(res => { this.items = res.data.Result; })
                 .catch(err => console.log(err));
         },

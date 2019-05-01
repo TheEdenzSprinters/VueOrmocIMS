@@ -10,9 +10,7 @@
             show-empty
             @row-selected="rowSelected" 
             :fields="fields">
-        </b-table> 
-
-       {{selected}}
+        </b-table>
     </div>
 </template>
 
