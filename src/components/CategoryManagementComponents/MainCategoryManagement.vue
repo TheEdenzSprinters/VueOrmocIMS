@@ -40,8 +40,8 @@ export default {
 
     .borders {
         border-style: solid;
-        border-color: #9c9b9b;
-        border-width: 1px;
+        border-color: #9b9b9b;
+        border-width: 0.5px;
     }
 
     .button {
@@ -55,6 +55,6 @@ export default {
     
     hr {
         border: 0.5px solid #283593;
-        margin: 5px 0px;
+        margin: 5px 0px 10px;
     }
 </style>

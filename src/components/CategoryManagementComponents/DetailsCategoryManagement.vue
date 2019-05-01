@@ -1,8 +1,10 @@
 <template>
-    <b-container fluid class="no-intent whiteWrapper">
-        <b-col class="no-intent borders">
-            <p class="details">Select an item to see complete details</p>
-        </b-col>
+    <b-container fluid class="whiteWrapper">
+        <b-row align-v="center" class="text-center details borders">
+            <b-col class="">
+                Select an item to see complete details.
+            </b-col>
+        </b-row>
     </b-container>
 </template>
 
@@ -18,21 +20,15 @@ export default {
         background-color: #ffffff;
     }
 
-    .no-intent {
-        padding: 0;
-    }
-    
     .borders {
         border-style: solid;
-        border-color: #9c9b9b;
-        border-width: 1px;
+        border-color: #9b9b9b;
+        border-width: 0.5px;
     }
 
     .details {
-        margin-right: 15px;
         height: 300px;
         font-style: italic;
-        font-size: auto;
         color:  #283593;
         font-size: 12px;
     }
