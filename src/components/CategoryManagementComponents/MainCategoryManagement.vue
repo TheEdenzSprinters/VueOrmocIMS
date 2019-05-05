@@ -14,6 +14,7 @@
                             <span>{{ cat.catName }}</span>
                             <img class="delete-img">
                             <icon v-on:click="deleteCategory('Category meant to be deleted now')"></icon>
+                            <font-awesome-icon class="icons appPrimaryTextColor" icon="print" v-on:click="printForm"/>
                         </b-col>
                     </b-row>
                 </b-container>
