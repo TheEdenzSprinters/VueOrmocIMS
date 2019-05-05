@@ -32,12 +32,23 @@ export default {
         async getItems(query){
             let searchString = query;
             axios.post("http://localhost:49995/api/ItemManagement/ItemAutoComplete",{searchString})
-                .then(res => { this.items = res.data.Result; })
+                .then(res => {
+                        if(res.data.Result !== ""){ 
+                            this.items = res.data.Result;
+                        } else {
+                            this.items = [];
+                        }
+                    })
                 .catch(err => console.log(err));
         },
         ItemNameSearch(item){
-            this.itemList = item;
-            this.$emit('items-list', this.itemList);
+            let itemName = item;
+            axios.post("http://localhost:49995/api/ItemManagement/ItemsBySimpleSearch",{itemName})
+                .then(res => {
+                    this.itemList = res.data.Result;
+                    this.$emit('items-list', this.itemList);
+                })
+                .catch(err => console.log(err));
         }
     },
     watch: {
