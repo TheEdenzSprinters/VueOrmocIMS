@@ -8,28 +8,23 @@
         </b-row>
         <b-row>
             <b-col>
-                <b-container>
+                <b-container fluid>
                     <b-row>
                         <b-col cols="auto" class="list">
                             Hardware
+                            <img class="delete-img">
                         </b-col>
                         <b-col cols="auto" class="list">
                             Electrical
+                            <img class="delete-img">
                         </b-col>
                         <b-col cols="auto" class="list">
                             Industrial Tools
+                            <img class="delete-img">
                         </b-col>
                         <b-col cols="auto" class="list">
                             Auto Parts
-                        </b-col>
-                        <b-col cols="auto" class="list">
-                            $MainCategory
-                        </b-col>
-                        <b-col cols="auto" class="list">
-                            $MainCategory
-                        </b-col>
-                        <b-col cols="auto" class="list">
-                            $MainCategory
+                            <img class="delete-img">
                         </b-col>
                     </b-row>
                 </b-container>
@@ -85,7 +80,7 @@ export default {
     }
 
     .list {
-        padding: 0px 20px 0px 10px;
+        padding: 0px 5px 0px 7px;
         margin: 0px 20px 10px 0px;
         border-style: solid;
         border-color: #7c7c7c;
@@ -94,6 +89,17 @@ export default {
         font-size: 18px;
         font-weight: bold;
         color:  #283593;
-        background-color: #ececec;
+        background-color: #dee1f1;
     }
+
+    .delete-img {
+        margin-left: 15px;
+        content: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
+        width: 16px;
+        height: 16px;
+        background-repeat: no-repeat;
+        background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAD5SURBVDhPzZJZagJBEIYbgoKi5gJGryGK3iaL7/Ei4nIClxMo3kWzkOQpJ/BJ/68XZpxF8UHwg4+qGrqbnqo2t6Arl/JP7n1cyI48S0FO5Va+yLos+vgqP+RIPshMJnIlK7ZKw/e15JAUXHsny7YypuRjINQ1+SVTv8M/P7vUHvIte7ZykToc/ibnLo2gUU8utbDpXw58DIcB635dGkG3aVicd3nwMQ7rWH/CNTdoytQNmDOjg0s96MuZSyPo6qes2ip/Co+SdW1bJWC+zDkckoQRbuTQVhnwwsaS6/LyGpKGERkd82dz7ksMcD3mTKPo9o+vW/LuMOYI44cxddmu8LAAAAAASUVORK5CYII=");
+    }
+
+    
 </style>
