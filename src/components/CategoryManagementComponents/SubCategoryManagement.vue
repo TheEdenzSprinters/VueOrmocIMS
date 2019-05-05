@@ -59,7 +59,7 @@ export default {
 
     .headline {
         color:  #283593;
-        padding: 15px 0px 0px 15px;
+        padding: 10px 0px 0px 15px;
         font-weight: bold;
         font-size: 24px;
     }
@@ -88,7 +88,7 @@ export default {
     
     hr {
         border: 0.5px solid #283593;
-        margin: 5px 0px 10px;
+        margin: 5px 0px 5px;
     }
 
     .list {

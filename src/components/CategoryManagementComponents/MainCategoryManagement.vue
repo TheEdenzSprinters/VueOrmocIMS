@@ -61,7 +61,7 @@ export default {
 
     .headline {
         color:  #283593;
-        padding: 15px 0px 0px 15px;
+        padding: 10px 0px 0px 15px;
         font-weight: bold;
         font-size: 24px;
     }
@@ -83,12 +83,12 @@ export default {
     
     hr {
         border: 0.5px solid #283593;
-        margin: 5px 0px 10px;
+        margin: 5px 0px 5px;
     }
 
     .list {
         padding: 0px 5px 0px 7px;
-        margin: 0px 20px 10px 0px;
+        margin: 5px 20px 10px 0px;
         border-style: solid;
         border-color: #7c7c7c;
         border-width: 0.5px;
@@ -107,6 +107,4 @@ export default {
         background-repeat: no-repeat;
         background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAD5SURBVDhPzZJZagJBEIYbgoKi5gJGryGK3iaL7/Ei4nIClxMo3kWzkOQpJ/BJ/68XZpxF8UHwg4+qGrqbnqo2t6Arl/JP7n1cyI48S0FO5Va+yLos+vgqP+RIPshMJnIlK7ZKw/e15JAUXHsny7YypuRjINQ1+SVTv8M/P7vUHvIte7ZykToc/ibnLo2gUU8utbDpXw58DIcB635dGkG3aVicd3nwMQ7rWH/CNTdoytQNmDOjg0s96MuZSyPo6qes2ip/Co+SdW1bJWC+zDkckoQRbuTQVhnwwsaS6/LyGpKGERkd82dz7ksMcD3mTKPo9o+vW/LuMOYI44cxddmu8LAAAAAASUVORK5CYII=");
     }
-
-    
 </style>
