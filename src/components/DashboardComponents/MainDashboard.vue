@@ -1,12 +1,12 @@
 <template>
     <div>
-        Item Requests Form
+        Main Dashboard
     </div>
 </template>
 
 <script>
 export default {
-    name: "ItemRequestForm"
+    name: "MainDashboard"
 }
 </script>
 

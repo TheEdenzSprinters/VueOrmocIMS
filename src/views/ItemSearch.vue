@@ -9,7 +9,7 @@
 import Header from "./Header";
 import MainItemSearch from "../components/ItemSearchComponents/MainItemSearch";
 
-export default { 
+export default {
     name: "ItemSearch",
     components: {
       Header, 
