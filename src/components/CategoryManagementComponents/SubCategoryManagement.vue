@@ -12,18 +12,15 @@
                     <b-row class="headline-2">
                         Hardware
                     </b-row>
+                    <b-row v-for="cat of cats" v-bind:key="cat.catName" class="headline-2">
+                        <span>{{ cat.catName }}</span>
+                    </b-row>
                     <b-row>
-                        <b-col cols="auto" class="list">
-                            Plywood
+                        <b-col cols="auto" v-for="subCat of subCats" v-bind:key="subCat.subCatName" class="list">
+                            <span>{{ subCat.subCatName }}</span>
                             <img class="delete-img">
-                        </b-col>
-                        <b-col cols="auto" class="list">
-                            Lumber
-                            <img class="delete-img">
-                        </b-col>
-                        <b-col cols="auto" class="list">
-                            Adhesives
-                            <img class="delete-img">
+                            <icon v-on:click="deleteSubCategory('Sub-Category meant to be deleted now')"></icon>
+                            <font-awesome-icon class="icons appPrimaryTextColor" icon="print" v-on:click="printForm"/>
                         </b-col>
                     </b-row>
                 </b-container>
@@ -36,8 +33,22 @@
 </template>
 
 <script>
+import MainCategoryManagementVue from './MainCategoryManagement.vue';
+
 export default {
-  name: "SubCategoryManagement",
+    components: {
+        MainCategoryManagementVue
+    },
+    name: "SubCategoryManagement",
+    data() {
+        return {
+            subCats: [
+                { id: 1, subCatName: "Plywood", },
+                { id: 2, subCatName: "Lumber", },
+                { id: 3, subCatName: "Adhesives", },
+            ]
+        }
+    },
     methods: {
         newSubCategory: function (message) {
             alert(message)
