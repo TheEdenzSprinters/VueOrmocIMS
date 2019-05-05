@@ -1,12 +1,19 @@
 <template>
     <div>
-        Item Request Form
+        <Header currentPage="ItemRequests" />
+        <MainItemRequest class="main-content-body"/>        
     </div>
 </template>
 
 <script>
+import Header from "./Header";
+import MainItemRequest from "../components/ItemRequestComponents/MainItemRequest";
 export default {
-    name: "ItemRequests"
+    name: "ItemRequests",
+    components: {
+        Header,
+        MainItemRequest,
+    }
 }
 </script>
 
