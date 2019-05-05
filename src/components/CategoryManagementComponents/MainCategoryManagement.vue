@@ -31,15 +31,22 @@
             </b-col>
         </b-row>
         <b-row>
-            <b-button class="button appPrimaryBackgroundColor" v-on:click="">Add New Category</b-button>
+            <b-button class="button appPrimaryBackgroundColor" v-on:click="newCategory('Add new Category')">Add New Category</b-button>
         </b-row>
     </b-container>
 </template>
 
 <script>
 export default {
-  name: "MainCategoryManagement"
+    name: "MainCategoryManagement",
+    methods: {
+        newCategory: function (message) {
+            alert(message)
+        }
+    }
 }
+
+
 </script>
 
 <style scoped>

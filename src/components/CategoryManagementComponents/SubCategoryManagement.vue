@@ -30,15 +30,21 @@
             </b-col>
         </b-row>
         <b-row>
-            <b-button class="button appPrimaryBackgroundColor" v-on:click="">Add New Hardware Sub-Category</b-button>
+            <b-button class="button appPrimaryBackgroundColor" v-on:click="newSubCategory('Add new Sub-Category')">Add New Hardware Sub-Category</b-button>
         </b-row>
     </b-container>
 </template>
 
 <script>
 export default {
-  name: "SubCategoryManagement"
+  name: "SubCategoryManagement",
+    methods: {
+        newSubCategory: function (message) {
+            alert(message)
+        }
+    }
 }
+
 </script>
 
 <style scoped>
