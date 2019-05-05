@@ -10,21 +10,10 @@
             <b-col>
                 <b-container fluid>
                     <b-row>
-                        <b-col cols="auto" class="list">
-                            Hardware
+                        <b-col cols="auto" v-for="cat of cats" v-bind:key="cat.catName" class="list">
+                            <span>{{ cat.catName }}</span>
                             <img class="delete-img">
-                        </b-col>
-                        <b-col cols="auto" class="list">
-                            Electrical
-                            <img class="delete-img">
-                        </b-col>
-                        <b-col cols="auto" class="list">
-                            Industrial Tools
-                            <img class="delete-img">
-                        </b-col>
-                        <b-col cols="auto" class="list">
-                            Auto Parts
-                            <img class="delete-img">
+                            <icon v-on:click="deleteCategory('Category meant to be deleted now')"></icon>
                         </b-col>
                     </b-row>
                 </b-container>
@@ -39,8 +28,21 @@
 <script>
 export default {
     name: "MainCategoryManagement",
+    data() {
+        return {
+            cats: [
+                { id: 1, catName: "Hardware" },
+                { id: 2, catName: "Electrical" },
+                { id: 3, catName: "Industrial Tools" },
+                { id: 4, catName: "Auto Parts" },
+            ]
+        }
+    },
     methods: {
         newCategory: function (message) {
+            alert(message)
+        },
+        deleteCategory: function (message) {
             alert(message)
         }
     }
