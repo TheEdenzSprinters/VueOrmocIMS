@@ -29,17 +29,17 @@ export default {
                         active: true
                     }
                 ]}
-            case "CategoryManagement":
+            case "ItemRequest":
                 return {items: [
                     {
                         text: "Home",
                         href: "/"
                     },
                     {
-                        text: "Category Management",
+                        text: "Item Request",
                         active: true
                     }
-                ]}
+                ]}                
         }
     }
 }

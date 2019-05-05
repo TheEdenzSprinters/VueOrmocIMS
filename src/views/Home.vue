@@ -7,7 +7,7 @@
 
 <script>
 import Header from "./Header";
-import MainDashboard from "../components/DashboardComponents/MainDashboard";
+import MainDashboard from "../components/HomeComponents/MainDashboard";
 
 export default {
   name: "home",
