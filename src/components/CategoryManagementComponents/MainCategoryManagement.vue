@@ -38,11 +38,11 @@ export default {
         }
     },
     methods: {
-        newCategory: function (message) {
-            alert(message)
+        newCategory (message) {
+            alert(message);
         },
-        deleteCategory: function (message) {
-            alert(message)
+        deleteCategory (message) {
+            alert(message);
         }
     }
 }

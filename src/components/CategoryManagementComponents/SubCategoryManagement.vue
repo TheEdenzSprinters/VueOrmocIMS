@@ -18,7 +18,7 @@
                     <b-row>
                         <b-col cols="auto" v-for="subCat of subCats" v-bind:key="subCat.subCatName" class="list">
                             <span>{{ subCat.subCatName }}</span>
-                            <font-awesome-icon class="icons appPrimaryTextColor delete-margin" icon="times-circle" v-on:click="deleteSubCategory('Sub-Category meant to be deleted now')"/>
+                            <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteSubCategory('Sub-Category meant to be deleted now')"/>
                         </b-col>
                     </b-row>
                 </b-container>
@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import MainCategoryManagementVue from './MainCategoryManagement.vue';
+import MainCategoryManagementVue from "./MainCategoryManagement.vue";
 
 export default {
     components: {
@@ -48,11 +48,11 @@ export default {
         }
     },
     methods: {
-        newSubCategory: function (message) {
-            alert(message)
+        newSubCategory (message) {
+            alert(message);
         },
-        deleteSubCategory: function (message) {
-            alert(message)
+        deleteSubCategory (message) {
+            alert(message);
         }
     }
 }
@@ -115,7 +115,7 @@ export default {
         background-color: #dee1f1;
     }
 
-    .delete-margin {
+    .delete-btn-margin {
         margin-left: 15px;
     }
 </style>
