@@ -18,6 +18,17 @@ export default {
                         href: "",
                     }
                 ]}
+            case "CategoryManagement":
+                return {items: [
+                    {
+                        text: "Home",
+                        href: "/"
+                    },
+                    {
+                        text: "Category Management",
+                        active: true
+                    }
+                ]}
             case "ItemSearch":
                 return {items: [
                     {

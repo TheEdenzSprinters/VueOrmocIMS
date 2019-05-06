@@ -24,13 +24,13 @@
 
                                 <b-row>
                                     <b-col lg="12" md="12" sm="12">
-                                        <ItemSearchResults v-on:selected-item="viewItemDetails"/>
+                                        <ItemSearchResults v-bind:item-list="itemList" v-on:selected-item="viewItemDetails"/>
                                     </b-col>
                                 </b-row>
                             </b-container>
                         </b-col>
                         <b-col lg="6" md="6" sm="12" class="whiteWrapper">
-                            <IndividualItemsComponent/>
+                            <IndividualItemsComponent v-bind:item-number="itemId"/>
                         </b-col>
                     </b-row>
                 </b-container>
@@ -47,14 +47,24 @@ import IndividualItemsComponent from "./IndividualItemsComponent"
 
 export default {
     name: "MainItemSearch",
+    data() {
+        return {
+            itemList: [],
+            itemId: 0,
+        }
+    },
     components: {GeneralSearchInputComponent, ItemAdvancedSearch, ItemSearchResults, IndividualItemsComponent},
     methods: {
         showResults(results) {
-            alert(results);
+            if(results.length !== 0){
+                this.itemList = results;
+            }
         },
         viewItemDetails(item){
-            if(item !== []){
-                alert(item[0].ItemID);
+            if(item.length > 0){
+                this.itemId = item[0].Id;
+            } else {
+                this.itemId = 0;
             }
         }
     },
