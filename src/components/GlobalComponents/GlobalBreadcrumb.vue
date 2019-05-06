@@ -18,17 +18,6 @@ export default {
                         href: "",
                     }
                 ]}
-            case "ItemSearch":
-                return {items: [
-                    {
-                        text: "Home",
-                        href: "/"
-                    },
-                    {
-                        text: "Item Search",
-                        active: true
-                    }
-                ]}
             case "CategoryManagement":
                 return {items: [
                     {
@@ -40,6 +29,28 @@ export default {
                         active: true
                     }
                 ]}
+            case "ItemSearch":
+                return {items: [
+                    {
+                        text: "Home",
+                        href: "/"
+                    },
+                    {
+                        text: "Item Search",
+                        active: true
+                    }
+                ]}
+            case "ItemRequest":
+                return {items: [
+                    {
+                        text: "Home",
+                        href: "/"
+                    },
+                    {
+                        text: "Item Request",
+                        active: true
+                    }
+                ]}                
         }
     }
 }

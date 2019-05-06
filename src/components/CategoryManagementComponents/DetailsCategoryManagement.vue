@@ -1,7 +1,7 @@
 <template>
     <b-container fluid class="whiteWrapper">
         <b-row align-v="center" class="text-center details borders">
-            <b-col class="">
+            <b-col>
                 Select an item to see complete details.
             </b-col>
         </b-row>
