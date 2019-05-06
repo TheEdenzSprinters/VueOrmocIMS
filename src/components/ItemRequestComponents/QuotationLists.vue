@@ -1,6 +1,5 @@
 <template>
-<div class="resultsContainer">
-    <h6>QUOTATIONS</h6>
+<div class="resultsContainer">    
         <b-table 
             striped 
             hover 
@@ -10,7 +9,7 @@
             :items="items" 
             show-empty
             @row-selected="rowSelected" 
-            :fields="fields">
+            :fields="fields">            
         </b-table> 
 
        {{selected}}
@@ -48,5 +47,8 @@ export default {
     }
     .cell{
         line-height: 14px;
+    }
+    .tableHeader{
+        font-size: 16px;
     }
 </style>

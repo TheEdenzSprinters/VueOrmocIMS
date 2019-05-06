@@ -1,12 +1,19 @@
 <template>
     <div>
-        Suppliers Management
+        <Header currentPage="SupplierManagement" />
+        <MainSupplierManagement class="main-content-body" />
     </div>
 </template>
 
 <script>
-export default {
-    name: "SupplierManagement"
+import Header from "./Header";
+import MainSupplierManagement from "../components/SupplierManagementComponents/MainSupplierManagement";
+
+export default { 
+    name: "SupplierManagement",
+    components: {
+      Header, 
+      MainSupplierManagement
+    },
 }
 </script>
-

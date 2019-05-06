@@ -46,10 +46,11 @@ export default {
 </script>
 
 <style scoped>
-    .resultsContainer {
-        font-size: 10px;      
-        margin-top: 10px;
-              
+       .resultsContainer {
+        font-size: 10px;
+    }
+    .cell{
+        line-height: 14px;
     }
 
 </style>

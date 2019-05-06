@@ -29,7 +29,7 @@ export default {
                         active: true
                     }
                 ]}
-            case "ItemRequest":
+            case "ItemRequests":
                 return {items: [
                     {
                         text: "Home",
@@ -39,7 +39,18 @@ export default {
                         text: "Item Request",
                         active: true
                     }
-                ]}                
+                ]}
+                 case "SupplierManagement":
+                return {items: [
+                    {
+                        text: "Home",
+                        href: "/"
+                    },
+                    {
+                        text: "Supplier Management",
+                        active: true
+                    }
+                ]}                                
         }
     }
 }

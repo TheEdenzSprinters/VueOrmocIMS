@@ -18,14 +18,14 @@
 
 <script>
 export default {
-    name: 'ItemRequestNotFulfilled',
+    name: 'PriceScoresheet',
     data() {
         return {
-            fields: [{key:'ItemRequestID' ,label: 'ItemRequestID', formatter: 'itemID'}, 'Title', 'DateCreated'],
+            fields: [{key:'SupplierID' ,label: 'Supplier ID', formatter: 'itemID'}, 'SupplierName', 'Quantity', 'PricePerUnit','PaymentTerms','Remarks'],
             items: [
-                {ItemRequestID: 1, Title: 'Hardiflex 8x6 ft', Status: 'Active', DateCreated: '27 Apr 2019'},
-                {ItemRequestID: 2, Title: 'Omni Resistor', Status: 'Active', DateCreated: '27 Apr 2019'},
-                {ItemRequestID: 3, Title: 'Ace Small Pliers', Status: 'Active', DateCreated: '27 Apr 2019'},
+                {SupplierID: 1, SupplierName: 'Hardiflex 8x6 ft', Quantity: '300', PricePerUnit: 'Php700', PaymentTerms: 'n/a', Remarks: '' },
+                {SupplierID: 2, SupplierName: 'Omni Resistor', Quantity: '1500', PricePerUnit: 'Php20', PaymentTerms: 'n/a'},
+                {SupplierID: 3, SupplierName: 'Ace Small Pliers', Quantity: '16', PricePerUnit: 'Php70', PaymentTerms: 'n/a'},
                                               
             ],
             selected: []

@@ -1,6 +1,5 @@
 <template>
-<div class="resultsContainer">
-    <h6>ITEMS</h6>
+<div class="resultsContainer">    
         <b-table 
             striped 
             hover 
@@ -12,8 +11,8 @@
             @row-selected="rowSelected" 
             :fields="fields">
 
-            <template slot="thead-top" slot-scope="data">
-        <tr>
+        <template slot="thead-top" slot-scope="data">      
+        <tr>            
           <th colspan="2">&nbsp;</th>
           <th></th>
           <th colspan="1"></th>
@@ -55,7 +54,10 @@ export default {
         font-size: 10px;
     }
     .stockBalance{
-        padding-left: 55px;
+        padding-left: 35px;
         width: 60px;        
+    }
+    .tableHeader{
+        font-size: 16px;
     }
 </style>

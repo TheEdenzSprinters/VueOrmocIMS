@@ -28,7 +28,7 @@
         border: 5px;
     }
     .button-container{
-        padding-left: 50px;
+        padding-left: 20px;
         padding-top: 20px;
     }
     .col-sm-8{
