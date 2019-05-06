@@ -12,7 +12,7 @@
                     <b-row>
                         <b-col cols="auto" v-for="cat of cats" v-bind:key="cat.catName" class="list">
                             <span>{{ cat.catName }}</span>
-                            <font-awesome-icon class="icons appPrimaryTextColor delete-margin" icon="times-circle" v-on:click="deleteCategory('Category meant to be deleted now')"/>
+                            <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteCategory('Category meant to be deleted now')"/>
                         </b-col>
                     </b-row>
                 </b-container>
@@ -100,7 +100,7 @@ export default {
         background-color: #dee1f1;
     }
 
-    .delete-margin {
-        margin-left: 15px;
+    .delete-btn-margin {
+        margin: 5px 0px 0px 15px;
     }
 </style>
