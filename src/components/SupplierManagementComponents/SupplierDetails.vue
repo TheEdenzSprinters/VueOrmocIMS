@@ -23,7 +23,7 @@
 </script>
 
 <style scoped>
-.input-small{
+.input-small{np
     width: 370px;
 }
 .input-small1{
