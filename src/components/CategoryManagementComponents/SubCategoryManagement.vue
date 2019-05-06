@@ -12,15 +12,13 @@
                     <b-row class="headline-2">
                         Hardware
                     </b-row>
-                    <b-row v-for="cat of cats" v-bind:key="cat.catName" class="headline-2">
+                    <!-- <b-row v-for="cat of cats" v-bind:key="cat.catName" class="headline-2">
                         <span>{{ cat.catName }}</span>
-                    </b-row>
+                    </b-row> -->
                     <b-row>
                         <b-col cols="auto" v-for="subCat of subCats" v-bind:key="subCat.subCatName" class="list">
                             <span>{{ subCat.subCatName }}</span>
-                            <img class="delete-img">
-                            <icon v-on:click="deleteSubCategory('Sub-Category meant to be deleted now')"></icon>
-                            <font-awesome-icon class="icons appPrimaryTextColor" icon="print" v-on:click="printForm"/>
+                            <font-awesome-icon class="icons appPrimaryTextColor delete-margin" icon="times-circle" v-on:click="deleteSubCategory('Sub-Category meant to be deleted now')"/>
                         </b-col>
                     </b-row>
                 </b-container>
@@ -43,14 +41,17 @@ export default {
     data() {
         return {
             subCats: [
-                { id: 1, subCatName: "Plywood", },
-                { id: 2, subCatName: "Lumber", },
-                { id: 3, subCatName: "Adhesives", },
+                { id: 1, subCatName: "Plywood", catId: 1},
+                { id: 2, subCatName: "Lumber", catId: 1},
+                { id: 3, subCatName: "Adhesives", catId: 1},
             ]
         }
     },
     methods: {
         newSubCategory: function (message) {
+            alert(message)
+        },
+        deleteSubCategory: function (message) {
             alert(message)
         }
     }
@@ -114,12 +115,7 @@ export default {
         background-color: #dee1f1;
     }
 
-    .delete-img {
+    .delete-margin {
         margin-left: 15px;
-        content: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7");
-        width: 16px;
-        height: 16px;
-        background-repeat: no-repeat;
-        background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAD5SURBVDhPzZJZagJBEIYbgoKi5gJGryGK3iaL7/Ei4nIClxMo3kWzkOQpJ/BJ/68XZpxF8UHwg4+qGrqbnqo2t6Arl/JP7n1cyI48S0FO5Va+yLos+vgqP+RIPshMJnIlK7ZKw/e15JAUXHsny7YypuRjINQ1+SVTv8M/P7vUHvIte7ZykToc/ibnLo2gUU8utbDpXw58DIcB635dGkG3aVicd3nwMQ7rWH/CNTdoytQNmDOjg0s96MuZSyPo6qes2ip/Co+SdW1bJWC+zDkckoQRbuTQVhnwwsaS6/LyGpKGERkd82dz7ksMcD3mTKPo9o+vW/LuMOYI44cxddmu8LAAAAAASUVORK5CYII=");
     }
 </style>
