@@ -3,10 +3,10 @@ import App from "./App.vue";
 import router from "./router";
 import BootstrapVue from "bootstrap-vue";
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPrint, faPlus, faEdit, faTimes, faArrowRight, faArrowDown } from '@fortawesome/free-solid-svg-icons'
+import { faPrint, faPlus, faEdit, faTimes, faAngleRight, faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faPrint, faPlus, faEdit, faTimes, faArrowRight, faArrowDown);
+library.add(faPrint, faPlus, faEdit, faTimes, faAngleRight, faAngleDown);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
