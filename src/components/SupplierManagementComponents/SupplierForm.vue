@@ -24,7 +24,15 @@
      padding-top: 10px;     
  }
  .btnContainer{
-     margin-left: 85px;
+     margin-left: 65px;
+     margin-bottom: 5px;
+     margin-top: 5px;
+ }
+ .btn{
+     height: 35px;
+     font-size: 15px;
+     margin-left: 10px;
+     width: 100px;
  }
  </style>
  

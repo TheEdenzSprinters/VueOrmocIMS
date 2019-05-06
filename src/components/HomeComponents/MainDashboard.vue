@@ -1,8 +1,13 @@
 <template>
-    <b-container fluid class="mainItemContainer">
-        <b-row class="date">
+    <b-container fluid class="whiteWrapper">
+        <b-row>
+            <b-col sm="12">
+                <b-container fluid class="appBackgroundShadeColor mainItemContainer">
+                    <b-row>
+                        <b-col sm="12" class="whiteWrapper">
+        <b-row>
             <bcol sm="12">
-                <b-container fluid class="whiteWrapper">
+                <b-container>
                     <b-row>
                         <b-col sm="12">
                             <DateComponent/>
@@ -68,6 +73,11 @@
                     </b-row>
                 </b-container>
             </b-col>           
+        </b-row>
+                        </b-col>
+        </b-row>
+        </b-container>
+        </b-col>
         </b-row>        
     </b-container>
 </template>
@@ -98,4 +108,13 @@ export default {
 .col-sm-12{
     padding: 0%;
 }
+.whiteWrapper {
+        background: none;
+        font-size: 16px;
+    }
+    .mainItemContainer{
+        padding: 10px;
+    }
+
+
 </style>

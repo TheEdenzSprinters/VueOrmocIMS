@@ -14,11 +14,11 @@
     <b-row class="form-2">
       <b-col sm="4">
         <label class="text-1" for="input-small">Date From:</label>
-        <b-form-input class="input-small-1" size="sm"></b-form-input>
+        <date-picker v-model="startDate" :config="options"></date-picker>
       </b-col>    
       <b-col sm="4">
         <label class="text-1" for="input-small">Date To:</label>
-        <b-form-input class="input-small-1" size="sm"></b-form-input>
+        <date-picker v-model="endDate" :config="options"></date-picker>
       </b-col>
       <b-col sm="4">
         <label class="text-1" for="input-small">Status:</label>
@@ -32,7 +32,24 @@
 </template>
 
 <script>
-
+import 'bootstrap/dist/css/bootstrap.css'; 
+import datePicker from 'vue-bootstrap-datetimepicker'; 
+import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
+   
+  export default {    
+    data () {
+      return {
+        date: new Date(),
+        options: {
+          format: 'DD/MM/YYYY',
+          useCurrent: false,
+        }       
+      }
+    },
+    components: {
+      datePicker
+    }
+  }
 </script>
 
 <style scoped>
