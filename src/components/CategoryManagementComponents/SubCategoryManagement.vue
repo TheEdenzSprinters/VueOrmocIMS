@@ -1,6 +1,6 @@
 <template>
     <b-container fluid class="borders whiteWrapper">
-        <b-row class="auto-height">
+        <b-row>
             <b-col class="no-intent">
             <h2 class="headline">Sub-Categories</h2>
             <hr>
@@ -8,34 +8,55 @@
         </b-row>
         <b-row>
             <b-col>
-                <b-container>
-                    <b-row class="headline">
+                <b-container fluid>
+                    <b-row class="headline-2">
                         Hardware
                     </b-row>
+                    <!-- <b-row v-for="cat of cats" v-bind:key="cat.catName" class="headline-2">
+                        <span>{{ cat.catName }}</span>
+                    </b-row> -->
                     <b-row>
-                        <b-col cols="auto" class="list">
-                            Plywood
-                        </b-col>
-                        <b-col cols="auto" class="list">
-                            Lumber
-                        </b-col>
-                        <b-col cols="auto" class="list">
-                            Adhesives
+                        <b-col cols="auto" v-for="subCat of subCats" v-bind:key="subCat.subCatName" class="list">
+                            <span>{{ subCat.subCatName }}</span>
+                            <font-awesome-icon class="icons appPrimaryTextColor delete-margin" icon="times-circle" v-on:click="deleteSubCategory('Sub-Category meant to be deleted now')"/>
                         </b-col>
                     </b-row>
                 </b-container>
             </b-col>
         </b-row>
         <b-row>
-            <b-button class="button appPrimaryBackgroundColor" v-on:click="">Add New $MainCategory Sub-Category</b-button>
+            <b-button class="button appPrimaryBackgroundColor" v-on:click="newSubCategory('Add new Sub-Category')">Add New Hardware Sub-Category</b-button>
         </b-row>
     </b-container>
 </template>
 
 <script>
+import MainCategoryManagementVue from './MainCategoryManagement.vue';
+
 export default {
-  name: "SubCategoryManagement"
+    components: {
+        MainCategoryManagementVue
+    },
+    name: "SubCategoryManagement",
+    data() {
+        return {
+            subCats: [
+                { id: 1, subCatName: "Plywood", catId: 1},
+                { id: 2, subCatName: "Lumber", catId: 1},
+                { id: 3, subCatName: "Adhesives", catId: 1},
+            ]
+        }
+    },
+    methods: {
+        newSubCategory: function (message) {
+            alert(message)
+        },
+        deleteSubCategory: function (message) {
+            alert(message)
+        }
+    }
 }
+
 </script>
 
 <style scoped>
@@ -50,9 +71,16 @@ export default {
 
     .headline {
         color:  #283593;
-        padding: 15px 0px 0px 15px;
+        padding: 10px 0px 0px 15px;
         font-weight: bold;
         font-size: 24px;
+    }
+
+    .headline-2 {
+        color:  #283593;
+        padding-left: 5px;
+        font-weight: bold;
+        font-size: 18px;
     }
 
     .borders {
@@ -72,11 +100,11 @@ export default {
     
     hr {
         border: 0.5px solid #283593;
-        margin: 5px 0px 10px;
+        margin: 5px 0px 5px;
     }
 
     .list {
-        padding: 2px 20px 2px 10px;
+        padding: 2px 5px 2px 7px;
         margin: 0px 20px 10px 0px;
         border-style: solid;
         border-color: #7c7c7c;
@@ -84,6 +112,10 @@ export default {
         font-family: Arial, Helvetica, sans-serif;
         font-size: 14px;
         color:  #283593;
-        background-color: #ececec;
+        background-color: #dee1f1;
+    }
+
+    .delete-margin {
+        margin-left: 15px;
     }
 </style>

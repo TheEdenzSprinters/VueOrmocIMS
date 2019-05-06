@@ -36,7 +36,7 @@ import DetailsCategoryManagement from "./DetailsCategoryManagement";
 import MainCategoryManagement from "./MainCategoryManagement";
 
 export default {
-    name: "CategoryManagementFrame",
+    name: "MainCategoryManagementFrame",
     components: {
         MainCategoryManagement,
         SubCategoryManagement,
