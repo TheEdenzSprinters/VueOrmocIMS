@@ -19,7 +19,7 @@
             </b-col>
         </b-row>
         <b-row>
-            <b-button @click="show=true" class="button appPrimaryBackgroundColor">Show Modal</b-button>
+            <b-button @click="show=true" class="button appPrimaryBackgroundColor">Add New Category</b-button>
             <b-modal
                 v-model="show"
                 ref="modal"
