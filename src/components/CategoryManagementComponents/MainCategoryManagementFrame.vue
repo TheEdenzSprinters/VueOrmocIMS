@@ -8,10 +8,10 @@
                     <b-col cols="9">
                         <b-container fluid class="left-intent">
                             <b-row class="row-intents">
-                                <MainCategoryManagement />
+                                <MainCategoryManagement v-bind:cat-list="catList" v-on:receive-cat-list="passCategories" />
                             </b-row>
                             <b-row class="row-intents">
-                                <SubCategoryManagement />
+                                <SubCategoryManagement v-bind:cat-list="catList" />
                             </b-row>
                         </b-container>
                     </b-col>
@@ -41,6 +41,21 @@ export default {
         MainCategoryManagement,
         SubCategoryManagement,
         DetailsCategoryManagement,
+    },
+    data() {
+        return {
+            catList: [
+                { id: 1, catName: "Hardware" },
+                { id: 2, catName: "Electrical" },
+                { id: 3, catName: "Industrial Tools" },
+                { id: 4, catName: "Auto Parts" },
+            ],
+        }
+    },
+    methods: {
+        passCategories: function(results) {
+            this.catList = results;
+        }
     }
 
 }

@@ -10,7 +10,7 @@
             <b-col>
                 <b-container fluid>
                     <b-row>
-                        <b-col cols="auto" v-for="cat of cats" v-bind:key="cat.catName" class="list">
+                        <b-col cols="auto" v-for="cat of catList" v-bind:key="cat.catName" class="list">
                             <span>{{ cat.catName }}</span>
                             <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteCategory('Category meant to be deleted now')"/>
                         </b-col>
@@ -19,7 +19,31 @@
             </b-col>
         </b-row>
         <b-row>
-            <b-button class="button appPrimaryBackgroundColor" v-on:click="newCategory('Add new Category')">Add New Category</b-button>
+            <b-button v-b-modal.modal-prevent-closing class="button appPrimaryBackgroundColor">Add New Category</b-button>
+            <b-modal
+                id="modal-prevent-closing"
+                ref="modal"
+                title="Add New Category"
+                @show="resetModal"
+                @hidden="resetModal"
+                @ok="handleOk">
+
+                <form ref="form" @submit.stop.prevent="handleSubmit">
+                    <b-form-group
+                        :state="nameState"
+                        label="Category name"
+                        label-for="name-input">
+
+                        <b-form-input
+                            id="name-input"
+                            v-model="newCat"
+                            :state="nameState"
+                            required>
+
+                        </b-form-input>
+                    </b-form-group>
+                </form>
+            </b-modal>
         </b-row>
     </b-container>
 </template>
@@ -27,19 +51,36 @@
 <script>
 export default {
     name: "MainCategoryManagement",
+    props: ["catList"],
     data() {
         return {
-            cats: [
-                { id: 1, catName: "Hardware" },
-                { id: 2, catName: "Electrical" },
-                { id: 3, catName: "Industrial Tools" },
-                { id: 4, catName: "Auto Parts" },
-            ]
+            newCat: '',
+            nameState: null,
         }
     },
     methods: {
-        newCategory (message) {
-            alert(message);
+        resetModal() {
+            this.catName = '',
+            this.nameState = null
+        },
+        handleOk(bvModalEvt) {
+            // Prevent modal from closing
+            bvModalEvt.preventDefault()
+            // Trigger submit handler
+            this.handleSubmit()
+        },
+        handleSubmit() {
+            //console.log(this.newCat);
+                // Push the name to submitted names
+                this.catList.push({ id: this.catList.length + 1, catName: this.newCat });
+               // console.log(this.cats);
+                // Hide the modal manually
+                this.$nextTick(() => {
+                this.$refs.modal.hide()
+                // Reset entered name
+                this.newCat = '';
+                this.$emit("receive-cat-list", this.catList);
+            })
         },
         deleteCategory (message) {
             alert(message);
