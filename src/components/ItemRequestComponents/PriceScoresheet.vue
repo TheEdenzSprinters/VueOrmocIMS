@@ -1,5 +1,5 @@
 <template>
-<div class="resultsContainer">    
+<div class="resultsContainer">   
         <b-table 
             striped 
             hover 
@@ -8,24 +8,23 @@
             selectedVariant="success"
             :items="items" 
             show-empty
-            > 
-           
+>            
         </b-table> 
 
-      
+       
     </div>
 </template>
 
 <script>
 export default {
-    name: 'QuotationLists',
+    name: 'PriceScoresheet',
     data() {
         return {
-            fields: [{key:'QuotationID' ,label: 'QuotationID', formatter: 'QuotationID'}, 'Quotation Title', 'Status','Sent To','Notes'],
+            fields: [{key:'SupplierID' ,label: 'Supplier ID', formatter: 'itemID'}, 'SupplierName', 'Quantity', 'PricePerUnit','PaymentTerms','Remarks'],
             items: [
-                {ItemRequestID: 1, Title: 'Hardiflex 8x6 ft', Status: 'Active', DateCreated: '27 Apr 2019'},
-                {ItemRequestID: 2, Title: 'Omni Resistor', Status: 'Active', DateCreated: '27 Apr 2019'},
-                {ItemRequestID: 3, Title: 'Ace Small Pliers', Status: 'Active', DateCreated: '27 Apr 2019'},
+                {SupplierID: 1, SupplierName: 'Hardiflex 8x6 ft', Quantity: '300', PricePerUnit: 'Php700', PaymentTerms: 'n/a', Remarks: '' },
+                {SupplierID: 2, SupplierName: 'Omni Resistor', Quantity: '1500', PricePerUnit: 'Php20', PaymentTerms: 'n/a'},
+                {SupplierID: 3, SupplierName: 'Ace Small Pliers', Quantity: '16', PricePerUnit: 'Php70', PaymentTerms: 'n/a'},
                                               
             ],
             selected: []
@@ -47,8 +46,5 @@ export default {
     }
     .cell{
         line-height: 14px;
-    }
-    .tableHeader{
-        font-size: 16px;
-    }
+    } 
 </style>
