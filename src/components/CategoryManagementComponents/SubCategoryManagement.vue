@@ -8,55 +8,140 @@
         </b-row>
         <b-row>
             <b-col>
-                <b-container fluid>
+                <b-container fluid v-for="cat of catList" v-bind:key="cat.catName">
                     <b-row class="headline-2">
-                        Hardware
-                    </b-row>
-                    <!-- <b-row v-for="cat of cats" v-bind:key="cat.catName" class="headline-2">
                         <span>{{ cat.catName }}</span>
-                    </b-row> -->
+                    </b-row>
                     <b-row>
-                        <b-col cols="auto" v-for="subCat of subCats" v-bind:key="subCat.subCatName" class="list">
-                            <span>{{ subCat.subCatName }}</span>
-                            <font-awesome-icon class="icons appPrimaryTextColor delete-margin" icon="times-circle" v-on:click="deleteSubCategory('Sub-Category meant to be deleted now')"/>
-                        </b-col>
+                        <div v-for="subCat of subCats" v-bind:key="subCat.subCatName">
+                            <b-col v-if="cat.id == subCat.catId" cols="auto" class="list">
+                                <span>{{ subCat.subCatName }}</span>
+                                <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteSubCategory('Sub-Category meant to be deleted now')"/>
+                            </b-col>
+                        </div>
+                    </b-row>
+                    <b-row>
+                        <b-button v-b-modal.add-sub-modal class="button appPrimaryBackgroundColor">Add new {{ cat.catName }} Sub-Category</b-button>
+                        <b-modal
+                            id="add-sub-modal"
+                            ref="modal"
+                            title="Add New Sub-category"
+                            @show="resetModal"
+                            @hidden="resetModal"
+                            @ok="handleOk">
+
+                            <form ref="form" @submit.stop.prevent="handleSubmit">
+                                <b-form-group
+                                    label="Category"
+                                    label-for="cat-select">
+
+                                    <b-form-select
+                                        id="cat-select"
+                                        v-model="catSelect"
+                                        :options="catListOptions"
+                                        class="mb-3">
+
+                                    </b-form-select>
+                                </b-form-group>
+                                <b-form-group
+                                    :state="nameState"
+                                    label="Sub-Category Name"
+                                    label-for="name-input">
+
+                                    <b-form-input
+                                        id="name-input"
+                                        v-model="newSubCat"
+                                        :state="nameState"
+                                        required>
+
+                                    </b-form-input>
+                                </b-form-group>
+                            </form>
+                        </b-modal>
                     </b-row>
                 </b-container>
             </b-col>
-        </b-row>
-        <b-row>
-            <b-button class="button appPrimaryBackgroundColor" v-on:click="newSubCategory('Add new Sub-Category')">Add New Hardware Sub-Category</b-button>
         </b-row>
     </b-container>
 </template>
 
 <script>
-import MainCategoryManagementVue from './MainCategoryManagement.vue';
+import MainCategoryManagementVue from "./MainCategoryManagement.vue";
 
 export default {
     components: {
         MainCategoryManagementVue
     },
     name: "SubCategoryManagement",
+    props: ["catList"],
     data() {
         return {
+            newSubCat: '',
+            nameState: null,
+            catSelect: null,
             subCats: [
                 { id: 1, subCatName: "Plywood", catId: 1},
                 { id: 2, subCatName: "Lumber", catId: 1},
                 { id: 3, subCatName: "Adhesives", catId: 1},
-            ]
+                { id: 4, subCatName: "Wires", catId: 2},
+                { id: 5, subCatName: "Resistors", catId: 2},
+                { id: 6, subCatName: "Fuses", catId: 2},
+                { id: 7, subCatName: "Transformers", catId: 2},
+                { id: 8, subCatName: "Pneumatical Drills", catId: 3},
+                { id: 9, subCatName: "Jackhammers", catId: 3},
+                { id: 10, subCatName: "Fan Belts", catId: 4},
+                { id: 11, subCatName: "Tires", catId: 4},
+            ],
+            catListOptions: [{
+                value: null, text: "Please select Category"
+            }]
         }
     },
     methods: {
-        newSubCategory: function (message) {
-            alert(message)
+        resetModal() {
+            this.subCatName = '',
+            this.nameState = null
         },
-        deleteSubCategory: function (message) {
-            alert(message)
+        handleOk(bvModalEvt) {
+            // Prevent modal from closing
+            bvModalEvt.preventDefault()
+            // Trigger submit handler
+            this.handleSubmit()
+        },
+        handleSubmit() {
+            console.log(this.newSubCat);
+            console.log("catId for subcat: " + this.catSelect);
+
+                // Push the name to submitted names
+                this.subCats.push({ id: this.subCats.length + 1, subCatName: this.newSubCat, catId: this.catSelect });
+                console.log(this.subCats);
+                // Hide the modal manually
+                this.$nextTick(() => {
+                this.$refs.modal.hide()
+                // Reset entered name
+                this.newSubCat = '';
+            })
+        },
+        deleteSubCategory () {
+            this.subCats.$remove(0);
+        }
+    },
+    watch: {
+        catList: function(){
+            console.log(this.catList);
+            this.catListOptions = [{
+                value: null, text: "Please select Category"
+            }]
+            for(var i = 0; i < this.catList.length; i++){
+                var catItem = {
+                    value: this.catList[i].id, text: this.catList[i].catName
+                }
+
+                this.catListOptions = this.catListOptions.concat(catItem);
+            }
         }
     }
 }
-
 </script>
 
 <style scoped>
@@ -115,7 +200,12 @@ export default {
         background-color: #dee1f1;
     }
 
-    .delete-margin {
+    .delete-btn-margin {
         margin-left: 15px;
+    }
+
+    .button {
+        margin: 0px 0px 15px;
+        padding: 1px 10px;
     }
 </style>
