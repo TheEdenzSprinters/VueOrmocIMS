@@ -2,9 +2,9 @@
     <b-container>
         <b-row class="form">
             <b-col sm="12">
-                <label class="text" for="input-small">Supplier Name</label>
+                <label class="text" for="supplier-name">Supplier Name</label>
                 <b-form-input class="input-small" size="sm"></b-form-input>
-                <label class="text" for="input-small">Address</label>
+                <label class="text" for="address">Address</label>
                 <b-form-input class="input-small" size="sm"></b-form-input>
                 <div class="btnContainer">
                     <b-button href="#">Search</b-button>

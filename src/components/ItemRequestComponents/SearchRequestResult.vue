@@ -7,12 +7,8 @@
             select-mode="single"
             selectedVariant="success"
             :items="items" 
-            show-empty
-            @row-selected="rowSelected" 
-            :fields="fields">
-        </b-table> 
-
-       {{selected}}
+            show-empty>         
+        </b-table>      
     </div>
 </template>
 

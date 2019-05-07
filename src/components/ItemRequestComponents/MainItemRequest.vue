@@ -10,17 +10,17 @@
                                     <b-col sm="12">
                                         <b-row>
                                             <b-col sm="12"> <h4>Filters</h4>
-                                                <GeneralItemRequestComponent v-on:items-list="showResults"/>
+                                                <GeneralItemRequestComponent/>
                                             </b-col>
                                         </b-row>
                                         <b-row>
                                             <b-col sm="12">
-                                                <SearchRequestResult v-on:items-list="showResults"/>
+                                                <SearchRequestResult/>
                                             </b-col>
                                         </b-row>
                                         <b-row>
                                             <b-col sm="12"> <h4>Item Request Not Fulfilled</h4>
-                                            <ItemRequestNotFulfilled v-on:items-list="showResults"/>
+                                            <ItemRequestNotFulfilled/>
                                             </b-col>
                                         </b-row>
                                     </b-col>
@@ -33,7 +33,7 @@
                                     <b-col sm="12">
                                         <b-row>
                                             <b-col sm="12"> <h4>IR10000001</h4>
-                                                <QuotationDetails v-on:items-list="showResults"/>
+                                                <QuotationDetails/>
                                             </b-col>
                                         </b-row>
                                     </b-col>
@@ -43,7 +43,7 @@
                                     <b-col sm="12">
                                         <b-row>
                                             <b-col sm="12"> <h4>Items</h4>
-                                                <ItemStockBalance v-on:items-list="showResults"/>
+                                                <ItemStockBalance/>
                                             </b-col>
                                         </b-row>
                                     </b-col>
@@ -53,7 +53,7 @@
                                     <b-col sm="12">
                                         <b-row>
                                             <b-col sm="12"> <h4>Quotations</h4>
-                                                <QuotationLists v-on:items-list="showResults"/>
+                                                <QuotationLists/>
                                             </b-col>
                                         </b-row>
                                     </b-col>
@@ -63,7 +63,7 @@
                                     <b-col sm="12">
                                         <b-row>
                                             <b-col sm="12"> <h4>Price Scoresheet</h4>
-                                                <PriceScoresheet v-on:items-list="showResults"/>
+                                                <PriceScoresheet/>
                                             </b-col>
                                         </b-row>
                                     </b-col>

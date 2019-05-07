@@ -7,21 +7,12 @@
             select-mode="single"
             selectedVariant="success"
             :items="items" 
-            show-empty
-            @row-selected="rowSelected" 
-            :fields="fields">
+            show-empty>         
 
-        <template slot="thead-top" slot-scope="data">      
-        <tr>            
-          <th colspan="2">&nbsp;</th>
-          <th></th>
-          <th colspan="1"></th>
-          <th colspan="3" class="stockBalance">Stock Balance</th>
-        </tr>
-      </template>
+        
         </b-table> 
 
-       {{selected}}
+       
     </div>
 </template>
 

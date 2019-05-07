@@ -58,7 +58,7 @@ export default {
                         href: "/"
                     },
                     {
-                        text: "Supplier Management",
+                        text: "Suppliers Management",
                         active: true
                     }
                 ]}                                

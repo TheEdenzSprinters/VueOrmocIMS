@@ -20,7 +20,7 @@
                                     <b-col sm="12">
                                         <b-row>
                                             <b-col sm="12">
-                                                <SupplierList v-on:selected-item="viewItemDetails"/>
+                                                <SupplierList/>
                                             </b-col>
                                         </b-row>
                                     </b-col>
@@ -31,7 +31,7 @@
                             <b-container fluid class="searchColumn">
                                 <b-row>
                                     <b-col sm="12"> <h4>Supplier A</h4>
-                                        <SupplierDetails v-on:selected-item="viewItemDetails"/>
+                                        <SupplierDetails/>
                                     </b-col>
                                 </b-row>
                             </b-container>

@@ -8,11 +8,10 @@
             selectedVariant="success"
             :items="items" 
             show-empty
-            @row-selected="rowSelected" 
-            :fields="fields">            
+>            
         </b-table> 
 
-       {{selected}}
+       
     </div>
 </template>
 
