@@ -108,17 +108,21 @@ export default {
         },
         handleSubmit() {
             console.log("catId for subcat: " + this.catSelect);
-            console.log(this.subCats);
+            // console.log(this.subCats);
 
-            if (this.catSelect != null) {
+            if (this.catSelect != null){
                 // Push the name to submitted names
-                this.subCats.push({ id: this.subCats.length + 1, subCatName: this.newSubCat, catId: this.catSelect });
-                // Hide the modal manually
-                this.$nextTick(() => {
-                    this.$refs.modal.hide()
-                    // Reset entered name
-                    this.newSubCat = '';
-                })
+                if (this.newSubCat != ''){
+                    this.subCats.push({ id: this.subCats.length + 1, subCatName: this.newSubCat, catId: this.catSelect });
+                    // Hide the modal manually
+                    this.$nextTick(() => {
+                        this.$refs.modal.hide()
+                        // Reset entered name
+                        this.newSubCat = '';
+                    })
+                } else {
+                    alert("Sub-Category name is required")
+                }
             } else {
                 alert("No Category selected, please choose one from the list")
             }
@@ -127,11 +131,20 @@ export default {
             this.subCats.$remove(0);
         }
     },
+    beforeMount: function() {
+        for(var i = 0; i < this.catList.length; i++){
+            var catItem = {
+                value: this.catList[i].id, text: this.catList[i].catName
+            }
+
+            this.catListOptions = this.catListOptions.concat(catItem);
+        }
+    },
     watch: {
         catList: function(){
             // console.log(this.catList);
             this.catListOptions = [{
-                value: null, text: "Please select Category"
+                value: null, text: "Please select Category", disabled: true
             }]
             for(var i = 0; i < this.catList.length; i++){
                 var catItem = {

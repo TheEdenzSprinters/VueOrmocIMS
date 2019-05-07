@@ -71,16 +71,19 @@ export default {
         },
         handleSubmit() {
             //console.log(this.newCat);
+            if (this.newCat != ''){
                 // Push the name to submitted names
                 this.catList.push({ id: this.catList.length + 1, catName: this.newCat });
                // console.log(this.cats);
                 // Hide the modal manually
                 this.$nextTick(() => {
-                this.$refs.modal.hide()
-                // Reset entered name
-                this.newCat = '';
-                this.$emit("receive-cat-list", this.catList);
-            })
+                    this.$refs.modal.hide()
+                    // Reset entered name
+                    this.newCat = '';
+                })
+            } else {
+                alert("Category name is required")
+            }
         },
         deleteCategory (message) {
             alert(message);
