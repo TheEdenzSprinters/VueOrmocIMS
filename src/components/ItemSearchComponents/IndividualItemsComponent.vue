@@ -42,7 +42,7 @@
                                                 Category
                                             </b-col>
                                             <b-col lg="8" md="8" sm="8" class="inputColumn">
-                                                <b-form-select id="category" name="category" v-model="form.category" :options="categoryList" :disabled="readOnly" :required="true" size="sm" v-on:change="updateSubCategoryList()"></b-form-select>
+                                                <b-form-select id="category" name="category" v-model="form.categoryId" :options="categoryList" :disabled="readOnly" :required="true" size="sm" v-on:change="updateSubCategoryList()"></b-form-select>
                                             </b-col>
                                         </b-row>
                                         <b-row class="generalInfoContainer">
@@ -50,7 +50,7 @@
                                                 SubCategory
                                             </b-col>
                                             <b-col lg="8" md="8" sm="8" class="inputColumn">
-                                                <b-form-select id="subCategory" name="subCategory" v-model="form.subCategory" :options="subCategoryList" :disabled="readOnly" :required="true" size="sm" v-on:change="getItemDetailList()"></b-form-select>
+                                                <b-form-select id="subCategory" name="subCategory" v-model="form.subCategoryId" :options="subCategoryList" :disabled="readOnly" :required="true" size="sm" v-on:change="getItemDetailList()"></b-form-select>
                                             </b-col>
                                         </b-row>
                                         <b-row class="generalInfoContainer">
@@ -58,7 +58,7 @@
                                                 Brand
                                             </b-col>
                                             <b-col lg="8" md="8" sm="8" class="inputColumn">
-                                                <b-input block id="brand" name="brand" v-model="form.brand" :readonly="readOnly" :required="true" size="sm"/>
+                                                <b-input block id="brand" name="brand" v-model="form.brandName" :readonly="readOnly" :required="true" size="sm"/>
                                             </b-col>
                                         </b-row>
                                         <b-row class="generalInfoContainer">
@@ -66,7 +66,7 @@
                                                 Location
                                             </b-col>
                                             <b-col lg="8" md="8" sm="8" class="inputColumn">
-                                                <b-form-select id="location" name="location" v-model="form.location" :options="locationList" :disabled="readOnly" :required="true" size="sm"></b-form-select>
+                                                <b-form-select id="location" name="location" v-model="form.locationId" :options="locationList" :disabled="readOnly" :required="true" size="sm"></b-form-select>
                                             </b-col>
                                         </b-row>
                                         <b-row class="generalInfoContainer">
@@ -91,6 +91,14 @@
                                             </b-col>
                                             <b-col lg="8" md="8" sm="8" class="inputColumn">
                                                 <b-input block id="measuredBy" name="measuredBy" v-model="form.measuredBy" :readonly="readOnly" :required="true" size="sm"/>
+                                            </b-col>
+                                        </b-row>
+                                        <b-row class="generalInfoContainer">
+                                            <b-col lg="4" md="4" sm="4" class="labelColumn">
+                                                Threshold (%)
+                                            </b-col>
+                                            <b-col lg="8" md="8" sm="8" class="inputColumn">
+                                                <b-input block id="measuredBy" name="measuredBy" v-model="form.thresholdQty" :readonly="readOnly" :required="true" size="sm"/>
                                             </b-col>
                                         </b-row>
                                         <b-row class="generalInfoContainer">
@@ -138,7 +146,8 @@
                                     Is Active?
                                 </b-col>
                                 <b-col lg="6" md="6" sm="6">
-                                    <b-checkbox id="isActive" name="isActive" v-model="form.isActive" :disabled="readOnly"/>
+                                    <b-checkbox id="isActive" name="isActive" v-model="form.isActive" value="active" 
+                                        unchecked-value="inactive" :disabled="!toModify" v-on:change="triggerItemStatusChange" />
                                 </b-col>
                             </b-row>
                         </b-container>
@@ -196,13 +205,14 @@ export default {
         return {
             form: {
                 itemName: "",
-                category: null,
-                subCategory: null,
-                brand: "",
-                location: null,
+                categoryId: null,
+                subCategoryId: null,
+                brandName: "",
+                locationId: null,
                 sku: "",
                 quantity: "",
                 measuredBy: "",
+                thresholdQty: "",
                 notes: "",
                 CreateDttm: "",
                 UpdateDttm: "",
@@ -212,6 +222,7 @@ export default {
             },
             showCancelButton: false,
             readOnly: true,
+            toModify: false,
             categoryList: [{value: null, text: "Select a Category"}],
             subCategoryList: [{value: null, text: "Select a SubCategory"}],
             statusList: [{value: null, text: "Select a Status"}],
@@ -221,32 +232,54 @@ export default {
     methods: {
         onSubmit(evt){
             evt.preventDefault();
-            if(this.form.valid){
-                alert("valid");
+            const item = this.form;
+            if(!this.toModify){
+                axios.post("http://localhost:49995/api/ItemManagement/InsertNewItem", item)
+                    .then(res => {
+                        console.log(res.data);
+                        this.showCancelButton = false;
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        this.showCancelButton = false;
+                    })
+            } else {
+                item.Id = this.itemNumber;
+                axios.post("http://localhost:49995/api/ItemManagement/UpdateExistingItem", item)
+                    .then(res => {
+                        this.showCancelButton = false;
+                        this.readOnly = true;
+                        this.toModify = false;
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        this.showCancelButton = false;
+                        this.readOnly = true;
+                        this.toModify = false;
+                    })
             }
-            this.showCancelButton = false;
         },
         onReset(evt){
             evt.preventDefault();
-            alert("reset!");
             this.showCancelButton = false;
             this.readOnly = true;
+            this.toModify = false;
         },
         addNewItem(){
             this.showCancelButton = true;
             this.readOnly = false;
         },
         modifyItem(){
-            alert("modify item triggered!");
             this.showCancelButton = true;
+            this.toModify = true;
             this.readOnly = false;
         },
         printForm(){
             alert("preparing to print...");
         },
         updateSubCategoryList() {
-            if(this.form.category != null){
-                const CategoryId = this.form.category;
+            if(this.form.categoryId != null){
+                const CategoryId = this.form.categoryId;
                 axios.post("http://localhost:49995/api/ItemManagement/GetAllSubCategoriesByCategory", {CategoryId})
                     .then(res => {
                         this.subCategoryList = [{value: null, text: "Select a SubCategory"}];
@@ -262,20 +295,31 @@ export default {
             }
         },
         getItemDetailList() {
-            if(this.form.subCategory != null){
-                const SubCategoryId = this.form.subCategory;
+            if(this.form.subCategoryId != null){
+                const SubCategoryId = this.form.subCategoryId;
                 axios.post("http://localhost:49995/api/ItemManagement/GetItemDetailBySubCategoryId", {SubCategoryId})
                     .then(res => {
                         if(res.data.Result.length != 0){
                             this.form.itemDetail = res.data.Result;
+                            console.log(res.data.Result);
                         } else {
                             this.form.itemDetail = [];
                         }
                     })
-                    .catch()
+                    .catch(err => {});
             }
-
         },
+        triggerItemStatusChange() {
+            const status = {Id: this.itemNumber, StatusCd: this.form.isActive};
+
+            axios.post("http://localhost:49995/api/ItemManagement/UpdateItemStatusById", status)
+                .then(res => {
+                    alert(res.data.Result);
+                    this.toModify = true;
+                    this.readOnly = false;
+                })
+                .catch(err => {});
+        }
     },
     beforeMount: function() {
         axios.get("http://localhost:49995/api/ItemManagement/GetAllCategories")
@@ -304,45 +348,63 @@ export default {
     },
     watch: {
         itemNumber: function(){
+            this.readOnly = true;
+            this.toModify = false;
+            this.showCancelButton = false;
             const Id = this.itemNumber;
             if(Id != ""){
             axios.post("http://localhost:49995/api/ItemManagement/GetItemById", {Id})
                 .then(res => {
                     if(res.data.Result != ""){
-                        this.form.itemName = res.data.Result.ItemName;
-                        this.form.category = res.data.Result.CategoryId;
-                        this.form.subCategory = res.data.Result.SubCategoryId;
-                        this.form.brand = res.data.Result.BrandName;
-                        this.form.location = res.data.Result.LocationId;
-                        this.form.quantity = res.data.Result.Quantity;
-                        this.form.measuredBy = res.data.Result.MeasuredBy;
-                        this.form.sku = res.data.Result.Sku;
-                        this.form.notes = res.data.Result.Notes;
-                        this.form.isActive = res.data.Result.StatusCd == "1" ? true : false;
-                        this.form.CreateDttm = moment(res.data.Result.CreateDttm).format("DD-MMM-YYYY");
-                        this.form.UpdateDttm = moment(res.data.Result.UpdateDttm).format("DD-MMM-YYYY");
-                        this.form.itemDetail = res.data.Result.ItemDetail;
+                        const CategoryId = res.data.Result.CategoryId;
+                        axios.post("http://localhost:49995/api/ItemManagement/GetAllSubCategoriesByCategory", {CategoryId})
+                            .then(res2 => {
+                                this.subCategoryList = [{value: null, text: "Select a SubCategory"}];
+                                for(var i = 0; i < res2.data.length; i++){
+                                    var subCatItem = {
+                                        value: res2.data[i].Id, text: res2.data[i].SubCategoryName
+                                    }
+
+                                    this.subCategoryList = this.subCategoryList.concat(subCatItem);
+                                    this.form.itemName = res.data.Result.ItemName;
+                                    this.form.categoryId = res.data.Result.CategoryId;
+                                    this.form.subCategoryId = res.data.Result.SubCategoryId;
+                                    this.form.brandName = res.data.Result.BrandName;
+                                    this.form.locationId = res.data.Result.LocationId;
+                                    this.form.quantity = res.data.Result.Quantity;
+                                    this.form.measuredBy = res.data.Result.MeasuredBy;
+                                    this.form.sku = res.data.Result.Sku;
+                                    this.form.notes = res.data.Result.Notes;
+                                    this.form.isActive = res.data.Result.StatusCd.toLowerCase();
+                                    this.form.CreateDttm = moment(res.data.Result.CreateDttm).format("DD-MMM-YYYY");
+                                    this.form.UpdateDttm = moment(res.data.Result.UpdateDttm).format("DD-MMM-YYYY");
+                                    this.form.itemDetail = res.data.Result.ItemDetail;
+                                    this.form.thresholdQty = res.data.Result.ThresholdQty;
+                                    console.log(this.form.itemDetail);
+                                }
+                            })
+                            .catch(err => {console.log(err);});
                     }
                 }).catch(err => {console.log(err)});
             }
             else {
                 this.form = {
-                itemName: "",
-                category: "",
-                subCategory: "",
-                brand: "",
-                location: "",
-                quantity: "",
-                measuredBy: "",
-                notes: "",
-                CreateDttm: "",
-                UpdateDttm: "",
-                isActive: false,
-                tags: "",
-                itemDetail: [],
+                    itemName: "",
+                    category: "",
+                    subCategory: "",
+                    brand: "",
+                    location: "",
+                    quantity: "",
+                    measuredBy: "",
+                    notes: "",
+                    CreateDttm: "",
+                    UpdateDttm: "",
+                    isActive: false,
+                    tags: "",
+                    itemDetail: [],
+                }
             }
-            }
-        }
+        },
     }
 }
 </script>
