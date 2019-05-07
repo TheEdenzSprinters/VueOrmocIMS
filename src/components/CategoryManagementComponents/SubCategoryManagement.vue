@@ -22,55 +22,53 @@
                     </b-row>
                     <b-row>
                         <b-button v-b-modal.add-sub-modal class="button appPrimaryBackgroundColor">Add new {{ cat.catName }} Sub-Category</b-button>
-                        <b-modal
-                            id="add-sub-modal"
-                            ref="modal"
-                            title="Add New Sub-category"
-                            @show="resetModal"
-                            @hidden="resetModal"
-                            @ok="handleOk">
-
-                            <form ref="form" @submit.stop.prevent="handleSubmit">
-                                <b-form-group
-                                    label="Category"
-                                    label-for="cat-select">
-
-                                    <b-form-select
-                                        id="cat-select"
-                                        v-model="catSelect"
-                                        :options="catListOptions"
-                                        class="mb-3">
-
-                                    </b-form-select>
-                                </b-form-group>
-                                <b-form-group
-                                    :state="nameState"
-                                    label="Sub-Category Name"
-                                    label-for="name-input">
-
-                                    <b-form-input
-                                        id="name-input"
-                                        v-model="newSubCat"
-                                        :state="nameState"
-                                        required>
-
-                                    </b-form-input>
-                                </b-form-group>
-                            </form>
-                        </b-modal>
                     </b-row>
                 </b-container>
             </b-col>
+            <b-modal
+                id="add-sub-modal"
+                ref="modal"
+                title="Add New Sub-category"
+                @show="resetModal"
+                @hidden="resetModal"
+                @ok="handleOk">
+
+                <form ref="form" @submit.stop.prevent="handleSubmit">
+                    <b-form-group
+                        label="Category"
+                        label-for="cat-select">
+
+                        <b-form-select
+                            id="cat-select"
+                            v-model="catSelect"
+                            :options="catListOptions"
+                            class="mb-3">
+
+                        </b-form-select>
+                    </b-form-group>
+                    <b-form-group
+                        :state="nameState"
+                        label="Sub-Category Name"
+                        label-for="name-input">
+
+                        <b-form-input
+                            id="name-input"
+                            v-model="newSubCat"
+                            :state="nameState"
+                            required>
+
+                        </b-form-input>
+                    </b-form-group>
+                </form>
+            </b-modal>
         </b-row>
     </b-container>
 </template>
 
 <script>
-import MainCategoryManagementVue from "./MainCategoryManagement.vue";
 
 export default {
     components: {
-        MainCategoryManagementVue
     },
     name: "SubCategoryManagement",
     props: ["catList"],
@@ -93,7 +91,7 @@ export default {
                 { id: 11, subCatName: "Tires", catId: 4},
             ],
             catListOptions: [{
-                value: null, text: "Please select Category"
+                value: null, text: "Please select Category", disabled: true
             }]
         }
     },
@@ -109,18 +107,21 @@ export default {
             this.handleSubmit()
         },
         handleSubmit() {
-            console.log(this.newSubCat);
             console.log("catId for subcat: " + this.catSelect);
+            console.log(this.subCats);
 
+            if (this.catSelect != null) {
                 // Push the name to submitted names
                 this.subCats.push({ id: this.subCats.length + 1, subCatName: this.newSubCat, catId: this.catSelect });
-                console.log(this.subCats);
                 // Hide the modal manually
                 this.$nextTick(() => {
-                this.$refs.modal.hide()
-                // Reset entered name
-                this.newSubCat = '';
-            })
+                    this.$refs.modal.hide()
+                    // Reset entered name
+                    this.newSubCat = '';
+                })
+            } else {
+                alert("No Category selected, please choose one from the list")
+            }
         },
         deleteSubCategory () {
             this.subCats.$remove(0);
@@ -128,7 +129,7 @@ export default {
     },
     watch: {
         catList: function(){
-            console.log(this.catList);
+            // console.log(this.catList);
             this.catListOptions = [{
                 value: null, text: "Please select Category"
             }]
