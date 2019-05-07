@@ -42,13 +42,15 @@ export default {
                 .catch(err => console.log(err));
         },
         ItemNameSearch(item){
-            let itemName = item;
-            axios.post("http://localhost:49995/api/ItemManagement/ItemsBySimpleSearch",{itemName})
-                .then(res => {
-                    this.itemList = res.data.Result;
-                    this.$emit('items-list', this.itemList);
-                })
-                .catch(err => console.log(err));
+            if(item !== ""){
+                let itemName = item;
+                axios.post("http://localhost:49995/api/ItemManagement/ItemsBySimpleSearch",{itemName})
+                    .then(res => {
+                        this.itemList = res.data.Result;
+                        this.$emit('items-list', this.itemList);
+                    })
+                    .catch(err => console.log(err));
+            }
         }
     },
     watch: {
