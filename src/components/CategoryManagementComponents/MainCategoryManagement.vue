@@ -19,9 +19,55 @@
             </b-col>
         </b-row>
         <b-row>
-            <b-button v-b-modal.modal-prevent-closing class="button appPrimaryBackgroundColor">Add New Category</b-button>
+            <b-button @click="show=true" class="button appPrimaryBackgroundColor">Show Modal</b-button>
             <b-modal
-                id="modal-prevent-closing"
+                v-model="show"
+                ref="modal"
+                title="Add New Category"
+                hide-footer
+                :header-bg-variant="headerBgVariant"
+                :header-text-variant="headerTextVariant"
+                @show="resetModal"
+                @hidden="resetModal"
+                >
+                <b-container fluid>
+                    <b-row>
+                        <b-col class="no-intent">
+                            <form ref="form" @submit.stop.prevent="handleSubmit">
+                                <b-form-group
+                                    :state="nameState"
+                                    label="Category Name"
+                                    label-for="name-input"
+                                    class="appPrimaryTextColor subhead">
+
+                                    <b-form-input
+                                        id="name-input"
+                                        v-model="newCat"
+                                        :state="nameState"
+                                        required>
+
+                                    </b-form-input>
+                                </b-form-group>
+                            </form>
+                        </b-col>
+                    </b-row>
+                    <b-row align-h="end">
+                        <b-button
+                            @click="handleOk"
+                            class="submit-btn">
+                            Submit
+                        </b-button>
+                        <b-button
+                            @click="show=false"
+                            class="cancel-btn">
+                            Cancel
+                        </b-button>
+                    </b-row>
+                </b-container>
+            </b-modal>
+            <!-- <b-button class="button appPrimaryBackgroundColor">Add New Category</b-button>
+             <b-modal
+                id="add-cat-modal"
                 ref="modal"
                 title="Add New Category"
                 @show="resetModal"
@@ -43,7 +89,8 @@
                         </b-form-input>
                     </b-form-group>
                 </form>
-            </b-modal>
+            </b-modal> -->
+
         </b-row>
     </b-container>
 </template>
@@ -54,13 +101,16 @@ export default {
     props: ["catList"],
     data() {
         return {
+            show: false, // Modal initial state
+            headerBgVariant: 'primary',
+            headerTextVariant: 'light',
             newCat: '',
             nameState: null,
         }
     },
     methods: {
         resetModal() {
-            this.catName = '',
+            this.newCat = '',
             this.nameState = null
         },
         handleOk(bvModalEvt) {
@@ -87,11 +137,10 @@ export default {
         },
         deleteCategory (message) {
             alert(message);
-        }
+        },
+
     }
 }
-
-
 </script>
 
 <style scoped>
@@ -102,6 +151,10 @@ export default {
 
     .no-intent {
         padding: 0;
+    }
+
+    .no-margin {
+        margin: 0;
     }
 
     .headline {
@@ -146,5 +199,28 @@ export default {
 
     .delete-btn-margin {
         margin: 5px 0px 0px 15px;
+    }
+
+    .submit-btn {
+        margin-right: 20px;
+        background-color: #218838;
+        font-size: 20px;
+        padding: 0px 15px;
+    }
+
+    .cancel-btn {
+        background-color: #7c7c7c;
+        font-size: 20px;
+        padding: 0px 15px;
+    }
+
+    .subhead {
+        font-size: 20px;
+    }
+
+    .modal-header {
+        background-color: #283593;
+        color: white;
+        font-size: 20px;
     }
 </style>
