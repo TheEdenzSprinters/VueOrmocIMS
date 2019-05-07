@@ -1,6 +1,5 @@
 <template>
-<div class="resultsContainer">
-    <h6>ITEMS</h6>
+<div class="resultsContainer">    
         <b-table 
             striped 
             hover 
@@ -8,21 +7,12 @@
             select-mode="single"
             selectedVariant="success"
             :items="items" 
-            show-empty
-            @row-selected="rowSelected" 
-            :fields="fields">
+            show-empty>         
 
-            <template slot="thead-top" slot-scope="data">
-        <tr>
-          <th colspan="2">&nbsp;</th>
-          <th></th>
-          <th colspan="1"></th>
-          <th colspan="3" class="stockBalance">Stock Balance</th>
-        </tr>
-      </template>
+        
         </b-table> 
 
-       {{selected}}
+       
     </div>
 </template>
 
@@ -55,7 +45,10 @@ export default {
         font-size: 10px;
     }
     .stockBalance{
-        padding-left: 55px;
+        padding-left: 35px;
         width: 60px;        
+    }
+    .tableHeader{
+        font-size: 16px;
     }
 </style>
