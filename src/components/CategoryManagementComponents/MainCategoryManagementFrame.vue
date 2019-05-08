@@ -69,7 +69,8 @@ export default {
 
     .mainItemContainer{
         padding: 10px 10px 0px 10px;
-        height: 672px;
+        min-height: 672px;
+        height: auto;
     }
 
     .right-intent {
