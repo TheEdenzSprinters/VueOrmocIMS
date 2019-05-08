@@ -16,12 +16,12 @@
                         <div v-for="subCat of subCats" v-bind:key="subCat.subCatName">
                             <b-col v-if="cat.id == subCat.catId" cols="auto" class="list">
                                 <span>{{ subCat.subCatName }}</span>
-                                <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteSubCategory('Sub-Category meant to be deleted now')"/>
+                                <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteSubCategory(subCat.id)"/>
                             </b-col>
                         </div>
                     </b-row>
                     <b-row>
-                        <b-button @click="show=true; catSelect=null" class="button appPrimaryBackgroundColor">Add new {{ cat.catName }} Sub-Category</b-button>
+                        <b-button @click="show=true; catSelect=cat.id" class="button appPrimaryBackgroundColor">Add new {{ cat.catName }} Sub-Category</b-button>
                     </b-row>
                 </b-container>
             </b-col>
@@ -120,7 +120,6 @@ export default {
     methods: {
         resetModal() {
             this.newSubCat = '';
-            this.catSelect = null;
         },
         handleOk(bvModalEvt) {
             // Prevent modal from closing
@@ -140,8 +139,8 @@ export default {
                     this.$nextTick(() => {
                         this.$refs.modal.hide()
                         // Reset entered name
-                        this.newSubCat = '';
-                        this.catSelect = null;
+                        this.newSubCat = null;
+                        this.catSelect=null
                     })
                 } else {
                     alert("Sub-Category name is required")
@@ -150,8 +149,8 @@ export default {
                 alert("No Category selected, please choose one from the list")
             }
         },
-        deleteSubCategory () {
-            this.subCats.$remove(0);
+        deleteSubCategory (subcatId) {
+            alert(subcatId);
         }
     },
     beforeMount: function() {
