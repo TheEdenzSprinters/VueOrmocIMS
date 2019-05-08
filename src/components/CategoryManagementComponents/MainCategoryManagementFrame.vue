@@ -54,13 +54,12 @@ export default {
     },
     methods: {
         passCategories: function(results) {
-            this.catList = results;
+            this.catList = this.catList.filter(function(e) { return e.id !== results; });
         }
     },
     created() {
         document.title = "Category Management";
     }
-
 }
 </script>
 
