@@ -25,8 +25,8 @@
                 ref="modal"
                 title="Add New Category"
                 hide-footer
-                :header-bg-variant="headerBgVariant"
-                :header-text-variant="headerTextVariant"
+                header-bg-variant="primary"
+                header-text-variant="light"
                 @show="resetModal"
                 @hidden="resetModal"
                 >
@@ -102,8 +102,6 @@ export default {
     data() {
         return {
             show: false, // Modal initial state
-            headerBgVariant: 'primary',
-            headerTextVariant: 'light',
             newCat: '',
             nameState: null,
         }

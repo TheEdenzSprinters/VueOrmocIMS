@@ -107,7 +107,7 @@ export default {
             this.handleSubmit()
         },
         handleSubmit() {
-            console.log("catId for subcat: " + this.catSelect);
+            // console.log("catId for subcat: " + this.catSelect);
             // console.log(this.subCats);
 
             if (this.catSelect != null){
