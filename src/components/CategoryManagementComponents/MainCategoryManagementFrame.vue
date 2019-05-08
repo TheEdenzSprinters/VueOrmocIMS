@@ -54,10 +54,12 @@ export default {
     },
     methods: {
         passCategories: function(results) {
-            this.catList = results;
+            this.catList = this.catList.filter(function(e) { return e.id !== results; });
         }
+    },
+    created() {
+        document.title = "Category Management";
     }
-
 }
 </script>
 
@@ -69,7 +71,8 @@ export default {
 
     .mainItemContainer{
         padding: 10px 10px 0px 10px;
-        height: 672px;
+        min-height: 672px;
+        height: auto;
     }
 
     .right-intent {

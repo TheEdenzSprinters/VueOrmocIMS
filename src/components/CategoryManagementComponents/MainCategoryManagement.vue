@@ -12,37 +12,58 @@
                     <b-row>
                         <b-col cols="auto" v-for="cat of catList" v-bind:key="cat.catName" class="list">
                             <span>{{ cat.catName }}</span>
-                            <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteCategory('Category meant to be deleted now')"/>
+                            <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteCategory(cat.id)"/>
                         </b-col>
                     </b-row>
                 </b-container>
             </b-col>
         </b-row>
         <b-row>
-            <b-button v-b-modal.modal-prevent-closing class="button appPrimaryBackgroundColor">Add New Category</b-button>
+            <b-button @click="show=true" class="button appPrimaryBackgroundColor">Add New Category</b-button>
             <b-modal
-                id="modal-prevent-closing"
+                v-model="show"
                 ref="modal"
                 title="Add New Category"
+                hide-footer
+                header-bg-variant="primary"
+                header-text-variant="light"
                 @show="resetModal"
                 @hidden="resetModal"
-                @ok="handleOk">
+                >
+                <b-container fluid>
+                    <b-row>
+                        <b-col class="no-intent">
+                            <form ref="form" @submit.stop.prevent="handleSubmit">
+                                <b-form-group
+                                    :state="nameState"
+                                    label="Category Name"
+                                    label-for="name-input"
+                                    class="appPrimaryTextColor subhead">
 
-                <form ref="form" @submit.stop.prevent="handleSubmit">
-                    <b-form-group
-                        :state="nameState"
-                        label="Category name"
-                        label-for="name-input">
+                                    <b-form-input
+                                        id="name-input"
+                                        v-model="newCat"
+                                        :state="nameState"
+                                        required>
 
-                        <b-form-input
-                            id="name-input"
-                            v-model="newCat"
-                            :state="nameState"
-                            required>
-
-                        </b-form-input>
-                    </b-form-group>
-                </form>
+                                    </b-form-input>
+                                </b-form-group>
+                            </form>
+                        </b-col>
+                    </b-row>
+                    <b-row align-h="end">
+                        <b-button
+                            @click="handleOk"
+                            class="submit-btn">
+                            Submit
+                        </b-button>
+                        <b-button
+                            @click="show=false"
+                            class="cancel-btn">
+                            Cancel
+                        </b-button>
+                    </b-row>
+                </b-container>
             </b-modal>
         </b-row>
     </b-container>
@@ -54,13 +75,14 @@ export default {
     props: ["catList"],
     data() {
         return {
+            show: false, // Modal initial state
             newCat: '',
             nameState: null,
         }
     },
     methods: {
         resetModal() {
-            this.catName = '',
+            this.newCat = '',
             this.nameState = null
         },
         handleOk(bvModalEvt) {
@@ -71,24 +93,27 @@ export default {
         },
         handleSubmit() {
             //console.log(this.newCat);
+            if (this.newCat !== ''){
                 // Push the name to submitted names
                 this.catList.push({ id: this.catList.length + 1, catName: this.newCat });
                // console.log(this.cats);
                 // Hide the modal manually
                 this.$nextTick(() => {
-                this.$refs.modal.hide()
-                // Reset entered name
-                this.newCat = '';
-                this.$emit("receive-cat-list", this.catList);
-            })
+                    this.$refs.modal.hide()
+                    // Reset entered name
+                    this.newCat = '';
+                })
+            } else {
+                alert("Category name is required")
+            }
         },
-        deleteCategory (message) {
-            alert(message);
-        }
+        deleteCategory(catDelete) {
+            // this.catList = this.catList.filter(function(e) { return e.id !== catDelete; }); 
+            this.$emit('receive-cat-list', catDelete);
+        },
+
     }
 }
-
-
 </script>
 
 <style scoped>
@@ -99,6 +124,10 @@ export default {
 
     .no-intent {
         padding: 0;
+    }
+
+    .no-margin {
+        margin: 0;
     }
 
     .headline {
@@ -143,5 +172,22 @@ export default {
 
     .delete-btn-margin {
         margin: 5px 0px 0px 15px;
+    }
+
+    .submit-btn {
+        margin-right: 20px;
+        background-color: #218838;
+        font-size: 20px;
+        padding: 0px 15px;
+    }
+
+    .cancel-btn {
+        background-color: #7c7c7c;
+        font-size: 20px;
+        padding: 0px 15px;
+    }
+
+    .subhead {
+        font-size: 20px;
     }
 </style>
