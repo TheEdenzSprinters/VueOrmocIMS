@@ -120,7 +120,7 @@ export default {
     methods: {
         resetModal() {
             this.newSubCat = '';
-            this.nameState = null
+            this.catSelect = null;
         },
         handleOk(bvModalEvt) {
             // Prevent modal from closing
