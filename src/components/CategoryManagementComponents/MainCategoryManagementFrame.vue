@@ -56,6 +56,9 @@ export default {
         passCategories: function(results) {
             this.catList = results;
         }
+    },
+    created () {
+        document.title = "Category Management";
     }
 
 }

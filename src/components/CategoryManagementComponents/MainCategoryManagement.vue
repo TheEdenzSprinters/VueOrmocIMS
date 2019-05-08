@@ -65,32 +65,6 @@
                     </b-row>
                 </b-container>
             </b-modal>
-            <!-- <b-button class="button appPrimaryBackgroundColor">Add New Category</b-button>
-             <b-modal
-                id="add-cat-modal"
-                ref="modal"
-                title="Add New Category"
-                @show="resetModal"
-                @hidden="resetModal"
-                @ok="handleOk">
-
-                <form ref="form" @submit.stop.prevent="handleSubmit">
-                    <b-form-group
-                        :state="nameState"
-                        label="Category name"
-                        label-for="name-input">
-
-                        <b-form-input
-                            id="name-input"
-                            v-model="newCat"
-                            :state="nameState"
-                            required>
-
-                        </b-form-input>
-                    </b-form-group>
-                </form>
-            </b-modal> -->
-
         </b-row>
     </b-container>
 </template>
@@ -213,12 +187,6 @@ export default {
     }
 
     .subhead {
-        font-size: 20px;
-    }
-
-    .modal-header {
-        background-color: #283593;
-        color: white;
         font-size: 20px;
     }
 </style>

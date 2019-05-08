@@ -21,46 +21,67 @@
                         </div>
                     </b-row>
                     <b-row>
-                        <b-button v-b-modal.add-sub-modal class="button appPrimaryBackgroundColor">Add new {{ cat.catName }} Sub-Category</b-button>
+                        <b-button @click="show=true; catSelect=null" class="button appPrimaryBackgroundColor">Add new {{ cat.catName }} Sub-Category</b-button>
                     </b-row>
                 </b-container>
             </b-col>
             <b-modal
-                id="add-sub-modal"
+                v-model="show"
                 ref="modal"
-                title="Add New Sub-category"
+                title="Add New Sub-Category"
+                hide-footer
+                header-bg-variant="primary"
+                header-text-variant="light"
                 @show="resetModal"
                 @hidden="resetModal"
-                @ok="handleOk">
+                >
+                <b-container fluid>
+                    <b-row>
+                        <b-col class="no-intent">
+                            <form ref="form" @submit.stop.prevent="handleSubmit">
+                                <b-form-group
+                                label="Category"
+                                label-for="cat-select">
 
-                <form ref="form" @submit.stop.prevent="handleSubmit">
-                    <b-form-group
-                        label="Category"
-                        label-for="cat-select">
+                                    <b-form-select
+                                        id="cat-select"
+                                        v-model="catSelect"
+                                        :options="catListOptions"
+                                        class="mb-3">
 
-                        <b-form-select
-                            id="cat-select"
-                            v-model="catSelect"
-                            :options="catListOptions"
-                            class="mb-3">
+                                    </b-form-select>
+                                </b-form-group>
+                                <b-form-group
+                                    :state="nameState"
+                                    label="Sub-Category Name"
+                                    label-for="name-input">
 
-                        </b-form-select>
-                    </b-form-group>
-                    <b-form-group
-                        :state="nameState"
-                        label="Sub-Category Name"
-                        label-for="name-input">
+                                    <b-form-input
+                                        id="name-input"
+                                        v-model="newSubCat"
+                                        :state="nameState"
+                                        required>
 
-                        <b-form-input
-                            id="name-input"
-                            v-model="newSubCat"
-                            :state="nameState"
-                            required>
-
-                        </b-form-input>
-                    </b-form-group>
-                </form>
+                                    </b-form-input>
+                                </b-form-group>
+                            </form>
+                        </b-col>
+                    </b-row>
+                    <b-row align-h="end">
+                        <b-button
+                            @click="handleOk"
+                            class="submit-btn">
+                            Submit
+                        </b-button>
+                        <b-button
+                            @click="show=false"
+                            class="cancel-btn">
+                            Cancel
+                        </b-button>
+                    </b-row>
+                </b-container>
             </b-modal>
+            
         </b-row>
     </b-container>
 </template>
@@ -74,7 +95,8 @@ export default {
     props: ["catList"],
     data() {
         return {
-            newSubCat: '',
+            show: false, // Modal initial state
+            newSubCat: null,
             nameState: null,
             catSelect: null,
             subCats: [
@@ -97,7 +119,7 @@ export default {
     },
     methods: {
         resetModal() {
-            this.subCatName = '',
+            this.newSubCat = '';
             this.nameState = null
         },
         handleOk(bvModalEvt) {
@@ -119,6 +141,7 @@ export default {
                         this.$refs.modal.hide()
                         // Reset entered name
                         this.newSubCat = '';
+                        this.catSelect = null;
                     })
                 } else {
                     alert("Sub-Category name is required")
@@ -221,5 +244,22 @@ export default {
     .button {
         margin: 0px 0px 15px;
         padding: 1px 10px;
+    }
+
+    .submit-btn {
+        margin-right: 20px;
+        background-color: #218838;
+        font-size: 20px;
+        padding: 0px 15px;
+    }
+
+    .cancel-btn {
+        background-color: #7c7c7c;
+        font-size: 20px;
+        padding: 0px 15px;
+    }
+
+    .subhead {
+        font-size: 20px;
     }
 </style>
