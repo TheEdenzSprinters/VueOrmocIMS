@@ -12,7 +12,7 @@
                     <b-row>
                         <b-col cols="auto" v-for="cat of catList" v-bind:key="cat.catName" class="list">
                             <span>{{ cat.catName }}</span>
-                            <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteCategory('Category meant to be deleted now')"/>
+                            <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteCategory(cat.id)"/>
                         </b-col>
                     </b-row>
                 </b-container>
@@ -107,8 +107,9 @@ export default {
                 alert("Category name is required")
             }
         },
-        deleteCategory (message) {
-            alert(message);
+        deleteCategory (catDelete) {
+            alert(catDelete);
+            // this.catList = this.catList.filter(function(el) { return el.id != catDelete; }); 
         },
 
     }

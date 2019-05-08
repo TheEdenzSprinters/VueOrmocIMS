@@ -81,7 +81,6 @@
                     </b-row>
                 </b-container>
             </b-modal>
-            
         </b-row>
     </b-container>
 </template>
@@ -146,8 +145,8 @@ export default {
                 alert("No Category selected, please choose one from the list")
             }
         },
-        deleteSubCategory (subcatId) {
-            alert(subcatId);
+        deleteSubCategory (subCatDelete) {
+            this.subCats = this.subCats.filter(function(el) { return el.id != subCatDelete; }); 
         }
     },
     beforeMount: function() {
