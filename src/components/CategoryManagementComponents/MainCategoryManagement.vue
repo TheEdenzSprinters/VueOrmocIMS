@@ -93,7 +93,7 @@ export default {
         },
         handleSubmit() {
             //console.log(this.newCat);
-            if (this.newCat != ''){
+            if (this.newCat !== ''){
                 // Push the name to submitted names
                 this.catList.push({ id: this.catList.length + 1, catName: this.newCat });
                // console.log(this.cats);
@@ -108,7 +108,7 @@ export default {
             }
         },
         deleteCategory(catDelete) {
-            this.catList = this.catList.filter(function(el) { return el.id != catDelete; }); 
+            this.catList = this.catList.filter(function(el) { return el.id !== catDelete; }); 
         },
 
     }

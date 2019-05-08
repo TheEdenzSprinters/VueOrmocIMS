@@ -127,9 +127,9 @@ export default {
             this.handleSubmit()
         },
         handleSubmit() {
-            if (this.catSelect != null){
+            if (this.catSelect !== null){
                 // Push the name to submitted names
-                if (this.newSubCat != ''){
+                if (this.newSubCat !== ''){
                     this.subCats.push({ id: this.subCats.length + 1, subCatName: this.newSubCat, catId: this.catSelect });
                     // Hide the modal manually
                     this.$nextTick(() => {
@@ -146,7 +146,7 @@ export default {
             }
         },
         deleteSubCategory (subCatDelete) {
-            this.subCats = this.subCats.filter(function(el) { return el.id != subCatDelete; }); 
+            this.subCats = this.subCats.filter(function(el) { return el.id !== subCatDelete; }); 
         }
     },
     beforeMount: function() {
