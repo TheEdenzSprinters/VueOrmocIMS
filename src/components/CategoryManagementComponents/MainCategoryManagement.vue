@@ -108,7 +108,6 @@ export default {
             }
         },
         deleteCategory(catDelete) {
-            // this.catList = this.catList.filter(function(e) { return e.id !== catDelete; }); 
             this.$emit('receive-cat-list', catDelete);
         },
 

@@ -136,7 +136,7 @@ export default {
                         this.$refs.modal.hide()
                         // Reset entered name
                         this.newSubCat = null;
-                        this.catSelect=null
+                        this.catSelect=null;
                     })
                 } else {
                     alert("Sub-Category name is required")
@@ -150,6 +150,7 @@ export default {
         }
     },
     beforeMount: function() {
+        // Get current cat list
         for(var i = 0; i < this.catList.length; i++){
             var catItem = {
                 value: this.catList[i].id, text: this.catList[i].catName
@@ -159,7 +160,11 @@ export default {
         }
     },
     watch: {
+        // Update cat list when cat has been added
         catList: function(){
+            // Reinitialise cat list
+            this.catListOptions = [];
+
             for(var i = 0; i < this.catList.length; i++){
                 var catItem = {
                     value: this.catList[i].id, text: this.catList[i].catName
