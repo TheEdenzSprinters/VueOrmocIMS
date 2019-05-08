@@ -57,7 +57,7 @@ export default {
             this.catList = results;
         }
     },
-    created () {
+    created() {
         document.title = "Category Management";
     }
 

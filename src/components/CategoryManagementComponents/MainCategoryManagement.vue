@@ -107,9 +107,8 @@ export default {
                 alert("Category name is required")
             }
         },
-        deleteCategory (catDelete) {
-            alert(catDelete);
-            // this.catList = this.catList.filter(function(el) { return el.id != catDelete; }); 
+        deleteCategory(catDelete) {
+            this.catList = this.catList.filter(function(el) { return el.id != catDelete; }); 
         },
 
     }
