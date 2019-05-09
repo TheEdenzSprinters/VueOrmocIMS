@@ -59,7 +59,6 @@ export default {
     mounted() {
         axios.get("http://localhost:49995/api/ItemManagement/GetAllCategories")
         .then((res) => {
-            console.log(res.data);
             this.catList = res.data;
         })
         .catch ((error) => {

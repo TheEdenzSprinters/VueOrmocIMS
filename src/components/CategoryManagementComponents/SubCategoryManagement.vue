@@ -13,10 +13,10 @@
                         <span>{{ cat.CategoryName }}</span>
                     </b-row>
                     <b-row>
-                        <div v-for="subCat of subCats" v-bind:key="subCat.subCatName">
-                            <b-col v-if="cat.Id == subCat.catId" cols="auto" class="list">
-                                <span>{{ subCat.subCatName }}</span>
-                                <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteSubCategory(subCat.id)"/>
+                        <div v-for="subCat of subCats" v-bind:key="subCat.SubCategoryName">
+                            <b-col v-if="cat.Id == subCat.CategoryID" cols="auto" class="list">
+                                <span>{{ subCat.SubCategoryName }}</span>
+                                <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteSubCategory(subCat.Id)"/>
                             </b-col>
                         </div>
                     </b-row>
@@ -86,6 +86,7 @@
 </template>
 
 <script>
+import axios from "axios";
 
 export default {
     components: {
@@ -98,19 +99,7 @@ export default {
             newSubCat: null,
             nameState: null,
             catSelect: null,
-            subCats: [
-                { id: 1, subCatName: "Plywood", catId: 1},
-                { id: 2, subCatName: "Lumber", catId: 1},
-                { id: 3, subCatName: "Adhesives", catId: 1},
-                { id: 4, subCatName: "Wires", catId: 2},
-                { id: 5, subCatName: "Resistors", catId: 2},
-                { id: 6, subCatName: "Fuses", catId: 2},
-                { id: 7, subCatName: "Transformers", catId: 2},
-                { id: 8, subCatName: "Pneumatical Drills", catId: 3},
-                { id: 9, subCatName: "Jackhammers", catId: 3},
-                { id: 10, subCatName: "Fan Belts", catId: 4},
-                { id: 11, subCatName: "Tires", catId: 4},
-            ],
+            subCats: [],
             catListOptions: [{
                 value: null, text: "", disabled: true
             }]
@@ -130,7 +119,7 @@ export default {
             if (this.catSelect !== null){
                 // Push the name to submitted names
                 if (this.newSubCat !== ''){
-                    this.subCats.push({ id: this.subCats.length + 1, subCatName: this.newSubCat, catId: this.catSelect });
+                    this.subCats.push({ id: this.subCats.length + 1, SubCategoryName: this.newSubCat, CategoryID: this.catSelect });
                     // Hide the modal manually
                     this.$nextTick(() => {
                         this.$refs.modal.hide()
@@ -146,7 +135,7 @@ export default {
             }
         },
         deleteSubCategory (subCatDelete) {
-            this.subCats = this.subCats.filter(function(el) { return el.id !== subCatDelete; }); 
+            this.subCats = this.subCats.filter(function(el) { return el.Id !== subCatDelete; }); 
         }
     },
     beforeMount: function() {
@@ -158,6 +147,15 @@ export default {
 
             this.catListOptions = this.catListOptions.concat(catItem);
         }
+    },
+    mounted() {
+        axios.get("http://localhost:49995/api/ItemManagement/GetAllSubCategories")
+        .then((res) => {
+            this.subCats = res.data;
+        })
+        .catch ((error) => {
+            console.log(error);
+        })
     },
     watch: {
         // Update cat list when cat has been added
