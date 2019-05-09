@@ -8,20 +8,20 @@
         </b-row>
         <b-row>
             <b-col>
-                <b-container fluid v-for="cat of catList" v-bind:key="cat.catName">
+                <b-container fluid v-for="cat of catList" v-bind:key="cat.CategoryName">
                     <b-row class="headline-2">
-                        <span>{{ cat.catName }}</span>
+                        <span>{{ cat.CategoryName }}</span>
                     </b-row>
                     <b-row>
                         <div v-for="subCat of subCats" v-bind:key="subCat.subCatName">
-                            <b-col v-if="cat.id == subCat.catId" cols="auto" class="list">
+                            <b-col v-if="cat.Id == subCat.catId" cols="auto" class="list">
                                 <span>{{ subCat.subCatName }}</span>
                                 <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteSubCategory(subCat.id)"/>
                             </b-col>
                         </div>
                     </b-row>
                     <b-row>
-                        <b-button @click="show=true; catSelect=cat.id" class="button appPrimaryBackgroundColor">Add new {{ cat.catName }} Sub-Category</b-button>
+                        <b-button @click="show=true; catSelect=cat.Id" class="button appPrimaryBackgroundColor">Add new {{ cat.CategoryName }} Sub-Category</b-button>
                     </b-row>
                 </b-container>
             </b-col>
@@ -153,7 +153,7 @@ export default {
         // Get current cat list
         for(var i = 0; i < this.catList.length; i++){
             var catItem = {
-                value: this.catList[i].id, text: this.catList[i].catName
+                value: this.catList[i].Id, text: this.catList[i].CategoryName
             }
 
             this.catListOptions = this.catListOptions.concat(catItem);
@@ -167,7 +167,7 @@ export default {
 
             for(var i = 0; i < this.catList.length; i++){
                 var catItem = {
-                    value: this.catList[i].id, text: this.catList[i].catName
+                    value: this.catList[i].Id, text: this.catList[i].CategoryName
                 }
 
                 this.catListOptions = this.catListOptions.concat(catItem);

@@ -34,6 +34,7 @@
 import SubCategoryManagement from "./SubCategoryManagement";
 import DetailsCategoryManagement from "./DetailsCategoryManagement";
 import MainCategoryManagement from "./MainCategoryManagement";
+import axios from "axios";
 
 export default {
     name: "MainCategoryManagementFrame",
@@ -44,21 +45,26 @@ export default {
     },
     data() {
         return {
-            catList: [
-                { id: 1, catName: "Hardware" },
-                { id: 2, catName: "Electrical" },
-                { id: 3, catName: "Industrial Tools" },
-                { id: 4, catName: "Auto Parts" },
-            ],
+            catList: [],
         }
     },
     methods: {
         passCategories: function(results) {
-            this.catList = this.catList.filter(function(e) { return e.id !== results; });
+            this.catList = this.catList.filter(function(e) { return e.Id !== results; });
         }
     },
     created() {
         document.title = "Category Management";
+    },
+    mounted() {
+        axios.get("http://localhost:49995/api/ItemManagement/GetAllCategories")
+        .then((res) => {
+            console.log(res.data);
+            this.catList = res.data;
+        })
+        .catch ((error) => {
+            console.log(error);
+        })
     }
 }
 </script>

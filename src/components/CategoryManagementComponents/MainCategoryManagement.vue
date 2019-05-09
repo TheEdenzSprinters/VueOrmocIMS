@@ -10,9 +10,9 @@
             <b-col>
                 <b-container fluid>
                     <b-row>
-                        <b-col cols="auto" v-for="cat of catList" v-bind:key="cat.catName" class="list">
-                            <span>{{ cat.catName }}</span>
-                            <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteCategory(cat.id)"/>
+                        <b-col cols="auto" v-for="cat of catList" v-bind:key="cat.CategoryName" class="list">
+                            <span>{{ cat.CategoryName }}</span>
+                            <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteCategory(cat.Id)"/>
                         </b-col>
                     </b-row>
                 </b-container>
@@ -95,7 +95,7 @@ export default {
             //console.log(this.newCat);
             if (this.newCat !== ''){
                 // Push the name to submitted names
-                this.catList.push({ id: this.catList.length + 1, catName: this.newCat });
+                this.catList.push({ Id: this.catList.length + 1, CategoryName: this.newCat });
                // console.log(this.cats);
                 // Hide the modal manually
                 this.$nextTick(() => {
