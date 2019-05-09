@@ -117,9 +117,16 @@ export default {
         },
         handleSubmit() {
             if (this.catSelect !== null){
-                // Push the name to submitted names
+                // Push to DB the SubCat name
                 if (this.newSubCat !== ''){
-                    this.subCats.push({ id: this.subCats.length + 1, SubCategoryName: this.newSubCat, CategoryID: this.catSelect });
+                    axios.post("http://localhost:49995/api/ItemManagement/InsertNewSubCategory", {CategoryId: this.catSelect, SubCategoryName: this.newSubCat, IsActive: true})
+                    .then(function(){
+                        console.log("Sub-Category successfully submited");
+                    })
+                    .catch ((error) => {
+                        console.log(error);
+                    })
+
                     // Hide the modal manually
                     this.$nextTick(() => {
                         this.$refs.modal.hide()
@@ -158,7 +165,7 @@ export default {
         })
     },
     watch: {
-        // Update cat list when cat has been added
+        // Update cat list when cat added
         catList: function(){
             // Reinitialise cat list
             this.catListOptions = [];

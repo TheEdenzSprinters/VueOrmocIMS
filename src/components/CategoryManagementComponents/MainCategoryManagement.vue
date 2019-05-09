@@ -70,6 +70,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "MainCategoryManagement",
     props: ["catList"],
@@ -94,9 +96,14 @@ export default {
         handleSubmit() {
             //console.log(this.newCat);
             if (this.newCat !== ''){
-                // Push the name to submitted names
-                this.catList.push({ Id: this.catList.length + 1, CategoryName: this.newCat });
-               // console.log(this.cats);
+                // Push to DB the Cat name
+                axios.post("http://localhost:49995/api/ItemManagement/InsertNewCategory", {CategoryName: this.newCat, IsActive: true})
+                .then(function(){
+                    console.log("Category successfully submited");
+                })
+                .catch ((error) => {
+                    console.log(error);
+                })
                 // Hide the modal manually
                 this.$nextTick(() => {
                     this.$refs.modal.hide()
@@ -111,7 +118,7 @@ export default {
             this.$emit('receive-cat-list', catDelete);
         },
 
-    }
+    },
 }
 </script>
 
