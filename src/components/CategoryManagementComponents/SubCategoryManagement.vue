@@ -119,14 +119,7 @@ export default {
             if (this.catSelect !== null){
                 // Push to DB the SubCat name
                 if (this.newSubCat !== ''){
-                    axios.post("http://localhost:49995/api/ItemManagement/InsertNewSubCategory", {CategoryId: this.catSelect, SubCategoryName: this.newSubCat, IsActive: true})
-                    .then(function(){
-                        console.log("Sub-Category successfully submited");
-                    })
-                    .catch ((error) => {
-                        console.log(error);
-                    })
-
+                    this.addSubCategory();
                     // Hide the modal manually
                     this.$nextTick(() => {
                         this.$refs.modal.hide()
@@ -141,8 +134,32 @@ export default {
                 alert("No Category selected, please choose one from the list")
             }
         },
+        getSubCategory() {
+            axios.get("http://localhost:49995/api/ItemManagement/GetAllSubCategories")
+            .then((res) => {
+                this.subCats = res.data;
+            })
+            .catch ((error) => {
+                console.log(error);
+            })
+        },
+        addSubCategory() {
+            axios.post("http://localhost:49995/api/ItemManagement/InsertNewSubCategory", {CategoryId: this.catSelect, SubCategoryName: this.newSubCat, IsActive: true})
+            .then(function() {
+                console.log("Sub-Category successfully submited");
+            })
+            .catch (function(error) {
+                console.log(error);
+            })
+        },
         deleteSubCategory (subCatDelete) {
-            this.subCats = this.subCats.filter(function(el) { return el.Id !== subCatDelete; }); 
+            axios.post("http://localhost:49995/api/ItemManagement/DeleteSubCategory", subCatDelete, {headers: {'Content-Type':'application/json'}})
+            .then(function() {
+                console.log("Sub-Category " + subCatDelete + " successfully deactivated");
+            })
+            .catch (function(error) {
+                console.log(error);
+            })
         }
     },
     beforeMount: function() {
@@ -156,13 +173,7 @@ export default {
         }
     },
     mounted() {
-        axios.get("http://localhost:49995/api/ItemManagement/GetAllSubCategories")
-        .then((res) => {
-            this.subCats = res.data;
-        })
-        .catch ((error) => {
-            console.log(error);
-        })
+        this.getSubCategory();
     },
     watch: {
         // Update cat list when cat added

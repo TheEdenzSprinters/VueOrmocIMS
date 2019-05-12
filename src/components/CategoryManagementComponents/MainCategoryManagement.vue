@@ -87,9 +87,9 @@ export default {
             this.newCat = '',
             this.nameState = null
         },
-        handleOk(bvModalEvt) {
+        handleOk(modalEvt) {
             // Prevent modal from closing
-            bvModalEvt.preventDefault()
+            modalEvt.preventDefault()
             // Trigger submit handler
             this.handleSubmit()
         },
@@ -97,13 +97,7 @@ export default {
             //console.log(this.newCat);
             if (this.newCat !== ''){
                 // Push to DB the Cat name
-                axios.post("http://localhost:49995/api/ItemManagement/InsertNewCategory", {CategoryName: this.newCat, IsActive: true})
-                .then(function(){
-                    console.log("Category successfully submited");
-                })
-                .catch ((error) => {
-                    console.log(error);
-                })
+                this.addCategory();
                 // Hide the modal manually
                 this.$nextTick(() => {
                     this.$refs.modal.hide()
@@ -114,10 +108,25 @@ export default {
                 alert("Category name is required")
             }
         },
-        deleteCategory(catDelete) {
-            this.$emit('receive-cat-list', catDelete);
+        addCategory() {
+            axios.post("http://localhost:49995/api/ItemManagement/InsertNewCategory", {CategoryName: this.newCat, IsActive: true})
+            .then(function(){
+                console.log("Category successfully submited");
+            })
+            .catch ((error) => {
+                console.log(error);
+            })
         },
-
+        deleteCategory(catDelete) {
+            // this.$emit('receive-cat-list', catDelete);
+            axios.post("http://localhost:49995/api/ItemManagement/DeleteCategory", catDelete, {headers: {'Content-Type':'application/json'}})
+            .then(function() {
+                console.log("Category " + catDelete + " successfully deactivated");
+            })
+            .catch (function(error) {
+                console.log(error);
+            })
+        },
     },
 }
 </script>
