@@ -137,6 +137,7 @@ export default {
         getSubCategory() {
             axios.get("http://localhost:49995/api/ItemManagement/GetAllSubCategories")
             .then((res) => {
+                console.log("update subcat");
                 this.subCats = res.data;
             })
             .catch ((error) => {
@@ -150,16 +151,17 @@ export default {
             })
             .catch (function(error) {
                 console.log(error);
-            })
+            });
         },
         deleteSubCategory (subCatDelete) {
+            // this.subCats = this.subCats.filter(function(e) { return e.Id !== subCatDelete; });
             axios.post("http://localhost:49995/api/ItemManagement/DeleteSubCategory", subCatDelete, {headers: {'Content-Type':'application/json'}})
             .then(function() {
                 console.log("Sub-Category " + subCatDelete + " successfully deactivated");
             })
             .catch (function(error) {
                 console.log(error);
-            })
+            });
         }
     },
     beforeMount: function() {

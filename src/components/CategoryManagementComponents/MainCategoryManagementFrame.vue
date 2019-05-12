@@ -8,7 +8,8 @@
                     <b-col cols="9">
                         <b-container fluid class="left-intent">
                             <b-row class="row-intents">
-                                <MainCategoryManagement v-bind:cat-list="catList" v-on:receive-cat-list="passCategories" />
+                                <!-- <MainCategoryManagement v-bind:cat-list="catList" v-on:receive-cat-list="passCategories" /> -->
+                                <MainCategoryManagement v-bind:cat-list="catList" />
                             </b-row>
                             <b-row class="row-intents">
                                 <SubCategoryManagement v-bind:cat-list="catList" />
@@ -49,21 +50,25 @@ export default {
         }
     },
     methods: {
-        passCategories: function(results) {
-            this.catList = this.catList.filter(function(e) { return e.Id !== results; });
-        }
+        // passCategories: function(results) {
+        //     this.catList = this.catList.filter(function(e) { return e.Id !== results; });
+        // },
+        getSubCategory() {
+            axios.get("http://localhost:49995/api/ItemManagement/GetAllCategories")
+            .then((res) => {
+                console.log("update cat");
+                this.catList = res.data;
+            })
+            .catch ((error) => {
+                console.log(error);
+            })
+        },
     },
     created() {
         document.title = "Category Management";
     },
     mounted() {
-        axios.get("http://localhost:49995/api/ItemManagement/GetAllCategories")
-        .then((res) => {
-            this.catList = res.data;
-        })
-        .catch ((error) => {
-            console.log(error);
-        })
+        this.getSubCategory();
     }
 }
 </script>
