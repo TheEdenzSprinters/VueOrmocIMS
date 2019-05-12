@@ -10,9 +10,9 @@
             <b-col>
                 <b-container fluid>
                     <b-row>
-                        <b-col cols="auto" v-for="cat of catList" v-bind:key="cat.catName" class="list">
-                            <span>{{ cat.catName }}</span>
-                            <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteCategory(cat.id)"/>
+                        <b-col cols="auto" v-for="cat of catList" v-bind:key="cat.CategoryName" class="list">
+                            <span>{{ cat.CategoryName }}</span>
+                            <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteCategory(cat.Id)"/>
                         </b-col>
                     </b-row>
                 </b-container>
@@ -70,6 +70,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "MainCategoryManagement",
     props: ["catList"],
@@ -85,18 +87,17 @@ export default {
             this.newCat = '',
             this.nameState = null
         },
-        handleOk(bvModalEvt) {
+        handleOk(modalEvt) {
             // Prevent modal from closing
-            bvModalEvt.preventDefault()
+            modalEvt.preventDefault()
             // Trigger submit handler
             this.handleSubmit()
         },
         handleSubmit() {
             //console.log(this.newCat);
             if (this.newCat !== ''){
-                // Push the name to submitted names
-                this.catList.push({ id: this.catList.length + 1, catName: this.newCat });
-               // console.log(this.cats);
+                // Push to DB the Cat name
+                this.addCategory();
                 // Hide the modal manually
                 this.$nextTick(() => {
                     this.$refs.modal.hide()
@@ -107,12 +108,26 @@ export default {
                 alert("Category name is required")
             }
         },
-        deleteCategory(catDelete) {
-            // this.catList = this.catList.filter(function(e) { return e.id !== catDelete; }); 
-            this.$emit('receive-cat-list', catDelete);
+        addCategory() {
+            axios.post("http://localhost:49995/api/ItemManagement/InsertNewCategory", {CategoryName: this.newCat, IsActive: true})
+            .then(function(){
+                console.log("Category successfully submited");
+            })
+            .catch ((error) => {
+                console.log(error);
+            })
         },
-
-    }
+        deleteCategory(catDelete) {
+            // this.$emit('receive-cat-list', catDelete);
+            axios.post("http://localhost:49995/api/ItemManagement/DeleteCategory", catDelete, {headers: {'Content-Type':'application/json'}})
+            .then(function() {
+                console.log("Category " + catDelete + " successfully deactivated");
+            })
+            .catch (function(error) {
+                console.log(error);
+            })
+        },
+    },
 }
 </script>
 

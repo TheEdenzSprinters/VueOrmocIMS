@@ -8,20 +8,20 @@
         </b-row>
         <b-row>
             <b-col>
-                <b-container fluid v-for="cat of catList" v-bind:key="cat.catName">
+                <b-container fluid v-for="cat of catList" v-bind:key="cat.CategoryName">
                     <b-row class="headline-2">
-                        <span>{{ cat.catName }}</span>
+                        <span>{{ cat.CategoryName }}</span>
                     </b-row>
                     <b-row>
-                        <div v-for="subCat of subCats" v-bind:key="subCat.subCatName">
-                            <b-col v-if="cat.id == subCat.catId" cols="auto" class="list">
-                                <span>{{ subCat.subCatName }}</span>
-                                <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteSubCategory(subCat.id)"/>
+                        <div v-for="subCat of subCats" v-bind:key="subCat.SubCategoryName">
+                            <b-col v-if="cat.Id == subCat.CategoryID" cols="auto" class="list">
+                                <span>{{ subCat.SubCategoryName }}</span>
+                                <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteSubCategory(subCat.Id)"/>
                             </b-col>
                         </div>
                     </b-row>
                     <b-row>
-                        <b-button @click="show=true; catSelect=cat.id" class="button appPrimaryBackgroundColor">Add new {{ cat.catName }} Sub-Category</b-button>
+                        <b-button @click="show=true; catSelect=cat.Id" class="button appPrimaryBackgroundColor">Add new {{ cat.CategoryName }} Sub-Category</b-button>
                     </b-row>
                 </b-container>
             </b-col>
@@ -86,6 +86,7 @@
 </template>
 
 <script>
+import axios from "axios";
 
 export default {
     components: {
@@ -98,19 +99,7 @@ export default {
             newSubCat: null,
             nameState: null,
             catSelect: null,
-            subCats: [
-                { id: 1, subCatName: "Plywood", catId: 1},
-                { id: 2, subCatName: "Lumber", catId: 1},
-                { id: 3, subCatName: "Adhesives", catId: 1},
-                { id: 4, subCatName: "Wires", catId: 2},
-                { id: 5, subCatName: "Resistors", catId: 2},
-                { id: 6, subCatName: "Fuses", catId: 2},
-                { id: 7, subCatName: "Transformers", catId: 2},
-                { id: 8, subCatName: "Pneumatical Drills", catId: 3},
-                { id: 9, subCatName: "Jackhammers", catId: 3},
-                { id: 10, subCatName: "Fan Belts", catId: 4},
-                { id: 11, subCatName: "Tires", catId: 4},
-            ],
+            subCats: [],
             catListOptions: [{
                 value: null, text: "", disabled: true
             }]
@@ -128,15 +117,15 @@ export default {
         },
         handleSubmit() {
             if (this.catSelect !== null){
-                // Push the name to submitted names
+                // Push to DB the SubCat name
                 if (this.newSubCat !== ''){
-                    this.subCats.push({ id: this.subCats.length + 1, subCatName: this.newSubCat, catId: this.catSelect });
+                    this.addSubCategory();
                     // Hide the modal manually
                     this.$nextTick(() => {
                         this.$refs.modal.hide()
                         // Reset entered name
                         this.newSubCat = null;
-                        this.catSelect=null
+                        this.catSelect=null;
                     })
                 } else {
                     alert("Sub-Category name is required")
@@ -145,24 +134,58 @@ export default {
                 alert("No Category selected, please choose one from the list")
             }
         },
+        getSubCategory() {
+            axios.get("http://localhost:49995/api/ItemManagement/GetAllSubCategories")
+            .then((res) => {
+                console.log("update subcat");
+                this.subCats = res.data;
+            })
+            .catch ((error) => {
+                console.log(error);
+            })
+        },
+        addSubCategory() {
+            axios.post("http://localhost:49995/api/ItemManagement/InsertNewSubCategory", {CategoryId: this.catSelect, SubCategoryName: this.newSubCat, IsActive: true})
+            .then(function() {
+                console.log("Sub-Category successfully submited");
+            })
+            .catch (function(error) {
+                console.log(error);
+            });
+        },
         deleteSubCategory (subCatDelete) {
-            this.subCats = this.subCats.filter(function(el) { return el.id !== subCatDelete; }); 
+            // this.subCats = this.subCats.filter(function(e) { return e.Id !== subCatDelete; });
+            axios.post("http://localhost:49995/api/ItemManagement/DeleteSubCategory", subCatDelete, {headers: {'Content-Type':'application/json'}})
+            .then(function() {
+                console.log("Sub-Category " + subCatDelete + " successfully deactivated");
+            })
+            .catch (function(error) {
+                console.log(error);
+            });
         }
     },
     beforeMount: function() {
+        // Get current cat list
         for(var i = 0; i < this.catList.length; i++){
             var catItem = {
-                value: this.catList[i].id, text: this.catList[i].catName
+                value: this.catList[i].Id, text: this.catList[i].CategoryName
             }
 
             this.catListOptions = this.catListOptions.concat(catItem);
         }
     },
+    mounted() {
+        this.getSubCategory();
+    },
     watch: {
+        // Update cat list when cat added
         catList: function(){
+            // Reinitialise cat list
+            this.catListOptions = [];
+
             for(var i = 0; i < this.catList.length; i++){
                 var catItem = {
-                    value: this.catList[i].id, text: this.catList[i].catName
+                    value: this.catList[i].Id, text: this.catList[i].CategoryName
                 }
 
                 this.catListOptions = this.catListOptions.concat(catItem);

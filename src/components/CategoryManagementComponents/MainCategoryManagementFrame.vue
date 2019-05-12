@@ -8,7 +8,8 @@
                     <b-col cols="9">
                         <b-container fluid class="left-intent">
                             <b-row class="row-intents">
-                                <MainCategoryManagement v-bind:cat-list="catList" v-on:receive-cat-list="passCategories" />
+                                <!-- <MainCategoryManagement v-bind:cat-list="catList" v-on:receive-cat-list="passCategories" /> -->
+                                <MainCategoryManagement v-bind:cat-list="catList" />
                             </b-row>
                             <b-row class="row-intents">
                                 <SubCategoryManagement v-bind:cat-list="catList" />
@@ -34,6 +35,7 @@
 import SubCategoryManagement from "./SubCategoryManagement";
 import DetailsCategoryManagement from "./DetailsCategoryManagement";
 import MainCategoryManagement from "./MainCategoryManagement";
+import axios from "axios";
 
 export default {
     name: "MainCategoryManagementFrame",
@@ -44,21 +46,29 @@ export default {
     },
     data() {
         return {
-            catList: [
-                { id: 1, catName: "Hardware" },
-                { id: 2, catName: "Electrical" },
-                { id: 3, catName: "Industrial Tools" },
-                { id: 4, catName: "Auto Parts" },
-            ],
+            catList: [],
         }
     },
     methods: {
-        passCategories: function(results) {
-            this.catList = this.catList.filter(function(e) { return e.id !== results; });
-        }
+        // passCategories: function(results) {
+        //     this.catList = this.catList.filter(function(e) { return e.Id !== results; });
+        // },
+        getSubCategory() {
+            axios.get("http://localhost:49995/api/ItemManagement/GetAllCategories")
+            .then((res) => {
+                console.log("update cat");
+                this.catList = res.data;
+            })
+            .catch ((error) => {
+                console.log(error);
+            })
+        },
     },
     created() {
         document.title = "Category Management";
+    },
+    mounted() {
+        this.getSubCategory();
     }
 }
 </script>
