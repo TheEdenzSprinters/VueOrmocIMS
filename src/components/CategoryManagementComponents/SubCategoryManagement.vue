@@ -89,9 +89,8 @@
 import axios from "axios";
 
 export default {
-    components: {},
+    props: ['catList'],
     name: "SubCategoryManagement",
-    props: ["catList"],
     data() {
         return {
             show: false, // Modal initial state
@@ -135,37 +134,37 @@ export default {
         },
         getSubCategory() {
             axios.get("http://localhost:49995/api/ItemManagement/GetAllSubCategories")
-            .then((res) => {
+            .then(res => {
                 this.subCats = res.data;
             })
-            .catch ((error) => {
+            .catch (error => {
                 console.log(error);
             })
         },
         addSubCategory() {
             axios.post("http://localhost:49995/api/ItemManagement/InsertNewSubCategory", {CategoryId: this.catSelect, SubCategoryName: this.newSubCat, IsActive: true})
-            .then((res) => {
+            .then(res => {
                 if(res.data.length !== 0){
                     this.subCats = this.subCats.concat(res.data.Result);
                 }
             })
-            .catch ((error) => {
+            .catch (error => {
                 console.log(error);
             });
         },
         deleteSubCategory (subCatDelete) {
             axios.post("http://localhost:49995/api/ItemManagement/DeleteSubCategory", subCatDelete, {headers: {'Content-Type':'application/json'}})
-            .then((res) => {
+            .then(res => {
                 if(res.data.Result == "SubCategory deleted." ) {
-                    this.subCats = this.subCats.filter(function(e) { return e.Id !== subCatDelete; });
+                    this.subCats = this.subCats.filter(e => { return e.Id !== subCatDelete; });
                 }
             })
-            .catch ((error) => {
+            .catch (error => {
                 console.log(error);
             });
         }
     },
-    beforeMount: function() {
+    beforeMount() {
         // Get current cat list
         for(var i = 0; i < this.catList.length; i++){
             var catItem = {
@@ -174,9 +173,6 @@ export default {
 
             this.catListOptions = this.catListOptions.concat(catItem);
         }
-    },
-    update: function() {
-        this.getSubCategory();
     },
     mounted() {
         this.getSubCategory();
