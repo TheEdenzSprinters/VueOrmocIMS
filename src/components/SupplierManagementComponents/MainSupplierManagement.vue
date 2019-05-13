@@ -1,0 +1,83 @@
+<template>
+    <b-container fluid class="whiteWrapper">
+        <b-row>
+            <b-col sm="12">
+                <b-container fluid class="appBackgroundShadeColor mainItemContainer">
+                    <b-row class="containerWrapper">
+                        <b-col class="whiteWrapper" sm="5">
+                            <b-container fluid class="searchColumn">
+                                <b-row>
+                                    <b-col sm="12">
+                                        <b-row>
+                                            <b-col sm="12">
+                                                <SupplierForm/>
+                                            </b-col>
+                                        </b-row>
+                                    </b-col>
+                                </b-row>
+
+                                <b-row>
+                                    <b-col sm="12">
+                                        <b-row>
+                                            <b-col sm="12">
+                                                <SupplierList/>
+                                            </b-col>
+                                        </b-row>
+                                    </b-col>
+                                </b-row>                                
+                            </b-container>
+                        </b-col>
+                        <b-col class="whiteWrapper" sm="7">
+                            <b-container fluid class="searchColumn">
+                                <b-row>
+                                    <b-col sm="12"> <h4>Supplier A</h4>
+                                        <SupplierDetails/>
+                                    </b-col>
+                                </b-row>
+                            </b-container>
+                        </b-col>
+
+                    </b-row>
+                </b-container>
+            </b-col>
+        </b-row>
+    </b-container>
+</template>
+
+<script>
+    import SupplierForm from "./SupplierForm";
+    import SupplierList from "./SupplierList";
+    import SupplierDetails from "./SupplierDetails"
+
+export default {
+    name: "MainSupplierManagement",
+    components: {SupplierForm,SupplierList,SupplierDetails},
+} 
+</script>
+
+<style scoped>
+    .searchColumn {
+        max-height: 651px;
+        padding: 20px;
+        overflow: auto;
+        background-color: #ffffff;
+    }
+
+    .searchColumn::-webkit-scrollbar
+    {
+        width: 2px;
+        background-color: #F5F5F5;
+    }
+
+    .searchColumn::-webkit-scrollbar-thumb
+    {
+        background-color: #283593;
+        border: 1px solid #283593;
+    }
+    .mainItemContainer{
+        padding: 10px;
+    }
+    .whiteWrapper {
+        background: none;        
+    }
+</style>

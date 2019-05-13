@@ -14,10 +14,13 @@
 
                                 <b-row>
                                     <b-col lg="12" md="12" sm="12" class="advancedSearchContainer">
-                                        <span v-b-toggle.advanceSearch class="advancedSearchToggle">Advanced Search</span>
+                                        <span v-b-toggle.advanceSearch v-on:click="changeIconDirection()" class="advancedSearchToggle">Advanced Search&nbsp;
+                                            <font-awesome-icon icon="angle-right" v-if="arrowRight"/>
+                                            <font-awesome-icon icon="angle-down" v-if="!arrowRight"/>
+                                        </span>
                                         <hr class="advancedSearchDivider"/>
                                         <b-collapse id="advanceSearch">
-                                            <ItemAdvancedSearch/>
+                                            <ItemAdvancedSearch v-on:item-list="showResults" />
                                         </b-collapse>
                                     </b-col>
                                 </b-row>
@@ -51,6 +54,7 @@ export default {
         return {
             itemList: [],
             itemId: 0,
+            arrowRight: true,
         }
     },
     components: {GeneralSearchInputComponent, ItemAdvancedSearch, ItemSearchResults, IndividualItemsComponent},
@@ -58,6 +62,8 @@ export default {
         showResults(results) {
             if(results.length !== 0){
                 this.itemList = results;
+            } else {
+                this.itemList = [];
             }
         },
         viewItemDetails(item){
@@ -66,6 +72,9 @@ export default {
             } else {
                 this.itemId = 0;
             }
+        },
+        changeIconDirection(){
+            this.arrowRight = !this.arrowRight;
         }
     },
 }
@@ -73,8 +82,9 @@ export default {
 
 <style scoped>
     .whiteWrapper {
-        background-color: none;
+        background: none;
         font-size: 12px;
+        color: #283593;
     }
 
     .mainItemContainer{

@@ -1,8 +1,5 @@
 <template>
-<div class="resultsContainer">
-    <div class="header">
-    <h6>Item Request Not Fulfilled</h6>
-    </div>
+<div class="resultsContainer">   
         <b-table 
             striped 
             hover 
@@ -11,11 +8,10 @@
             selectedVariant="success"
             :items="items" 
             show-empty
-            @row-selected="rowSelected" 
-            :fields="fields">
+           >            
         </b-table> 
 
-       {{selected}}
+      
     </div>
 </template>
 
@@ -24,7 +20,7 @@ export default {
     name: 'ItemRequestNotFulfilled',
     data() {
         return {
-            fields: [{key:'ItemRequestID' ,label: 'ItemRequestID', formatter: 'itemID'}, 'Status', 'DateCreated'],
+            fields: [{key:'ItemRequestID' ,label: 'ItemRequestID', formatter: 'itemID'}, 'Title', 'DateCreated'],
             items: [
                 {ItemRequestID: 1, Title: 'Hardiflex 8x6 ft', Status: 'Active', DateCreated: '27 Apr 2019'},
                 {ItemRequestID: 2, Title: 'Omni Resistor', Status: 'Active', DateCreated: '27 Apr 2019'},
@@ -50,9 +46,5 @@ export default {
     }
     .cell{
         line-height: 14px;
-    }
-    .header{
-        margin-top: 10px;
-        border-style: groove;
-    }
+    } 
 </style>

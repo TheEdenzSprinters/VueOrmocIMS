@@ -3,7 +3,7 @@
         <b-form @submit="onSubmit" @reset="onReset">
             <b-container fluid>
                 <b-row>
-                    <b-col lg="10" md="10" sm="10">
+                    <b-col lg="9" md="9" sm="9">
                         <h1 v-if="itemNumber == 0">
                             Item Number
                         </h1>
@@ -11,11 +11,11 @@
                             {{itemNumber}}
                         </h1>
                     </b-col>
-                    <b-col lg="2" md="2" sm="2">
+                    <b-col lg="3" md="3" sm="3">
+                        <font-awesome-icon class="icons appPrimaryTextColor" icon="print" v-on:click="printForm"/>
                         <font-awesome-icon class="icons appPrimaryTextColor" icon="plus" v-on:click="addNewItem" v-if="itemNumber == 0 && !showCancelButton"/>
                         <font-awesome-icon class="icons appPrimaryTextColor" icon="times" v-on:click="onReset" v-if="showCancelButton"/>
                         <font-awesome-icon class="icons appPrimaryTextColor" icon="edit" v-on:click="modifyItem" v-if="itemNumber != 0 && !showCancelButton"/>
-                        <font-awesome-icon class="icons appPrimaryTextColor" icon="print" v-on:click="printForm"/>
                     </b-col>
                 </b-row>
                 <b-row>
@@ -34,7 +34,7 @@
                                                 Item Name
                                             </b-col>
                                             <b-col lg="8" md="8" sm="8" class="inputColumn">
-                                                <b-input block id="itemName" name="itemName" v-model="itemName" size="sm"/>
+                                                <b-input block id="itemName" name="itemName" v-model="form.itemName" :readonly="readOnly" :required="true" size="sm"/>
                                             </b-col>
                                         </b-row>
                                         <b-row class="generalInfoContainer">
@@ -42,7 +42,7 @@
                                                 Category
                                             </b-col>
                                             <b-col lg="8" md="8" sm="8" class="inputColumn">
-                                                <b-input block id="category" name="category" v-model="category" size="sm"/>
+                                                <b-form-select id="category" name="category" v-model="form.categoryId" :options="categoryList" :disabled="readOnly" :required="true" size="sm" v-on:change="updateSubCategoryList()"></b-form-select>
                                             </b-col>
                                         </b-row>
                                         <b-row class="generalInfoContainer">
@@ -50,7 +50,7 @@
                                                 SubCategory
                                             </b-col>
                                             <b-col lg="8" md="8" sm="8" class="inputColumn">
-                                                <b-input block id="subCategory" name="subCategory" v-model="subCategory" size="sm"/>
+                                                <b-form-select id="subCategory" name="subCategory" v-model="form.subCategoryId" :options="subCategoryList" :disabled="readOnly" :required="true" size="sm" v-on:change="getItemDetailList()"></b-form-select>
                                             </b-col>
                                         </b-row>
                                         <b-row class="generalInfoContainer">
@@ -58,7 +58,7 @@
                                                 Brand
                                             </b-col>
                                             <b-col lg="8" md="8" sm="8" class="inputColumn">
-                                                <b-input block id="brand" name="brand" v-model="brand" size="sm"/>
+                                                <b-input block id="brand" name="brand" v-model="form.brandName" :readonly="readOnly" :required="true" size="sm"/>
                                             </b-col>
                                         </b-row>
                                         <b-row class="generalInfoContainer">
@@ -66,7 +66,15 @@
                                                 Location
                                             </b-col>
                                             <b-col lg="8" md="8" sm="8" class="inputColumn">
-                                                <b-input block id="location" name="location" v-model="location" size="sm"/>
+                                                <b-form-select id="location" name="location" v-model="form.locationId" :options="locationList" :disabled="readOnly" :required="true" size="sm"></b-form-select>
+                                            </b-col>
+                                        </b-row>
+                                        <b-row class="generalInfoContainer">
+                                            <b-col lg="4" md="4" sm="4" class="labelColumn">
+                                                SKU
+                                            </b-col>
+                                            <b-col lg="8" md="8" sm="8" class="inputColumn">
+                                                <b-input block id="sku" name="sku" v-model="form.sku" :readonly="readOnly" size="sm"/>
                                             </b-col>
                                         </b-row>
                                         <b-row class="generalInfoContainer">
@@ -74,7 +82,7 @@
                                                 Quantity
                                             </b-col>
                                             <b-col lg="8" md="8" sm="8" class="inputColumn">
-                                                <b-input block id="quantity" name="quantity" v-model="quantity" size="sm"/>
+                                                <b-input block id="quantity" name="quantity" v-model="form.quantity" :readonly="readOnly" :required="true" size="sm"/>
                                             </b-col>
                                         </b-row>
                                         <b-row class="generalInfoContainer">
@@ -82,7 +90,15 @@
                                                 Measured By
                                             </b-col>
                                             <b-col lg="8" md="8" sm="8" class="inputColumn">
-                                                <b-input block id="measuredBy" name="measuredBy" v-model="measuredBy" size="sm"/>
+                                                <b-input block id="measuredBy" name="measuredBy" v-model="form.measuredBy" :readonly="readOnly" :required="true" size="sm"/>
+                                            </b-col>
+                                        </b-row>
+                                        <b-row class="generalInfoContainer">
+                                            <b-col lg="4" md="4" sm="4" class="labelColumn">
+                                                Threshold (%)
+                                            </b-col>
+                                            <b-col lg="8" md="8" sm="8" class="inputColumn">
+                                                <b-input block id="measuredBy" name="measuredBy" v-model="form.thresholdQty" :readonly="readOnly" :required="true" size="sm"/>
                                             </b-col>
                                         </b-row>
                                         <b-row class="generalInfoContainer">
@@ -90,7 +106,7 @@
                                             Tags
                                             </b-col>
                                             <b-col lg="8" md="8" sm="8" class="inputColumn">
-                                                <span>{{tags}}</span>
+                                                <span>{{form.tags}}</span>
                                             </b-col>
                                         </b-row>
                                     </b-container>
@@ -103,7 +119,7 @@
                 <b-row>
                     <b-col lg="7" md="7" sm="12">
                         <label>Notes</label>
-                        <b-textarea id="notes" name="notes" v-model="notes" rows="3" no-resize/>
+                        <b-textarea id="notes" name="notes" v-model="form.notes" :readonly="readOnly" rows="3" no-resize/>
                     </b-col>
                     <b-col lg="5" md="5" sm="12">
                         <b-container fluid class="miscItemDetails">
@@ -112,7 +128,7 @@
                                     Date Created
                                 </b-col>
                                 <b-col lg="6" md="6" sm="6">
-                                    {{CreateDttm}}
+                                    {{form.CreateDttm}}
                                 </b-col>
                             </b-row>
 
@@ -121,7 +137,7 @@
                                     Last Updated
                                 </b-col>
                                 <b-col lg="6" md="6" sm="6">
-                                    {{UpdateDttm}}
+                                    {{form.UpdateDttm}}
                                 </b-col>
                             </b-row>
 
@@ -130,7 +146,8 @@
                                     Is Active?
                                 </b-col>
                                 <b-col lg="6" md="6" sm="6">
-                                    <b-checkbox id="isActive" name="isActive" v-model="isActive"/>
+                                    <b-checkbox id="isActive" name="isActive" v-model="form.isActive" value="active" 
+                                        unchecked-value="inactive" :disabled="!toModify" v-on:change="triggerItemStatusChange" />
                                 </b-col>
                             </b-row>
                         </b-container>
@@ -143,18 +160,23 @@
                                 <h2>Detailed Information</h2>
                             </b-col>
                         </b-row>
-                        <b-row>
+                        <b-row v-if="this.form.itemDetail.length == 0">
                             <b-col lg="12" md="12" sm="12">
+                                No details available.
+                            </b-col>
+                        </b-row>
+                        <b-row v-if="this.form.itemDetail.length > 0">
+                            <b-col lg="12" md="12" sm="12" >
                                 <b-container fluid>
-                                    <b-row v-for="detail in itemDetail" :key="detail.ItemDetailName">
+                                    <b-row v-for="detail in form.itemDetail" :key="detail.ItemDetailName" class="generalInfoContainer">
                                         <b-col lg="4" md="4" sm="4">
                                             {{detail.ItemDetailName}}
                                         </b-col>
                                         <b-col lg="5" md="5" sm="5">
-                                            <b-input v-model="detail.ItemDetailValue" size="sm"/>
+                                            <b-input v-model="detail.ItemDetailValue" :readonly="readOnly" size="sm"/>
                                         </b-col>
                                         <b-col lg="3" md="3" sm="3">
-                                            <b-input size="sm" v-if="detail.ShowUnitsOfMeasure" v-model="detail.UnitsOfMeasure"/>
+                                            <b-input size="sm" v-if="detail.ShowUnitsOfMeasure" v-model="detail.UnitOfMeasure" :readonly="readOnly"/>
                                         </b-col>
                                     </b-row>
                                 
@@ -173,58 +195,217 @@
 </template>
 
 <script>
+import axios from "axios";
+import moment from "moment";
+
 export default {
     name: "IndividualItemsComponent",
     props: ['itemNumber'],
     data() {
         return {
-            itemName: "",
-            category: "",
-            subCategory: "",
-            brand: "",
-            location: "",
-            quantity: "",
-            measuredBy: "",
-            notes: "",
-            CreateDttm: "12 Apr 2019",
-            UpdateDttm: "12 Apr 2019",
-            isActive: false,
-            tags: "",
-            itemDetail: [
-                {
-                    ItemDetailName: "length",
-                    ShowUnitsOfMeasure: true,
-                    UnitsOfMeasure: "ft",
-                    ItemDetailValue: "10"
-                }
-            ],
+            form: {
+                itemName: "",
+                categoryId: null,
+                subCategoryId: null,
+                brandName: "",
+                locationId: null,
+                sku: "",
+                quantity: "",
+                measuredBy: "",
+                thresholdQty: "",
+                notes: "",
+                CreateDttm: "",
+                UpdateDttm: "",
+                isActive: true,
+                tags: "",
+                itemDetail: [],
+            },
             showCancelButton: false,
-
+            readOnly: true,
+            toModify: false,
+            categoryList: [{value: null, text: "Select a Category"}],
+            subCategoryList: [{value: null, text: "Select a SubCategory"}],
+            statusList: [{value: null, text: "Select a Status"}],
+            locationList: [{value: null, text: "Select a Location"}],
         };
     },
     methods: {
         onSubmit(evt){
             evt.preventDefault();
-            alert("submitted!");
-            this.showCancelButton = false;
+            const item = this.form;
+            if(!this.toModify){
+                axios.post("http://localhost:49995/api/ItemManagement/InsertNewItem", item)
+                    .then(res => {
+                        console.log(res.data);
+                        this.showCancelButton = false;
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        this.showCancelButton = false;
+                    })
+            } else {
+                item.Id = this.itemNumber;
+                axios.post("http://localhost:49995/api/ItemManagement/UpdateExistingItem", item)
+                    .then(res => {
+                        this.showCancelButton = false;
+                        this.readOnly = true;
+                        this.toModify = false;
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        this.showCancelButton = false;
+                        this.readOnly = true;
+                        this.toModify = false;
+                    })
+            }
         },
         onReset(evt){
             evt.preventDefault();
-            alert("reset!");
             this.showCancelButton = false;
+            this.readOnly = true;
+            this.toModify = false;
         },
         addNewItem(){
-            alert("add item triggered!");
             this.showCancelButton = true;
+            this.readOnly = false;
         },
         modifyItem(){
-            alert("modify item triggered!");
             this.showCancelButton = true;
+            this.toModify = true;
+            this.readOnly = false;
         },
         printForm(){
             alert("preparing to print...");
+        },
+        updateSubCategoryList() {
+            if(this.form.categoryId != null){
+                const CategoryId = this.form.categoryId;
+                axios.post("http://localhost:49995/api/ItemManagement/GetAllSubCategoriesByCategory", {CategoryId})
+                    .then(res => {
+                        this.subCategoryList = [{value: null, text: "Select a SubCategory"}];
+                        for(var i = 0; i < res.data.length; i++){
+                            var subCatItem = {
+                                value: res.data[i].Id, text: res.data[i].SubCategoryName
+                            }
+
+                            this.subCategoryList = this.subCategoryList.concat(subCatItem);
+                        }
+                    })
+                    .catch(err => {console.log(err);});
+            }
+        },
+        getItemDetailList() {
+            if(this.form.subCategoryId != null){
+                const SubCategoryId = this.form.subCategoryId;
+                axios.post("http://localhost:49995/api/ItemManagement/GetItemDetailBySubCategoryId", {SubCategoryId})
+                    .then(res => {
+                        if(res.data.Result.length != 0){
+                            this.form.itemDetail = res.data.Result;
+                            console.log(res.data.Result);
+                        } else {
+                            this.form.itemDetail = [];
+                        }
+                    })
+                    .catch(err => {});
+            }
+        },
+        triggerItemStatusChange() {
+            const status = {Id: this.itemNumber, StatusCd: this.form.isActive};
+
+            axios.post("http://localhost:49995/api/ItemManagement/UpdateItemStatusById", status)
+                .then(res => {
+                    alert(res.data.Result);
+                    this.toModify = true;
+                    this.readOnly = false;
+                })
+                .catch(err => {});
         }
     },
+    beforeMount: function() {
+        axios.get("http://localhost:49995/api/ItemManagement/GetAllCategories")
+            .then(res => {
+                for(var i = 0; i < res.data.length; i++){
+                    var catItem = {
+                        value: res.data[i].Id, text: res.data[i].CategoryName
+                    }
+
+                    this.categoryList = this.categoryList.concat(catItem);
+                }
+            })
+            .catch(err => {console.log(err)});
+
+        axios.get("http://localhost:49995/api/ItemManagement/GetAllLocations")
+            .then(res => {
+                for(var i = 0; i < res.data.Result.length; i++){
+                    var locItem = {
+                        value: res.data.Result[i].Id, text: res.data.Result[i].LocationName
+                    }
+
+                    this.locationList = this.locationList.concat(locItem);
+                }
+            })
+            .catch(err => {console.log(err);});
+    },
+    watch: {
+        itemNumber: function(){
+            this.readOnly = true;
+            this.toModify = false;
+            this.showCancelButton = false;
+            const Id = this.itemNumber;
+            if(Id != ""){
+            axios.post("http://localhost:49995/api/ItemManagement/GetItemById", {Id})
+                .then(res => {
+                    if(res.data.Result != ""){
+                        const CategoryId = res.data.Result.CategoryId;
+                        axios.post("http://localhost:49995/api/ItemManagement/GetAllSubCategoriesByCategory", {CategoryId})
+                            .then(res2 => {
+                                this.subCategoryList = [{value: null, text: "Select a SubCategory"}];
+                                for(var i = 0; i < res2.data.length; i++){
+                                    var subCatItem = {
+                                        value: res2.data[i].Id, text: res2.data[i].SubCategoryName
+                                    }
+
+                                    this.subCategoryList = this.subCategoryList.concat(subCatItem);
+                                    this.form.itemName = res.data.Result.ItemName;
+                                    this.form.categoryId = res.data.Result.CategoryId;
+                                    this.form.subCategoryId = res.data.Result.SubCategoryId;
+                                    this.form.brandName = res.data.Result.BrandName;
+                                    this.form.locationId = res.data.Result.LocationId;
+                                    this.form.quantity = res.data.Result.Quantity;
+                                    this.form.measuredBy = res.data.Result.MeasuredBy;
+                                    this.form.sku = res.data.Result.Sku;
+                                    this.form.notes = res.data.Result.Notes;
+                                    this.form.isActive = res.data.Result.StatusCd.toLowerCase();
+                                    this.form.CreateDttm = moment(res.data.Result.CreateDttm).format("DD-MMM-YYYY");
+                                    this.form.UpdateDttm = moment(res.data.Result.UpdateDttm).format("DD-MMM-YYYY");
+                                    this.form.itemDetail = res.data.Result.ItemDetail;
+                                    this.form.thresholdQty = res.data.Result.ThresholdQty;
+                                    console.log(this.form.itemDetail);
+                                }
+                            })
+                            .catch(err => {console.log(err);});
+                    }
+                }).catch(err => {console.log(err)});
+            }
+            else {
+                this.form = {
+                    itemName: "",
+                    category: "",
+                    subCategory: "",
+                    brand: "",
+                    location: "",
+                    quantity: "",
+                    measuredBy: "",
+                    notes: "",
+                    CreateDttm: "",
+                    UpdateDttm: "",
+                    isActive: false,
+                    tags: "",
+                    itemDetail: [],
+                }
+            }
+        },
+    }
 }
 </script>
 
@@ -293,6 +474,7 @@ export default {
         cursor: pointer;
         margin-top: 15px;
         margin-right: 15px;
+        float: right;
     }
 
     .formButton {
