@@ -89,8 +89,7 @@
 import axios from "axios";
 
 export default {
-    components: {
-    },
+    components: {},
     name: "SubCategoryManagement",
     props: ["catList"],
     data() {
@@ -137,7 +136,6 @@ export default {
         getSubCategory() {
             axios.get("http://localhost:49995/api/ItemManagement/GetAllSubCategories")
             .then((res) => {
-                console.log("update subcat");
                 this.subCats = res.data;
             })
             .catch ((error) => {
@@ -146,20 +144,24 @@ export default {
         },
         addSubCategory() {
             axios.post("http://localhost:49995/api/ItemManagement/InsertNewSubCategory", {CategoryId: this.catSelect, SubCategoryName: this.newSubCat, IsActive: true})
-            .then(function() {
-                console.log("Sub-Category successfully submited");
+            .then((res) => {
+                if(res.data.length !== 0){
+                    this.subCats = this.subCats.concat(res.data.Result);
+                }
             })
-            .catch (function(error) {
+            .catch ((error) => {
                 console.log(error);
             });
         },
         deleteSubCategory (subCatDelete) {
             // this.subCats = this.subCats.filter(function(e) { return e.Id !== subCatDelete; });
             axios.post("http://localhost:49995/api/ItemManagement/DeleteSubCategory", subCatDelete, {headers: {'Content-Type':'application/json'}})
-            .then(function() {
-                console.log("Sub-Category " + subCatDelete + " successfully deactivated");
+            .then((res) => {
+                if(res.data.Result == "SubCategory deleted." ) {
+                    this.subCats = this.subCats.filter(function(e) { return e.Id !== subCatDelete; });
+                }
             })
-            .catch (function(error) {
+            .catch ((error) => {
                 console.log(error);
             });
         }
@@ -173,6 +175,9 @@ export default {
 
             this.catListOptions = this.catListOptions.concat(catItem);
         }
+    },
+    update: function() {
+        this.getSubCategory();
     },
     mounted() {
         this.getSubCategory();
