@@ -53,7 +53,7 @@ export default {
         // passCategories: function(results) {
         //     this.catList = this.catList.filter(function(e) { return e.Id !== results; });
         // },
-        getSubCategory() {
+        getCategory() {
             axios.get("http://localhost:49995/api/ItemManagement/GetAllCategories")
             .then((res) => {
                 console.log("update cat");
@@ -68,7 +68,7 @@ export default {
         document.title = "Category Management";
     },
     mounted() {
-        this.getSubCategory();
+        this.getCategory();
     }
 }
 </script>
