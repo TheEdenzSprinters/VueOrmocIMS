@@ -154,7 +154,6 @@ export default {
             });
         },
         deleteSubCategory (subCatDelete) {
-            // this.subCats = this.subCats.filter(function(e) { return e.Id !== subCatDelete; });
             axios.post("http://localhost:49995/api/ItemManagement/DeleteSubCategory", subCatDelete, {headers: {'Content-Type':'application/json'}})
             .then((res) => {
                 if(res.data.Result == "SubCategory deleted." ) {
