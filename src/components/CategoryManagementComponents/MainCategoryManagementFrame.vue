@@ -12,7 +12,6 @@
                             </b-row>
                             <b-row class="row-intents">
                                 <SubCategoryManagement @focus-array="passFocusedArray" :cat-list="catList" />
-
                             </b-row>
                         </b-container>
                     </b-col>

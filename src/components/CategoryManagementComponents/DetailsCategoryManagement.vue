@@ -1,36 +1,48 @@
 <template>
     <b-container fluid class="whiteWrapper">
-        <b-row v-if="this.focusArray.length === 0" align-v="center" class="text-center details borders">
+        <b-row v-if="this.focusArray.length === 0" align-v="center" class="text-center details-default borders">
             <b-col>
                 Select an item to see complete details.
             </b-col>
         </b-row>
         <b-row v-else class="borders">
             <b-col v-if="this.focusArray[0].CategoryID > 0">
-                <h2 class="headline">{{ this.focusArray[0].SubCategoryName }}</h2>
-                <br>
-                    Parent Category: {{ this.categorySub }}
-                <br>
-                    Created on: {{ this.focusArray[0].CreateDttm }}
-                <br>
-                    Last updated: {{ this.focusArray[0].UpdateDttm }}
-                <br><br>
-                <h2 class="headline">Units of Measure</h2>
-                    {{ this.focusArray[0].ItemDetails }} units list here
-                <br>
-                <br>
+                <b-container fluid class="details-default">
+                    <b-row>
+                        <h2 class="headline">{{ this.focusArray[0].SubCategoryName }}</h2>
+                    </b-row>
+                    <b-row class="details-item-child">
+                        Parent Category: {{ this.categorySub }}
+                    <br>
+                        Created on: {{ this.focusArray[0].CreateDttm }}
+                    <br>
+                        Last updated: {{ this.focusArray[0].UpdateDttm }}
+                    </b-row>
+                    <b-row>
+                        <h2 class="headline headline-2">Units of Measure</h2>
+                    </b-row>
+                    <b-row class="details-item-child">
+                        {{ this.focusArray[0].ItemDetails }} units list here
+                    </b-row>
+                </b-container>
             </b-col>
             <b-col v-else>
-                <h2 class="headline">{{ this.focusArray[0].CategoryName }}</h2>
-                <br>
-                    Created on: {{ this.focusArray[0].CreateDttm }}
-                <br>
-                    Last updated: {{ this.focusArray[0].UpdateDttm }}
-                <br><br>
-                <h2 class="headline">Sub-Categories</h2>
-                    {{ this.focusArray[0].SubCategories }} sub-cat list here
-                <br>
-                <br>
+                <b-container fluid class="details-default">
+                    <b-row>
+                        <h2 class="headline">{{ this.focusArray[0].CategoryName }}</h2>
+                    </b-row>
+                    <b-row class="details-item-child">
+                        Created on: {{ this.focusArray[0].CreateDttm }}
+                    <br>
+                        Last updated: {{ this.focusArray[0].UpdateDttm }}
+                    </b-row>
+                    <b-row>
+                        <h2 class="headline headline-2">Sub-Categories</h2>
+                    </b-row>
+                    <b-row class="details-item-child">
+                        {{ this.focusArray[0].SubCategories }} sub-cat list here
+                    </b-row>
+                </b-container>
             </b-col>
         </b-row>
     </b-container>
@@ -72,17 +84,33 @@ export default {
         border-width: 0.5px;
     }
 
-    .details {
-        height: 300px;
+    .details-default {
+        min-height: 300px;
         font-style: italic;
         color:  #283593;
         font-size: 12px;
     }
 
+    .details-item {
+        color:  #283593;
+        font-size: 12px;
+        padding: 10px 0px 0px 10px;
+    }
+
+    .details-item-child {
+        font-style: normal;
+        padding: 0px 0px 10px 10px;
+    }
+
     .headline {
         color:  #283593;
-        padding: 10px 0px 0px 15px;
+        padding: 10px 0px 0px 10px;
+        font-style: normal;
         font-weight: bold;
-        font-size: 24px;
+        font-size: 28px;
+    }
+
+    .headline-2 {
+        font-size: 18px;
     }
 </style>
