@@ -1,34 +1,34 @@
 <template>
     <b-container fluid class="whiteWrapper">
-        <b-row v-if="this.focusCat.length === 0 && this.focusSubCat.length === 0" align-v="center" class="text-center details borders">
+        <b-row v-if="this.focusArray.length === 0" align-v="center" class="text-center details borders">
             <b-col>
                 Select an item to see complete details.
             </b-col>
         </b-row>
-        <b-row v-else-if="this.focusCat.length > 0 && this.focusSubCat.length === 0" class="borders">
-            <b-col>
-                <h2 class="headline">{{ this.focusCat[0].CategoryName }}</h2>
+        <b-row v-else class="borders">
+            <b-col v-if="this.focusArray[0].CategoryID > 0">
+                <h2 class="headline">{{ this.focusArray[0].SubCategoryName }}</h2>
                 <br>
-                    Created on: {{ this.focusCat[0].CreateDttm }}
+                    Parent Category: {{ this.categorySub }}
                 <br>
-                    Last updated: {{ this.focusCat[0].UpdateDttm }}
+                    Created on: {{ this.focusArray[0].CreateDttm }}
+                <br>
+                    Last updated: {{ this.focusArray[0].UpdateDttm }}
                 <br><br>
-                <h2 class="headline">Sub-Categories</h2>
-                    {{ this.focusCat[0].SubCategories }}
+                <h2 class="headline">Units of Measure</h2>
+                    {{ this.focusArray[0].ItemDetails }} units list here
                 <br>
                 <br>
             </b-col>
-        </b-row>
-        <b-row v-else class="borders">
-            <b-col>
-                <h2 class="headline">{{ this.focusSubCat[0].SubCategoryName }}</h2>
+            <b-col v-else>
+                <h2 class="headline">{{ this.focusArray[0].CategoryName }}</h2>
                 <br>
-                    Created on: {{ this.focusSubCat[0].CreateDttm }}
+                    Created on: {{ this.focusArray[0].CreateDttm }}
                 <br>
-                    Last updated: {{ this.focusSubCat[0].UpdateDttm }}
+                    Last updated: {{ this.focusArray[0].UpdateDttm }}
                 <br><br>
-                <h2 class="headline">Units of Measure</h2>
-                    {{ this.focusSubCat[0].ItemDetails }}
+                <h2 class="headline">Sub-Categories</h2>
+                    {{ this.focusArray[0].SubCategories }} sub-cat list here
                 <br>
                 <br>
             </b-col>
@@ -39,14 +39,23 @@
 <script>
 export default {
     name: "DetailsCategoryManagement",
-    props: ['focusCat', 'focusSubCat'],
+    props: ['catList','focusArray'],
     data() {
         return {
+            catNameFiltered: [],
+            categorySub: '',
         }
     },
     methods: {
+        getCatBySub() {
+            this.catNameFiltered = this.catList.filter(e => { return e.Id === this.focusArray[0].CategoryID});
+            this.categorySub = this.catNameFiltered[0].CategoryName;
+        }
     },
-    mount() {
+    updated() {
+        if(this.focusArray[0].CategoryID > 0) {
+            this.getCatBySub();
+        }
     }
 }
 </script>

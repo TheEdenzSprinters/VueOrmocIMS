@@ -11,7 +11,7 @@
                 <b-container fluid>
                     <b-row>
                         <b-col cols="auto" v-for="cat of catList" :key="cat.CategoryName" class="list" :style="{'background-color': bgcolor}">
-                            <span @click="focusCat(cat.Id); colorChange(cat.Id)">{{ cat.CategoryName }}</span>
+                            <span @click="focusArray(cat.Id); colorChange(cat.Id)">{{ cat.CategoryName }}</span>
                             <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteCategory(cat.Id)"/>
                         </b-col>
                     </b-row>
@@ -80,7 +80,7 @@ export default {
             newCat: '',
             nameState: null,
             catList: [],
-            focusCatDetails: [],
+            focusArrayDetails: [],
             bgcolor: '',
         }
     },
@@ -90,9 +90,10 @@ export default {
                 this.bgcolor = 'red';
             }
         },
-        focusCat(cat){
-            this.focusCatDetails = this.catList.filter(e => { return cat === e.Id});
-            this.$emit('focus-cat', this.focusCatDetails);
+        focusArray(cat){
+            this.focusArrayDetails = this.catList.filter(e => { return cat === e.Id});
+            this.$emit('focus-array', this.focusArrayDetails);
+
         },
         resetModal() {
             this.newCat = '',

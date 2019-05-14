@@ -15,7 +15,7 @@
                     <b-row>
                         <div v-for="subCat of subCats" v-bind:key="subCat.SubCategoryName">
                             <b-col v-if="cat.Id == subCat.CategoryID" cols="auto" class="list">
-                                <span @click="focusSubCat(subCat.Id)">{{ subCat.SubCategoryName }}</span>
+                                <span @click="focusArray(subCat.Id)">{{ subCat.SubCategoryName }}</span>
                                 <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteSubCategory(subCat.Id)"/>
                             </b-col>
                         </div>
@@ -98,18 +98,16 @@ export default {
             nameState: null,
             catSelect: null,
             subCats: [],
-            focusSubCatDetails: [],
+            focusArrayDetails: [],
             catListOptions: [{
                 value: null, text: "", disabled: true
             }]
         }
     },
     methods: {
-        focusSubCat(subCat) {
-            this.focusSubCatDetails = this.subCats.filter(e => { return subCat === e.Id});
-            // eslint-disable-next-line
-            console.log(this.focusSubCatDetails, " subcat");
-            this.$emit('focus-sub-cat', this.focusSubCatDetails);
+        focusArray(subCat) {
+            this.focusArrayDetails = this.subCats.filter(e => { return subCat === e.Id});
+            this.$emit('focus-array', this.focusArrayDetails);
         },
         resetModal() {
             this.newSubCat = '';

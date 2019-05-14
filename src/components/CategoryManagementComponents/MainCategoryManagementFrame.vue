@@ -8,17 +8,18 @@
                     <b-col cols="9">
                         <b-container fluid class="left-intent">
                             <b-row class="row-intents">
-                                <MainCategoryManagement @go-cat="passCategories" @focus-cat="passFocusedCat"/>
+                                <MainCategoryManagement @go-cat="passCategories" @focus-array="passFocusedArray"/>
                             </b-row>
                             <b-row class="row-intents">
-                                <SubCategoryManagement @focus-sub-cat="passFocusedSubCat" :cat-list="catList" />
+                                <SubCategoryManagement @focus-array="passFocusedArray" :cat-list="catList" />
+
                             </b-row>
                         </b-container>
                     </b-col>
                     <b-col cols="3">
                         <b-container fluid class="right-intent">
                             <b-row>
-                                <DetailsCategoryManagement :focus-cat="focusCat" :focus-sub-cat="focusSubCat"/>
+                                <DetailsCategoryManagement :focus-array="focusArray" :cat-list="catList" />
                             </b-row>
                         </b-container>
                     </b-col>
@@ -45,19 +46,15 @@ export default {
     data() {
         return {
             catList: [],
-            focusCat: [],
-            focusSubCat: [],
+            focusArray: [],
         }
     },
     methods: {
         passCategories(results) {
             this.catList = results;
         },
-        passFocusedCat(cat) {
-            this.focusCat = cat;
-        },
-        passFocusedSubCat(subCat) {
-            this.focusSubCat = subCat;
+        passFocusedArray(array) {
+            this.focusArray = array;
         },
     },
     created() {
