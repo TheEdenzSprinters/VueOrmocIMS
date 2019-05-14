@@ -13,9 +13,9 @@
                     </b-row>
                     <b-row class="details-item-child">
                         Parent Category: {{ this.categorySub }}
-                    <br>
+                        <br>
                         Created on: {{ this.focusArray[0].CreateDttm }}
-                    <br>
+                        <br>
                         Last updated: {{ this.focusArray[0].UpdateDttm }}
                     </b-row>
                     <b-row>
@@ -23,6 +23,7 @@
                     </b-row>
                     <b-row class="details-item-child">
                         {{ this.focusArray[0].ItemDetails }} units list here
+                        <b-button class="button appPrimaryBackgroundColor">Add new Unit of Measure</b-button>
                     </b-row>
                 </b-container>
             </b-col>
@@ -33,7 +34,7 @@
                     </b-row>
                     <b-row class="details-item-child">
                         Created on: {{ this.focusArray[0].CreateDttm }}
-                    <br>
+                        <br>
                         Last updated: {{ this.focusArray[0].UpdateDttm }}
                     </b-row>
                     <b-row>
@@ -112,5 +113,11 @@ export default {
 
     .headline-2 {
         font-size: 18px;
+    }
+    
+    .button {
+        margin-top: 10px;
+        padding: 0px 5px 0px 5px;
+        font-size: 14px;  
     }
 </style>
