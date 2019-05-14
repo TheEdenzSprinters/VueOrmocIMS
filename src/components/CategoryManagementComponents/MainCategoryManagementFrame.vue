@@ -54,16 +54,10 @@ export default {
             this.catList = results;
         },
         passFocusedCat(cat) {
-            // this.focusCatDetails = this.catList.filter(e => { return cat === e.Id});
-
             this.focusCat = cat;
-            // eslint-disable-next-line
-            // console.log(this.focusCat + " > mainframe");
         },
         passFocusedSubCat(subCat) {
             this.focusSubCat = subCat;
-            // eslint-disable-next-line
-            console.log(subCat);
         },
     },
     created() {

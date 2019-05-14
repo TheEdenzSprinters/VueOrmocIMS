@@ -91,9 +91,7 @@ export default {
             }
         },
         focusCat(cat){
-            // this.focusCatDetails = cat;
             this.focusCatDetails = this.catList.filter(e => { return cat === e.Id});
-            // console.log(this.focusCatDetails, "main");
             this.$emit('focus-cat', this.focusCatDetails);
         },
         resetModal() {
@@ -124,8 +122,6 @@ export default {
             axios.get("http://localhost:49995/api/ItemManagement/GetAllCategories")
             .then(res => {
                 this.catList = res.data;
-                // eslint-disable-next-line
-                console.log(this.catList);
                 this.$emit('go-cat', this.catList);
             })
             .catch (error => {

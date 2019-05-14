@@ -106,9 +106,9 @@ export default {
     },
     methods: {
         focusSubCat(subCat) {
-            this.focusSubCatDetails = subCat;
-            // this.focusSubCatDetails = this.catList.filter(e => { return subCat === e.Id});
-            // console.log(this.focusCatDetails, "main");
+            this.focusSubCatDetails = this.subCats.filter(e => { return subCat === e.Id});
+            // eslint-disable-next-line
+            console.log(this.focusSubCatDetails, " subcat");
             this.$emit('focus-sub-cat', this.focusSubCatDetails);
         },
         resetModal() {

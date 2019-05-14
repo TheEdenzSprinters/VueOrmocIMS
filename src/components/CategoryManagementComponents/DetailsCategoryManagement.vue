@@ -21,7 +21,16 @@
         </b-row>
         <b-row v-else class="borders">
             <b-col>
-                Sub-Cat {{ this.focusSubCat }}
+                <h2 class="headline">{{ this.focusSubCat[0].SubCategoryName }}</h2>
+                <br>
+                    Created on: {{ this.focusSubCat[0].CreateDttm }}
+                <br>
+                    Last updated: {{ this.focusSubCat[0].UpdateDttm }}
+                <br><br>
+                <h2 class="headline">Units of Measure</h2>
+                    {{ this.focusSubCat[0].ItemDetails }}
+                <br>
+                <br>
             </b-col>
         </b-row>
     </b-container>
