@@ -22,7 +22,7 @@
                         <h2 class="headline headline-2">Units of Measure</h2>
                     </b-row>
                     <b-row class="details-item-child">
-                        {{ this.focusArray[0].ItemDetails }} units list here
+                        {{ this.focusArray[0].ItemDetails }} unit of measures list here
                         <b-button class="button appPrimaryBackgroundColor">Add new Unit of Measure</b-button>
                     </b-row>
                 </b-container>
@@ -40,8 +40,8 @@
                     <b-row>
                         <h2 class="headline headline-2">Sub-Categories</h2>
                     </b-row>
-                    <b-row class="details-item-child">
-                        {{ this.focusArray[0].SubCategories }} sub-cat list here
+                    <b-row class="details-item-child list" v-for="subCat of subCatsByCat" :key="subCat.index">
+                        <span v-if="subCat.length > 0">{{ subCat }}</span>
                     </b-row>
                 </b-container>
             </b-col>
@@ -50,6 +50,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "DetailsCategoryManagement",
     props: ['catList','focusArray'],
@@ -57,17 +59,41 @@ export default {
         return {
             catNameFiltered: [],
             categorySub: '',
+            subCatsByCat: [],
         }
     },
     methods: {
         getCatBySub() {
-            this.catNameFiltered = this.catList.filter(e => { return e.Id === this.focusArray[0].CategoryID});
+            this.catNameFiltered = this.catList.filter(cat => { return cat.Id === this.focusArray[0].CategoryID});
             this.categorySub = this.catNameFiltered[0].CategoryName;
-        }
+        },
+        getSubByCat(catId) {
+            axios.post("http://localhost:49995/api/ItemManagement/GetAllSubCategoriesByCategory", {CategoryId: catId})
+            .then(res => {
+                for(var i = 0; res.data.length > i; i++ ){
+                    this.subCatsByCat = this.subCatsByCat.concat(res.data[i].SubCategoryName);
+                }
+
+                // eslint-disable-next-line
+                console.log(this.subCatsByCat, "<<< transfered data");
+            })
+            .catch (error => {
+                // eslint-disable-next-line
+                console.log(error);
+            })
+        },
     },
-    updated() {
-        if(this.focusArray[0].CategoryID > 0) {
-            this.getCatBySub();
+    watch: {
+        focusArray: function() {
+            // Get Sub-cat list of the selected Category
+            if (this.focusArray[0].Category !== null) {
+                this.subCatsByCat = [];
+                this.getSubByCat(this.focusArray[0].Id);
+            }
+            // Get Category name of the selected Sub-cat
+            if(this.focusArray[0].CategoryID > 0) {
+                this.getCatBySub();
+            }
         }
     }
 }
@@ -83,6 +109,7 @@ export default {
         border-style: solid;
         border-color: #9b9b9b;
         border-width: 0.5px;
+        padding-bottom: 10px;
     }
 
     .details-default {
@@ -101,6 +128,10 @@ export default {
     .details-item-child {
         font-style: normal;
         padding: 0px 0px 10px 10px;
+    }
+
+    .list {
+        padding-bottom: 0px;
     }
 
     .headline {

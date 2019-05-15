@@ -11,7 +11,7 @@
                 <b-container fluid>
                     <b-row>
                         <b-col cols="auto" v-for="cat of catList" :key="cat.CategoryName" class="list" :style="{'background-color': bgcolor}">
-                            <span @click="focusArray(cat.Id); colorChange(cat.Id)">{{ cat.CategoryName }}</span>
+                            <span @click="focusArray(cat.Id)">{{ cat.CategoryName }}</span>
                             <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteCategory(cat.Id)"/>
                         </b-col>
                     </b-row>
