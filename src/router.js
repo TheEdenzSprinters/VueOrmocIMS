@@ -7,6 +7,7 @@ import ItemRequests from './views/ItemRequests'
 import Qoutations from './views/Quotations'
 import SupplierManagement from './views/SupplierManagement'
 import POManagement from './views/POManagement'
+import BrandManagement from './views/BrandManagement'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/po-management',
       name: 'pomanagement',
       component: POManagement
+    },
+    {
+      path: '/brand-management',
+      name: 'brandmanagement',
+      component: BrandManagement
     },
   ]
 })

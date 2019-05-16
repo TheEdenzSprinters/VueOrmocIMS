@@ -61,7 +61,18 @@ export default {
                         text: "Suppliers Management",
                         active: true
                     }
-                ]}                                
+                ]}
+                case "BrandManagement":
+                return {items: [
+                    {
+                        text: "Home",
+                        href: "/"
+                    },
+                    {
+                        text: "Brand Management",
+                        active: true
+                    }
+                ]}                                               
         }
     }
 }
