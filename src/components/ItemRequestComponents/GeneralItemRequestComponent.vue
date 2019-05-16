@@ -43,7 +43,7 @@ import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
         startDate: null,
         endDate: null,
         options: {
-          format: 'DD/MM/YYYY',
+          format: 'DD/MMM/YYYY',
           useCurrent: false,
         }       
       }
