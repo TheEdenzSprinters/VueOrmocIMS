@@ -74,12 +74,12 @@ import axios from "axios";
 
 export default {
     name: "MainCategoryManagement",
-    props: ["catList"],
     data() {
         return {
             show: false, // Modal initial state
             newCat: '',
             nameState: null,
+            catList: [],
         }
     },
     methods: {
@@ -94,7 +94,6 @@ export default {
             this.handleSubmit()
         },
         handleSubmit() {
-            //console.log(this.newCat);
             if (this.newCat !== ''){
                 // Push to DB the Cat name
                 this.addCategory();
@@ -108,26 +107,42 @@ export default {
                 alert("Category name is required")
             }
         },
+        getCategory() {
+            axios.get("http://localhost:49995/api/ItemManagement/GetAllCategories")
+            .then(res => {
+                this.catList = res.data;
+                this.$emit('go-cat', this.catList);
+            })
+            .catch (error => {
+                console.log(error);
+            })
+        },
         addCategory() {
             axios.post("http://localhost:49995/api/ItemManagement/InsertNewCategory", {CategoryName: this.newCat, IsActive: true})
-            .then(function(){
-                console.log("Category successfully submited");
+            .then(res => {
+                if(res.data.Result.CategoryName !== null){
+                    this.catList = this.catList.concat(res.data.Result);
+                    this.$emit('go-cat', this.catList);
+                }
             })
-            .catch ((error) => {
+            .catch (error => {
                 console.log(error);
             })
         },
         deleteCategory(catDelete) {
-            // this.$emit('receive-cat-list', catDelete);
             axios.post("http://localhost:49995/api/ItemManagement/DeleteCategory", catDelete, {headers: {'Content-Type':'application/json'}})
-            .then(function() {
-                console.log("Category " + catDelete + " successfully deactivated");
+            .then(res => {
+                this.catList = this.catList.filter(e => { return e.Id !== catDelete; });
+                this.$emit('go-cat', this.catList);
             })
-            .catch (function(error) {
+            .catch (error => {
                 console.log(error);
             })
         },
     },
+    mounted() {
+        this.getCategory();
+    }
 }
 </script>
 

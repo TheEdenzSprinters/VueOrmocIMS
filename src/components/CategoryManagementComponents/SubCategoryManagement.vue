@@ -89,10 +89,8 @@
 import axios from "axios";
 
 export default {
-    components: {
-    },
+    props: ['catList'],
     name: "SubCategoryManagement",
-    props: ["catList"],
     data() {
         return {
             show: false, // Modal initial state
@@ -136,35 +134,37 @@ export default {
         },
         getSubCategory() {
             axios.get("http://localhost:49995/api/ItemManagement/GetAllSubCategories")
-            .then((res) => {
-                console.log("update subcat");
+            .then(res => {
                 this.subCats = res.data;
             })
-            .catch ((error) => {
+            .catch (error => {
                 console.log(error);
             })
         },
         addSubCategory() {
             axios.post("http://localhost:49995/api/ItemManagement/InsertNewSubCategory", {CategoryId: this.catSelect, SubCategoryName: this.newSubCat, IsActive: true})
-            .then(function() {
-                console.log("Sub-Category successfully submited");
+            .then(res => {
+                if(res.data.length !== 0){
+                    this.subCats = this.subCats.concat(res.data.Result);
+                }
             })
-            .catch (function(error) {
+            .catch (error => {
                 console.log(error);
             });
         },
         deleteSubCategory (subCatDelete) {
-            // this.subCats = this.subCats.filter(function(e) { return e.Id !== subCatDelete; });
             axios.post("http://localhost:49995/api/ItemManagement/DeleteSubCategory", subCatDelete, {headers: {'Content-Type':'application/json'}})
-            .then(function() {
-                console.log("Sub-Category " + subCatDelete + " successfully deactivated");
+            .then(res => {
+                if(res.data.Result == "SubCategory deleted." ) {
+                    this.subCats = this.subCats.filter(e => { return e.Id !== subCatDelete; });
+                }
             })
-            .catch (function(error) {
+            .catch (error => {
                 console.log(error);
             });
         }
     },
-    beforeMount: function() {
+    beforeMount() {
         // Get current cat list
         for(var i = 0; i < this.catList.length; i++){
             var catItem = {
