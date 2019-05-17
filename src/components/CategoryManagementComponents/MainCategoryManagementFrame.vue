@@ -8,17 +8,17 @@
                     <b-col cols="9">
                         <b-container fluid class="left-intent">
                             <b-row class="row-intents">
-                                <MainCategoryManagement v-bind:cat-list="catList" v-on:go-cat="passCategories" />
+                                <MainCategoryManagement @go-cat="passCategories" @focus-array="passFocusedArray"/>
                             </b-row>
                             <b-row class="row-intents">
-                                <SubCategoryManagement v-bind:cat-list="catList"/>
+                                <SubCategoryManagement @focus-array="passFocusedArray" :cat-list="catList" />
                             </b-row>
                         </b-container>
                     </b-col>
                     <b-col cols="3">
                         <b-container fluid class="right-intent">
                             <b-row>
-                                <DetailsCategoryManagement />
+                                <DetailsCategoryManagement :focus-array="focusArray" :cat-list="catList" />
                             </b-row>
                         </b-container>
                     </b-col>
@@ -34,7 +34,6 @@
 import SubCategoryManagement from "./SubCategoryManagement";
 import DetailsCategoryManagement from "./DetailsCategoryManagement";
 import MainCategoryManagement from "./MainCategoryManagement";
-import axios from "axios";
 
 export default {
     name: "MainCategoryManagementFrame",
@@ -46,11 +45,15 @@ export default {
     data() {
         return {
             catList: [],
+            focusArray: [],
         }
     },
     methods: {
         passCategories(results) {
             this.catList = results;
+        },
+        passFocusedArray(array) {
+            this.focusArray = array;
         },
     },
     created() {
