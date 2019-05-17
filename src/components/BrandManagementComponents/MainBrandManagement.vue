@@ -6,24 +6,16 @@
                     <b-row class="containerWrapper">
                         <b-col class="whiteWrapper" sm="5">
                             <b-container fluid class="searchColumn">
-                                <b-row>
+                                <b-row>                                   
                                     <b-col sm="12">
-                                        <b-row>
-                                            <b-col sm="12">
-                                                <SearchField/>
-                                            </b-col>
-                                        </b-row>
-                                    </b-col>
+                                        <SearchField/>
+                                    </b-col>                            
                                 </b-row>
 
-                                <b-row>
+                                <b-row>                                   
                                     <b-col sm="12">
-                                        <b-row>
-                                            <b-col sm="12">
-                                                <BrandList/>
-                                            </b-col>
-                                        </b-row>
-                                    </b-col>
+                                        <BrandList/>
+                                    </b-col>                         
                                 </b-row>         
                             </b-container>
                         </b-col>
