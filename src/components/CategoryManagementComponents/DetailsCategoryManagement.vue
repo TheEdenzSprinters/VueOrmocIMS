@@ -21,8 +21,19 @@
                     <b-row>
                         <h2 class="headline headline-2">Units of Measure</h2>
                     </b-row>
+                    <b-row>
+                        <b-container fluid>
+                            <b-row v-for="measureFromList of this.measuresList" :key="measureFromList.measure" class="measure-row">
+                                <b-col cols="3" class="details-item-child measure">
+                                    {{ measureFromList.measure }}:
+                                </b-col>
+                                <b-col cols="3" class="borders measure-type">
+                                    <p class="measure-values">{{ measureFromList.unit }}</p>
+                                </b-col>
+                           </b-row>
+                        </b-container>
+                    </b-row>
                     <b-row class="details-item-child">
-                        {{ this.focusArray[0].ItemDetails }} unit of measures list here
                         <b-button class="button appPrimaryBackgroundColor">Add new Unit of Measure</b-button>
                     </b-row>
                 </b-container>
@@ -40,9 +51,9 @@
                     <b-row>
                         <h2 class="headline headline-2">Sub-Categories</h2>
                     </b-row>
-                    <b-row class="details-item-child list" v-for="subCat of subCatsByCat" :key="subCat.index">
-                        <span v-if="subCat.length > 0">{{ subCat }}</span>
-                    </b-row>
+                        <b-row v-for="subCat of subCatsByCat" :key="subCat.index" class="details-item-child list">
+                            <span>{{ subCat }}</span>
+                        </b-row>
                 </b-container>
             </b-col>
         </b-row>
@@ -60,6 +71,7 @@ export default {
             catNameFiltered: [],
             categorySub: '',
             subCatsByCat: [],
+            measuresList: [],
         }
     },
     methods: {
@@ -73,9 +85,20 @@ export default {
                 for(var i = 0; res.data.length > i; i++ ){
                     this.subCatsByCat = this.subCatsByCat.concat(res.data[i].SubCategoryName);
                 }
-
+            })
+            .catch (error => {
                 // eslint-disable-next-line
-                console.log(this.subCatsByCat, "<<< transfered data");
+                console.log(error);
+            })
+        },
+        getUnits(subCatId) {
+            axios.post("http://localhost:49995/api/ItemManagement/GetItemDetailBySubCategoryId", {SubCategoryId: subCatId})
+            .then(res => {
+                if(res.data.Result.length > 0) {
+                    for(var i = 0; res.data.Result.length > i; i++) {
+                        this.measuresList = this.measuresList.concat({measure: res.data.Result[i].ItemDetailName, unit: res.data.Result[i].UnitOfMeasure})
+                    }
+                }
             })
             .catch (error => {
                 // eslint-disable-next-line
@@ -86,13 +109,17 @@ export default {
     watch: {
         focusArray: function() {
             // Get Sub-cat list of the selected Category
-            if (this.focusArray[0].Category !== null) {
+            if(this.focusArray[0].Category !== null) {
+                // Empty the array before assing new data
                 this.subCatsByCat = [];
                 this.getSubByCat(this.focusArray[0].Id);
             }
-            // Get Category name of the selected Sub-cat
             if(this.focusArray[0].CategoryID > 0) {
+                // Get Category name of the selected Sub-cat
                 this.getCatBySub();
+                // Get Units of Measure
+                this.measuresList = []; // reset array
+                this.getUnits(this.focusArray[0].Id)
             }
         }
     }
@@ -148,7 +175,25 @@ export default {
     
     .button {
         margin-top: 10px;
-        padding: 0px 5px 0px 5px;
-        font-size: 14px;  
+        padding: 0px 10px;
+        font-size: 12px;  
+    }
+
+    .measure {
+        padding: 0px 0px 0px 10px;
+    }
+
+    .measure-type {
+        padding-bottom: 0px;
+    }
+
+    .measure-values {
+        width: 40px;
+        margin: 0px 10px 0px 10px;
+        font-style: normal;
+    }
+
+    .measure-row {
+        margin-bottom: 2px;
     }
 </style>
