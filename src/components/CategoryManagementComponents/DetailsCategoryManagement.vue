@@ -27,7 +27,7 @@
                                 <b-col cols="3" class="details-item-child measure">
                                     {{ measureFromList.measure }}:
                                 </b-col>
-                                <b-col cols="3" class="borders measure-type">
+                                <b-col offset="1" cols="4" class="borders measure-type">
                                     <p class="measure-values">{{ measureFromList.unit }}</p>
                                 </b-col>
                            </b-row>
@@ -188,7 +188,6 @@ export default {
     }
 
     .measure-values {
-        width: 40px;
         margin: 0px 10px 0px 10px;
         font-style: normal;
     }
