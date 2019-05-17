@@ -25,6 +25,9 @@
     <b-nav-item v-on:click="setActive('suppliers')" :class="{active: isActive('suppliers')}">
       <router-link class="appSecondaryTextColor" to="/suppliers-management">SUPPLIERS MANAGEMENT</router-link>
     </b-nav-item>
+    <b-nav-item v-on:click="setActive('brands')" :class="{active: isActive('brands')}">
+      <router-link class="appSecondaryTextColor" to="/brand-management">BRAND MANAGEMENT</router-link>
+    </b-nav-item>
     <b-nav-item v-on:click="setActive('items')" :class="{active: isActive('items')}">
       <router-link class="appSecondaryTextColor" to="/item-search">ITEM SEARCH</router-link>
     </b-nav-item>
