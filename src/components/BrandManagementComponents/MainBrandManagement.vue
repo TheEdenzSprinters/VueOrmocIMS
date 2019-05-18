@@ -55,20 +55,20 @@ export default {
         background-color: #ffffff;
     }
 
-    .searchColumn::-webkit-scrollbar
-    {
+    .searchColumn::-webkit-scrollbar {
         width: 2px;
         background-color: #F5F5F5;
     }
 
-    .searchColumn::-webkit-scrollbar-thumb
-    {
+    .searchColumn::-webkit-scrollbar-thumb {
         background-color: #283593;
         border: 1px solid #283593;
     }
-    .mainItemContainer{
+
+    .mainItemContainer {
         padding: 10px;
     }
+    
     .whiteWrapper {
         background: none;        
     }

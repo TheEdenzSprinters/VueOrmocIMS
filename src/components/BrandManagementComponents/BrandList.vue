@@ -39,10 +39,6 @@ export default {
                 {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
                 {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
                 {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
-
-                
-               
-                              
             ],
             selected: []
         }
@@ -58,10 +54,11 @@ export default {
 </script>
 
 <style scoped>
-       .resultsContainer {
+    .resultsContainer {
         font-size: 10px;
     }
-    .cell{
+
+    .cell {
         line-height: 14px;
     }
 

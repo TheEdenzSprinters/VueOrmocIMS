@@ -33,21 +33,24 @@
 </script>
 
 <style scoped>
+    .iconContainer {
+        padding-left: 35px;   
+    }
 
-.iconContainer{
-    padding-left: 35px;   
-}
- .icons{
-     margin-left: 20px;
- }
- .detailWrapper{
-     height: 569px;
- }
-.col-sm-7{
-    padding-top: 40px;
-}
-.col-sm-5{
-    padding-top: 40px;
-}
+    .icons{
+        margin-left: 20px;
+    }
+
+    .detailWrapper {
+        height: 569px;
+    }
+
+    .col-sm-7 {
+        padding-top: 40px;
+    }
+
+    .col-sm-5 {
+        padding-top: 40px;
+    }
 </style>
 
