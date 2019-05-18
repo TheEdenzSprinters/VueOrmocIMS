@@ -12,6 +12,7 @@
         </b-row>
     </b-container>
 </template>
+
  <script>
 
  </script>
@@ -31,6 +32,7 @@
         margin-left: 10px;
         width: 100px;
     }
+
     .text {
         padding-top: 20px;
     }

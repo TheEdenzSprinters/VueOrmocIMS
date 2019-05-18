@@ -37,9 +37,9 @@
 </template>
 
 <script>
-    import SearchField from "./SearchField";
-    import BrandList from "./BrandList";
-    import BrandDetails from "./BrandDetails"
+import SearchField from "./SearchField";
+import BrandList from "./BrandList";
+import BrandDetails from "./BrandDetails"
 
 export default {
     name: "MainBrandManagement",
@@ -68,7 +68,7 @@ export default {
     .mainItemContainer {
         padding: 10px;
     }
-    
+
     .whiteWrapper {
         background: none;        
     }
