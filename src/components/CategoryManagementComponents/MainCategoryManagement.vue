@@ -10,8 +10,8 @@
             <b-col>
                 <b-container fluid>
                     <b-row>
-                        <b-col cols="auto" v-for="cat of catList" v-bind:key="cat.CategoryName" class="list">
-                            <span>{{ cat.CategoryName }}</span>
+                        <b-col cols="auto" v-for="cat of catList" :key="cat.CategoryName" class="list" :style="{'background-color': bgcolor}">
+                            <span @click="focusArray(cat.Id)">{{ cat.CategoryName }}</span>
                             <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteCategory(cat.Id)"/>
                         </b-col>
                     </b-row>
@@ -80,9 +80,21 @@ export default {
             newCat: '',
             nameState: null,
             catList: [],
+            focusArrayDetails: [],
+            bgcolor: '',
         }
     },
     methods: {
+        colorChange(x) {
+            if (x == 2) {
+                this.bgcolor = 'red';
+            }
+        },
+        focusArray(cat){
+            this.focusArrayDetails = this.catList.filter(e => { return cat === e.Id});
+            this.$emit('focus-array', this.focusArrayDetails);
+
+        },
         resetModal() {
             this.newCat = '',
             this.nameState = null
@@ -114,6 +126,7 @@ export default {
                 this.$emit('go-cat', this.catList);
             })
             .catch (error => {
+                // eslint-disable-next-line
                 console.log(error);
             })
         },
@@ -126,16 +139,18 @@ export default {
                 }
             })
             .catch (error => {
+                // eslint-disable-next-line
                 console.log(error);
             })
         },
         deleteCategory(catDelete) {
             axios.post("http://localhost:49995/api/ItemManagement/DeleteCategory", catDelete, {headers: {'Content-Type':'application/json'}})
-            .then(res => {
+            .then(() => {
                 this.catList = this.catList.filter(e => { return e.Id !== catDelete; });
                 this.$emit('go-cat', this.catList);
             })
             .catch (error => {
+                // eslint-disable-next-line
                 console.log(error);
             })
         },
@@ -198,6 +213,15 @@ export default {
         font-weight: bold;
         color:  #283593;
         background-color: #dee1f1;
+    }
+
+    .list:hover {
+        background-color: #9b9b9b;
+    }
+
+    .list:active {
+        background-color:#283593;
+        color: #dee1f1;
     }
 
     .delete-btn-margin {

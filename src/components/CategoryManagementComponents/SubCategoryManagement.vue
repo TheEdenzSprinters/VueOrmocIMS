@@ -15,7 +15,7 @@
                     <b-row>
                         <div v-for="subCat of subCats" v-bind:key="subCat.SubCategoryName">
                             <b-col v-if="cat.Id == subCat.CategoryID" cols="auto" class="list">
-                                <span>{{ subCat.SubCategoryName }}</span>
+                                <span @click="focusArray(subCat.Id)">{{ subCat.SubCategoryName }}</span>
                                 <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteSubCategory(subCat.Id)"/>
                             </b-col>
                         </div>
@@ -98,12 +98,17 @@ export default {
             nameState: null,
             catSelect: null,
             subCats: [],
+            focusArrayDetails: [],
             catListOptions: [{
                 value: null, text: "", disabled: true
             }]
         }
     },
     methods: {
+        focusArray(subCat) {
+            this.focusArrayDetails = this.subCats.filter(e => { return subCat === e.Id});
+            this.$emit('focus-array', this.focusArrayDetails);
+        },
         resetModal() {
             this.newSubCat = '';
         },
@@ -138,6 +143,7 @@ export default {
                 this.subCats = res.data;
             })
             .catch (error => {
+                // eslint-disable-next-line
                 console.log(error);
             })
         },
@@ -149,6 +155,7 @@ export default {
                 }
             })
             .catch (error => {
+                // eslint-disable-next-line
                 console.log(error);
             });
         },
@@ -160,6 +167,7 @@ export default {
                 }
             })
             .catch (error => {
+                // eslint-disable-next-line
                 console.log(error);
             });
         }
@@ -249,6 +257,15 @@ export default {
         font-size: 14px;
         color:  #283593;
         background-color: #dee1f1;
+    }
+
+    .list:hover {
+        background-color: #9b9b9b;
+    }
+
+    .list:active {
+        background-color:#283593;
+        color: #dee1f1;
     }
 
     .delete-btn-margin {
