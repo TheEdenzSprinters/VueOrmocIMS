@@ -22,24 +22,7 @@ export default {
     data() {
         return {
             fields: [{key:'BrandName' ,label: 'BrandName', formatter: 'BrandID'}, 'BrandName', 'Notes', 'Status', 'DateCreated'],
-            brandList: [
-                // {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
-                // {BrandID: 1, BrandName: 'Stanley', Status: 'Active', DateCreated: '15 May 2019'},
-                // {BrandID: 1, BrandName: 'Portland Cement', Status: 'Active', DateCreated: '15 May 2019'},
-                // {BrandID: 1, BrandName: 'Philips', Status: 'Active', DateCreated: '15 May 2019'},
-                // {BrandID: 1, BrandName: 'Sony', Status: 'Active', DateCreated: '15 May 2019'},
-                // {BrandID: 1, BrandName: 'Orion', Status: 'Active', DateCreated: '15 May 2019'},
-                // {BrandID: 1, BrandName: 'Firefly', Status: 'Active', DateCreated: '15 May 2019'},
-                // {BrandID: 1, BrandName: 'Northern Cement', Status: 'Active', DateCreated: '15 May 2019'},
-                // {BrandID: 1, BrandName: 'UnionSteel', Status: 'Active', DateCreated: '15 May 2019'},
-                // {BrandID: 1, BrandName: 'GalvaLube', Status: 'Active', DateCreated: '15 May 2019'},
-                // {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
-                // {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
-                // {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
-                // {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
-                // {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
-                // {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
-            ],
+            brandList: [],
             selected: []
         }
     },
