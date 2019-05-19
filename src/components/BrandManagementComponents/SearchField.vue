@@ -2,7 +2,7 @@
     <b-container>
         <b-row class="form">
             <b-col sm="12">
-                <label class="text" for="supplier-name">Supplier Name</label>
+                <label class="text" for="supplier-name">Brand name</label>
                 <b-form-input class="input-small" size="sm"></b-form-input>                
                 <div class="btnContainer">
                     <b-button href="#">Search</b-button>
@@ -13,11 +13,11 @@
     </b-container>
 </template>
 
- <script>
+<script>
 
- </script>
+</script>
 
- <style scoped>
+<style scoped>
     .btnContainer {
         margin-left: 65px;
         margin-bottom: 5px;
@@ -36,5 +36,5 @@
     .text {
         padding-top: 20px;
     }
- </style>
+</style>
  

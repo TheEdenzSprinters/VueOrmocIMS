@@ -8,13 +8,13 @@
                             <b-container fluid class="searchColumn">
                                 <b-row>                                   
                                     <b-col sm="12">
-                                        <SearchField/>
+                                        <SearchField />
                                     </b-col>                            
                                 </b-row>
 
                                 <b-row>                                   
                                     <b-col sm="12">
-                                        <BrandList/>
+                                        <BrandList />
                                     </b-col>                         
                                 </b-row>         
                             </b-container>
@@ -24,7 +24,7 @@
                             <b-container fluid class="searchColumn">
                                 <b-row>
                                     <b-col sm="12">
-                                        <BrandDetails/>
+                                        <BrandDetails />
                                     </b-col>
                                 </b-row>
                             </b-container>
@@ -43,7 +43,10 @@ import BrandDetails from "./BrandDetails"
 
 export default {
     name: "MainBrandManagement",
-    components: {SearchField,BrandList,BrandDetails},
+    components: {SearchField, BrandList, BrandDetails},
+    created() {
+        document.title = "Brand Management";
+    },
 }
 </script>
 

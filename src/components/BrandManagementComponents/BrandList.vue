@@ -6,49 +6,69 @@
             selectable
             select-mode="single"
             selectedVariant="success"
-            :items="items" 
+            :items="brandList" 
             show-empty
             @row-selected="rowSelected" 
             >
         </b-table> 
-
-      
     </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-    name: 'BrandList',
+    name: "BrandList",
     data() {
         return {
-            fields: [{key:'BrandName' ,label: 'BrandName', formatter: 'BrandID'}, 'BrandName', 'Status', 'DateCreated'],
-            items: [
-                {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
-                {BrandID: 1, BrandName: 'Stanley', Status: 'Active', DateCreated: '15 May 2019'},
-                {BrandID: 1, BrandName: 'Portland Cement', Status: 'Active', DateCreated: '15 May 2019'},
-                {BrandID: 1, BrandName: 'Philips', Status: 'Active', DateCreated: '15 May 2019'},
-                {BrandID: 1, BrandName: 'Sony', Status: 'Active', DateCreated: '15 May 2019'},
-                {BrandID: 1, BrandName: 'Orion', Status: 'Active', DateCreated: '15 May 2019'},
-                {BrandID: 1, BrandName: 'Firefly', Status: 'Active', DateCreated: '15 May 2019'},
-                {BrandID: 1, BrandName: 'Northern Cement', Status: 'Active', DateCreated: '15 May 2019'},
-                {BrandID: 1, BrandName: 'UnionSteel', Status: 'Active', DateCreated: '15 May 2019'},
-                {BrandID: 1, BrandName: 'GalvaLube', Status: 'Active', DateCreated: '15 May 2019'},
-                {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
-                {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
-                {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
-                {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
-                {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
-                {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
+            fields: [{key:'BrandName' ,label: 'BrandName', formatter: 'BrandID'}, 'BrandName', 'Notes', 'Status', 'DateCreated'],
+            brandList: [
+                // {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
+                // {BrandID: 1, BrandName: 'Stanley', Status: 'Active', DateCreated: '15 May 2019'},
+                // {BrandID: 1, BrandName: 'Portland Cement', Status: 'Active', DateCreated: '15 May 2019'},
+                // {BrandID: 1, BrandName: 'Philips', Status: 'Active', DateCreated: '15 May 2019'},
+                // {BrandID: 1, BrandName: 'Sony', Status: 'Active', DateCreated: '15 May 2019'},
+                // {BrandID: 1, BrandName: 'Orion', Status: 'Active', DateCreated: '15 May 2019'},
+                // {BrandID: 1, BrandName: 'Firefly', Status: 'Active', DateCreated: '15 May 2019'},
+                // {BrandID: 1, BrandName: 'Northern Cement', Status: 'Active', DateCreated: '15 May 2019'},
+                // {BrandID: 1, BrandName: 'UnionSteel', Status: 'Active', DateCreated: '15 May 2019'},
+                // {BrandID: 1, BrandName: 'GalvaLube', Status: 'Active', DateCreated: '15 May 2019'},
+                // {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
+                // {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
+                // {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
+                // {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
+                // {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
+                // {BrandID: 1, BrandName: 'GalvaSteel', Status: 'Active', DateCreated: '15 May 2019'},
             ],
             selected: []
         }
     },
     methods: {
-        rowSelected(items){
-            this.selected = items;
+        rowSelected(brandList){
+            this.selected = brandList;
             this.$emit('selected-item', this.selected);
+        },
+        getBrand() {
+            axios.get("http://localhost:49995/api/ItemManagement/GetAllBrands")
+            .then(res => {
+                for(var i = 0; i < res.data.length; i++)
+                this.brandList = this.brandList.concat({
+                    BrandID: res.data[i].Id,
+                    BrandName: res.data[i].BrandName,
+                    Notes: res.data[i].Notes,
+                    Status: res.data[i].IsActive,
+                    DateCreated: res.data[i].CreateDttm,
+                });
+            })
+            .catch (error => {
+                // eslint-disable-next-line
+                console.log(error);
+            })
         }
-    }
+    },
+    mounted() {
+        this.getBrand();
+    },
 }
 
 </script>
