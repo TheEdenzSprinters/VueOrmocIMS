@@ -20,11 +20,11 @@ export default {
     name: 'ItemRequestNotFulfilled',
     data() {
         return {
-            fields: [{key:'ItemRequestID' ,label: 'ItemRequestID', formatter: 'itemID'}, 'Title', 'DateCreated'],
+            fields: [{key:'ItemRequestID' ,label: 'ItemRequestID', formatter: 'itemID'}, 'Title', 'DueDate'],
             items: [
-                {ItemRequestID: 1, Title: 'Hardiflex 8x6 ft', Status: 'Active', DateCreated: '27 Apr 2019'},
-                {ItemRequestID: 2, Title: 'Omni Resistor', Status: 'Active', DateCreated: '27 Apr 2019'},
-                {ItemRequestID: 3, Title: 'Ace Small Pliers', Status: 'Active', DateCreated: '27 Apr 2019'},
+                {ItemRequestID: 1, Title: 'Hardiflex 8x6 ft', Status: 'Active', DueDate: '27 Apr 2019'},
+                {ItemRequestID: 2, Title: 'Omni Resistor', Status: 'Active', DueDate: '27 Apr 2019'},
+                {ItemRequestID: 3, Title: 'Ace Small Pliers', Status: 'Active', DueDate: '27 Apr 2019'},
                                               
             ],
             selected: []
