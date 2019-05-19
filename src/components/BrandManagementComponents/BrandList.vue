@@ -21,7 +21,6 @@ export default {
     name: "BrandList",
     data() {
         return {
-            fields: [{key:'BrandName' ,label: 'BrandName', formatter: 'BrandID'}, 'BrandName', 'Notes', 'Status', 'DateCreated'],
             brandList: [],
             selected: []
         }
@@ -39,7 +38,7 @@ export default {
                     BrandID: res.data[i].Id,
                     BrandName: res.data[i].BrandName,
                     Notes: res.data[i].Notes,
-                    Status: res.data[i].IsActive,
+                    Status: this.setStatus(res.data[i].IsActive),
                     DateCreated: res.data[i].CreateDttm,
                 });
             })
@@ -47,6 +46,13 @@ export default {
                 // eslint-disable-next-line
                 console.log(error);
             })
+        },
+        setStatus(status) {
+            if(status === true) {
+                return "Active";
+            } else {
+                return "Inactive";
+            }
         }
     },
     mounted() {
