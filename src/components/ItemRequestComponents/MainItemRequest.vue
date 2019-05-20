@@ -130,7 +130,7 @@ export default {
             .then( res => {
                 this.itemRequestDelinquents = res.data;
             })
-            .error(err => { console.log(err); });
+            .catch(err => { console.log(err); });
     }
 }
 </script>

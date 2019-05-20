@@ -24,12 +24,6 @@ export default {
     data() {
         return {
             fields: [{key:'Id' ,label: 'ID'}, 'Title', 'Status', {key:'DateCreated', label:'Date Created'}, {key: 'TicketStatus', label:'Overall Status'}],
-            items: [
-                {ItemRequestID: 1, Title: 'Hardiflex 8x6 ft', Status: 'Active', DateCreated: '27 Apr 2019'},
-                {ItemRequestID: 2, Title: 'Omni Resistor', Status: 'Active', DateCreated: '27 Apr 2019'},
-                {ItemRequestID: 3, Title: 'Ace Small Pliers', Status: 'Active', DateCreated: '27 Apr 2019'},
-                                              
-            ],
             selected: []
         }
     },
