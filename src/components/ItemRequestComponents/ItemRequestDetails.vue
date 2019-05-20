@@ -10,9 +10,9 @@
 
                     <b-col sm="3" class="iconContainer">
                         <font-awesome-icon class="icons appPrimaryTextColor" icon="print"/>
-                        <font-awesome-icon class="icons appPrimaryTextColor" icon="plus" v-on:click="addNewItemRequest" v-if="Id == 0 && !showCancelButton"/>
+                        <font-awesome-icon class="icons appPrimaryTextColor" icon="plus" v-on:click="addNewItemRequest" v-if="form.Id == 0 && !showCancelButton"/>
                         <font-awesome-icon class="icons appPrimaryTextColor" icon="times" v-on:click="onReset" v-if="showCancelButton"/>
-                        <font-awesome-icon class="icons appPrimaryTextColor" icon="edit" v-on:click="modifyItemRequest" v-if="Id != 0 && !showCancelButton"/>
+                        <font-awesome-icon class="icons appPrimaryTextColor" icon="edit" v-on:click="modifyItemRequest" v-if="form.Id != 0 && !showCancelButton"/>
                     </b-col>
                 </b-row>
             </b-col>
