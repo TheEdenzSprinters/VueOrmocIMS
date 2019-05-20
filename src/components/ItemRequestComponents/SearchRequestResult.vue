@@ -27,7 +27,7 @@ export default {
     methods: {
         rowSelected(items){
             this.selected = items;
-            this.$emit('selected-item', this.selected);
+            this.$emit('selected-item-search', this.selected);
         }
     }
 }
@@ -38,8 +38,4 @@ export default {
        .resultsContainer {
         font-size: 12px;
     }
-    .cell{
-        line-height: 14px;
-    }
-
 </style>

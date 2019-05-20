@@ -27,7 +27,7 @@
                                         <b-container fluid>
                                             <b-row>
                                                 <b-col sm="12"> <h4>Item Request Not Fulfilled</h4>
-                                                <ItemRequestNotFulfilled v-bind:item-request-delinquents="itemRequestDelinquents"/>
+                                                <ItemRequestNotFulfilled v-bind:item-request-delinquents="itemRequestDelinquents" v-on:selected-item-delinquent="viewItemRequestDetails"/>
                                                 </b-col>
                                             </b-row>
                                         </b-container>
@@ -39,41 +39,7 @@
                             <b-container fluid class="searchColumn appSecondaryBackgroundColor">
                                 <b-row>
                                     <b-col sm="12">
-                                        <b-row>
-                                            <b-col sm="12"> <h4>IR10000001</h4>
-                                                <QuotationDetails/>
-                                            </b-col>
-                                        </b-row>
-                                    </b-col>
-                                </b-row>
-
-                                <b-row>
-                                    <b-col sm="12">
-                                        <b-row>
-                                            <b-col sm="12"> <h4>Items</h4>
-                                                <ItemStockBalance/>
-                                            </b-col>
-                                        </b-row>
-                                    </b-col>
-                                </b-row>
-
-                                <b-row>
-                                    <b-col sm="12">
-                                        <b-row>
-                                            <b-col sm="12"> <h4>Quotations</h4>
-                                                <QuotationLists/>
-                                            </b-col>
-                                        </b-row>
-                                    </b-col>
-                                </b-row>
-
-                                <b-row>
-                                    <b-col sm="12">
-                                        <b-row>
-                                            <b-col sm="12"> <h4>Price Scoresheet</h4>
-                                                <PriceScoresheet/>
-                                            </b-col>
-                                        </b-row>
+                                        <ItemRequestDetails v-bind:item-request-number="itemRequestId"/>
                                     </b-col>
                                 </b-row>
                              </b-container>
@@ -89,10 +55,8 @@
 import GeneralItemRequestComponent from "./GeneralItemRequestComponent";
 import SearchRequestResult from "./SearchRequestResult";
 import ItemRequestNotFulfilled from "./ItemRequestNotFulfilled";
-import QuotationDetails from "./QuotationDetails";
-import ItemStockBalance from "./ItemStockBalance";
-import QuotationLists from "./QuotationLists";
-import PriceScoresheet from "./PriceScoresheet";
+import ItemRequestDetails from "./ItemRequestDetails";
+
 import axios from "axios";
 
 
@@ -108,17 +72,15 @@ export default {
     components: {GeneralItemRequestComponent, 
                     SearchRequestResult,
                     ItemRequestNotFulfilled,
-                    QuotationDetails,
-                    ItemStockBalance,
-                    QuotationLists,
-                    PriceScoresheet},
+                    ItemRequestDetails,
+                },
     methods: {
         getItemRequestSearchResult(result){
             this.itemRequestSearchList = result;
         },
         viewItemRequestDetails(selected){
-            if(item.length > 0){
-                this.itemRequestId = item[0].Id;
+            if(selected.length > 0){
+                this.itemRequestId = selected[0].Id;
             }
             else {
                 this.itemRequestId = 0;
@@ -159,6 +121,7 @@ export default {
 
     .searchColumn {
         max-height: 651px;
+        padding: 20px;
         overflow: auto;
     }
 
