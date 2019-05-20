@@ -2,11 +2,12 @@
     <b-container fluid class="MainContainer">
         <b-row>
             <b-col sm="9">
-                <h3>Brand X</h3>              
+                <h3>Brand Details</h3>              
             </b-col>
             <b-col sm="3" class="iconContainer">
-                <font-awesome-icon class="icons appPrimaryTextColor" icon="plus"/>                            
-                <font-awesome-icon class="icons appPrimaryTextColor" icon="print"/>
+                <font-awesome-icon class="icons appPrimaryTextColor" icon="plus" @onclick="addBrand()"/>                            
+                <!-- remove print icon for now -->
+                <!-- <font-awesome-icon class="icons appPrimaryTextColor" icon="print"/> -->
             </b-col>                                
         </b-row>
         <b-row class="detailWrapper">
@@ -19,7 +20,7 @@
                 <b-container>
                     <b-row>
                         <b-col sm="6">
-                             Date Created
+                            Date Created
                         </b-col>
                     </b-row>
                 </b-container>
@@ -29,6 +30,18 @@
 </template>
 
 <script>
+export default {
+    data() {
+        return {
+            brandList: [],
+        }
+    },
+    methods: {
+        addBrand() {
+
+        },
+    }
+}
 
 </script>
 

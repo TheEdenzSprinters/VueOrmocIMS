@@ -8,12 +8,6 @@
                             <b-container fluid class="searchColumn">
                                 <b-row>                                   
                                     <b-col sm="12">
-                                        <SearchField />
-                                    </b-col>                            
-                                </b-row>
-
-                                <b-row>                                   
-                                    <b-col sm="12">
                                         <BrandList />
                                     </b-col>                         
                                 </b-row>         
@@ -37,13 +31,21 @@
 </template>
 
 <script>
-import SearchField from "./SearchField";
 import BrandList from "./BrandList";
 import BrandDetails from "./BrandDetails"
 
 export default {
     name: "MainBrandManagement",
-    components: {SearchField, BrandList, BrandDetails},
+    components: {
+        BrandList,
+        BrandDetails,
+    },
+    data() {
+        return {
+        }
+    },
+    methods: {
+    },
     created() {
         document.title = "Brand Management";
     },
