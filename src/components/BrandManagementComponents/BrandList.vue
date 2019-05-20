@@ -4,8 +4,7 @@
             <b-col sm="12">
                 <label class="text" for="supplier-name">Brand name</label>
                 <b-form-input 
-                    :state="searchState" 
-                    v-model="brandSearchQuery" 
+                    v-model="brandSearchQuery"
                     required 
                     class="input-small" 
                     size="sm">
@@ -45,7 +44,6 @@ export default {
             brandList: [],
             selected: [],
             brandSearchQuery: '',
-            searchState: null,
         }
     },
     methods: {
@@ -78,9 +76,13 @@ export default {
             }
         },
         brandSearch() {
+            if (this.brandSearchQuery !== '') {
+                this.brandList = this.brandList.filter(e => {return this.brandSearchQuery.match(e.BrandName)});
+           } else {
+                alert("Please enter brand name");
+            }
         },
         resetSearch() {
-            this.searchState = null;
             this.brandSearchQuery = '';
         },
     },
