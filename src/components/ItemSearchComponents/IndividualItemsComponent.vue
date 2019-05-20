@@ -94,19 +94,19 @@
                                             </b-col>
                                         </b-row>
                                         <b-row class="generalInfoContainer">
-                                            <b-col lg="4" md="4" sm="4" class="labelColumn">
-                                                Threshold (%)
+                                            <b-col lg="7" md="7" sm="7" class="labelColumn">
+                                                Threshold Quantity
                                             </b-col>
-                                            <b-col lg="8" md="8" sm="8" class="inputColumn">
+                                            <b-col lg="5" md="5" sm="5" class="inputColumn">
                                                 <b-input block id="thresholdQty" name="thresholdQty" v-model="form.thresholdQty" :readonly="readOnly" :required="true" size="sm"/>
                                             </b-col>
                                         </b-row>
                                         <b-row class="generalInfoContainer">
-                                            <b-col lg="4" md="4" sm="4" class="labelColumn">
-                                            Tags
+                                            <b-col lg="7" md="7" sm="7" class="labelColumn">
+                                            Warning Threshold Quantity
                                             </b-col>
-                                            <b-col lg="8" md="8" sm="8" class="inputColumn">
-                                                <span>{{form.tags}}</span>
+                                            <b-col lg="5" md="5" sm="5" class="inputColumn">
+                                                <b-input block id="warningThresholdQty" name="warningThresholdQty" v-model="form.warningThresholdQty" :readonly="readOnly" :required="true" size="sm"/>
                                             </b-col>
                                         </b-row>
                                     </b-container>
@@ -213,6 +213,7 @@ export default {
                 quantity: "",
                 measuredBy: "",
                 thresholdQty: "",
+                warningThresholdQty: "",
                 notes: "",
                 CreateDttm: "",
                 UpdateDttm: "",
@@ -380,6 +381,7 @@ export default {
                                     this.form.UpdateDttm = moment(res.data.Result.UpdateDttm).format("DD-MMM-YYYY");
                                     this.form.itemDetail = res.data.Result.ItemDetail;
                                     this.form.thresholdQty = res.data.Result.ThresholdQty;
+                                    this.form.warningThresholdQty = res.data.Result.WarningThresholdQty;
                                     console.log(this.form.itemDetail);
                                 }
                             })
@@ -451,7 +453,7 @@ export default {
     }
 
     .labelColumn {
-        line-height: 3;
+        line-height: 2;
     }
 
     .inputColumn {
@@ -459,7 +461,7 @@ export default {
     }
 
     .generalInfoContainer {
-        margin-bottom: 5px;
+        margin-bottom: 10px;
     }
     
     .miscItemDetails {

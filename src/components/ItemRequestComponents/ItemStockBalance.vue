@@ -42,13 +42,6 @@ export default {
 
 <style scoped>
     .resultsContainer {
-        font-size: 10px;
-    }
-    .stockBalance{
-        padding-left: 35px;
-        width: 60px;        
-    }
-    .tableHeader{
-        font-size: 16px;
+        font-size: 12px;
     }
 </style>

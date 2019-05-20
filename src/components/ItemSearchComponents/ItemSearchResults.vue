@@ -20,14 +20,14 @@ export default {
     props: ['itemList'],
     data() {
         return {
-            fields: [{key:'Id' ,label: 'ItemID', formatter: 'itemID'}, 'ItemName', 'Brand', 'Status', 'CreateDttm'],
+            fields: [{key:'Id' ,label: 'Item ID'}, 'ItemName', 'Brand', 'Status', {key:'CreateDttm', label:'Date Created'}],
             selected: []
         }
     },
     methods: {
         rowSelected(items){
             this.selected = items;
-            this.$emit('selected-item', this.selected);
+            this.$emit('selected-item-search', this.selected);
         }
     }
 }
