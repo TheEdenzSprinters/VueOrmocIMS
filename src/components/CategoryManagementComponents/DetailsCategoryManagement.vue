@@ -62,6 +62,7 @@
 
 <script>
 import axios from "axios";
+import moment from "moment";
 
 export default {
     name: "DetailsCategoryManagement",
@@ -111,7 +112,7 @@ export default {
             // Get Sub-cat list of the selected Category
             if(this.focusArray[0].Category !== null) {
                 // Empty the array before assing new data
-                this.subCatsByCat = [];
+                this.subCatsByCat = []; // reset array
                 this.getSubByCat(this.focusArray[0].Id);
             }
             if(this.focusArray[0].CategoryID > 0) {
@@ -121,6 +122,10 @@ export default {
                 this.measuresList = []; // reset array
                 this.getUnits(this.focusArray[0].Id)
             }
+
+            // Reformat data for items
+            this.focusArray[0].CreateDttm = moment(this.focusArray[0].CreateDttm).format("DD-MMM-YYYY");
+            this.focusArray[0].UpdateDttm = moment(this.focusArray[0].UpdateDttm).format("DD-MMM-YYYY");
         }
     }
 }
