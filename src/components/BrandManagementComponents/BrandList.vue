@@ -1,5 +1,5 @@
 <template>
-    <b-container>
+    <b-container fluid>
         <b-row class="form">
             <b-col sm="12">
                 <label class="text" for="supplier-name">Brand name</label>
@@ -39,12 +39,11 @@ import moment from "moment";
 
 export default {
     name: "BrandList",
-    props: [""],
     data() {
         return {
             brandList: [],
             selected: [],
-            brandSearchQuery: '',
+            brandSearchQuery: "",
         }
     },
     methods: {
@@ -52,17 +51,20 @@ export default {
             this.selected = brandList;
             this.$emit('selected-item', this.selected);
         },
+        fetchList(res) {
+            for(var i = 0; i < res.data.Result.length; i++) {
+                this.brandList = this.brandList.concat({
+                    BrandID: res.data.Result[i].Id,
+                    BrandName: res.data.Result[i].BrandName,
+                    Status: this.setStatus(res.data.Result[i].IsActive),
+                    DateCreated: moment(res.data.Result[i].CreateDttm).format("DD-MMM-YYYY"),
+                });
+            }
+        },
         getBrand() {
             axios.get("http://localhost:49995/api/ItemManagement/GetAllBrands")
             .then(res => {
-                for(var i = 0; i < res.data.length; i++)
-                this.brandList = this.brandList.concat({
-                    BrandID: res.data[i].Id,
-                    BrandName: res.data[i].BrandName,
-                    Notes: res.data[i].Notes,
-                    Status: this.setStatus(res.data[i].IsActive),
-                    DateCreated: moment(res.data[i].CreateDttm).format("DD-MMM-YYYY"),
-                });
+                this.fetchList(res);
             })
             .catch (error => {
                 // eslint-disable-next-line
@@ -77,14 +79,27 @@ export default {
             }
         },
         brandSearch() {
-            if (this.brandSearchQuery !== '') {
-                this.brandList = this.brandList.filter(e => {return this.brandSearchQuery.match(e.BrandName)});
+            if (this.brandSearchQuery !== "") {
+                let param = {brandName: this.brandSearchQuery};
+                // let param = `"${this.brandSearchQuery}"`; // approach to send variable in quotes
+
+                axios.post("http://localhost:49995/api/ItemManagement/SearchBrands", param, {headers: {'Content-Type':'application/json'}})
+                .then(res => {
+                    this.brandList = [];
+                    this.fetchList(res);
+                })
+                .catch (error => {
+                    // eslint-disable-next-line
+                    console.log(error);
+                });
             } else {
                 alert("Please enter brand name");
             }
         },
         resetSearch() {
             this.brandSearchQuery = '';
+            this.brandList = [];
+            this.getBrand();
         },
     },
     mounted() {
