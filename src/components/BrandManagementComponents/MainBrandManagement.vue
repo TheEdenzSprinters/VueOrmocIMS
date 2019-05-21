@@ -44,8 +44,6 @@ export default {
         return {
         }
     },
-    methods: {
-    },
     created() {
         document.title = "Brand Management";
     },

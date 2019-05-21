@@ -16,6 +16,7 @@
                 </div>
             </b-col>
         </b-row>
+
         <div class="resultsContainer" overflow: auto>
             <b-table 
                 striped 
@@ -78,7 +79,7 @@ export default {
         brandSearch() {
             if (this.brandSearchQuery !== '') {
                 this.brandList = this.brandList.filter(e => {return this.brandSearchQuery.match(e.BrandName)});
-           } else {
+            } else {
                 alert("Please enter brand name");
             }
         },
@@ -95,11 +96,7 @@ export default {
 
 <style scoped>
     .resultsContainer {
-        font-size: 10px;
-    }
-
-    .cell {
-        line-height: 14px;
+        font-size: 12px;
     }
 
     .btnContainer {
