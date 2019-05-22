@@ -71,8 +71,6 @@ export default {
                 // eslint-disable-next-line
                 console.log(error);
             })
-            // eslint-disable-next-line
-            console.log("list-before: ", this.newBrandArray)
         },
         setStatus(status) {
             if(status === true) {
@@ -110,8 +108,6 @@ export default {
     },
     watch: {
         newBrandArray: function(){
-            // eslint-disable-next-line
-            console.log("list-after: ", this.newBrandArray)
             if(this.newBrandArray.Id > 0){
                 this.brandList = this.brandList.concat({
                     BrandID: this.newBrandArray.Id,
