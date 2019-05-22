@@ -39,17 +39,18 @@ import moment from "moment";
 
 export default {
     name: "BrandList",
+    props: ["newBrandArray"],
     data() {
         return {
             brandList: [],
-            selected: [],
+            selectedItem: "",
             brandSearchQuery: "",
         }
     },
     methods: {
-        rowSelected(brandList){
-            this.selected = brandList;
-            this.$emit('selected-item', this.selected);
+        rowSelected(brandSelected){
+            this.selectedItem = brandSelected;
+            this.$emit('selected-item', this.selectedItem);
         },
         fetchList(res) {
             for(var i = 0; i < res.data.Result.length; i++) {
@@ -70,6 +71,8 @@ export default {
                 // eslint-disable-next-line
                 console.log(error);
             })
+            // eslint-disable-next-line
+            console.log("list-before: ", this.newBrandArray)
         },
         setStatus(status) {
             if(status === true) {
@@ -105,6 +108,20 @@ export default {
     mounted() {
         this.getBrand();
     },
+    watch: {
+        newBrandArray: function(){
+            // eslint-disable-next-line
+            console.log("list-after: ", this.newBrandArray)
+            if(this.newBrandArray.Id > 0){
+                this.brandList = this.brandList.concat({
+                    BrandID: this.newBrandArray.Id,
+                    BrandName: this.newBrandArray.BrandName,
+                    Status: this.setStatus(this.newBrandArray.IsActive),
+                    DateCreated: moment(this.newBrandArray.CreateDttm).format("DD-MMM-YYYY"),
+                });
+            }
+        }
+    }
 }
 
 </script>

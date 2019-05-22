@@ -5,9 +5,70 @@
                 <h3>Brand Details</h3>              
             </b-col>
             <b-col sm="3" class="iconContainer">
-                <font-awesome-icon class="icons appPrimaryTextColor" icon="plus" @onclick="addBrand()"/>                            
+                <font-awesome-icon class="icons appPrimaryTextColor" icon="plus" @click="show=true"/>
                 <!-- remove print icon for now -->
                 <!-- <font-awesome-icon class="icons appPrimaryTextColor" icon="print"/> -->
+                <b-modal
+                v-model="show"
+                ref="modal"
+                title="Add New Brand"
+                hide-footer
+                header-bg-variant="primary"
+                header-text-variant="light"
+                @show="resetModal"
+                @hidden="resetModal"
+                >
+                <b-container fluid>
+                    <b-row>
+                        <b-col class="no-intent">
+                            <form ref="form" @submit.stop.prevent="handleSubmit">
+                                <b-form-group
+                                    :state="nameState"
+                                    label="Brand Name"
+                                    label-for="name-input"
+                                    class="appPrimaryTextColor subhead">
+
+                                    <b-form-input
+                                        id="name-input"
+                                        v-model="newBrand"
+                                        :state="nameState"
+                                        required>
+
+                                    </b-form-input>
+                                </b-form-group>
+                                <b-form-group
+                                    :state="notesState"
+                                    label="Notes"
+                                    label-for="notes-input"
+                                    class="appPrimaryTextColor subhead">
+
+                                    <b-form-textarea
+                                    id="notes-input"
+                                    v-model="newNotes"
+                                    :state="notesState"
+                                    placeholder="Enter notes..."
+                                    rows="3"
+                                    max-rows="6"
+                                    ></b-form-textarea>
+
+                                </b-form-group>
+                            </form>
+                        </b-col>
+                    </b-row>
+                    <b-row align-h="end">
+                        <b-button
+                            @click="handleSubmit"
+                            class="submit-btn">
+                            Submit
+                        </b-button>
+                        <b-button
+                            @click="show=false"
+                            class="cancel-btn">
+                            Cancel
+                        </b-button>
+                    </b-row>
+                </b-container>
+            </b-modal>
             </b-col>                                
         </b-row>
         <b-row class="detailWrapper">
@@ -30,15 +91,50 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     data() {
         return {
-            brandList: [],
+            show: false, // Modal initial state
+            newBrand: '',
+            newNotes: '',
+            nameState: null,
+            notesState: null,
         }
     },
     methods: {
         addBrand() {
-
+            axios.post("http://localhost:49995/api/ItemManagement/InsertNewBrand", {BrandName: this.newBrand, Notes: this.newNotes, IsActive: true})
+            .then(res => {
+                if(res.data.Result.BrandName !== null) {
+                    this.$emit('new-brand-array', res.data.Result)
+                }
+            })
+            .catch( error => {
+                // eslint-disable-next-line
+                console.log(error);
+            })
+        },
+        resetModal() {
+            this.newBrand = '',
+            this.nameState = null
+            this.newNotes = '',
+            this.notesState= null
+        },
+        handleSubmit() {
+            if (this.newBrand !== ''){
+                // Push to DB the Brand name
+                this.addBrand();
+                // Hide the modal manually
+                this.$nextTick(() => {
+                    this.$refs.modal.hide()
+                    // Reset entered name
+                    this.newBrand = '';
+                })
+            } else {
+                alert("Brand name is required")
+            }
         },
     }
 }
@@ -46,12 +142,19 @@ export default {
 </script>
 
 <style scoped>
+    .no-intent {
+        padding: 0;
+    }
+
     .iconContainer {
         padding-left: 35px;   
     }
 
     .icons{
         margin-left: 20px;
+    }
+    .icons:hover{
+        color: #9b9b9b;
     }
 
     .detailWrapper {
@@ -64,5 +167,27 @@ export default {
 
     .col-sm-5 {
         padding-top: 40px;
+    }
+    
+    .submit-btn {
+        margin-right: 20px;
+        background-color: #218838;
+        font-size: 20px;
+        padding: 0px 15px;
+    }
+
+    .cancel-btn {
+        background-color: #7c7c7c;
+        font-size: 20px;
+        padding: 0px 15px;
+    }
+
+    .subhead {
+        font-size: 20px;
+    }
+
+    .notes {
+        min-height: 80px;
+        height: auto;
     }
 </style>
