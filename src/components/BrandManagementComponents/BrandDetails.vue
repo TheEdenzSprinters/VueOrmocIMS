@@ -111,6 +111,7 @@
 
 <script>
 import axios from "axios";
+import moment from "moment";
 
 export default {
     props: ["selectedBrand"],
@@ -164,8 +165,8 @@ export default {
     watch: {
         selectedBrand: function(){
             if(this.selectedBrand[0].Id > 0){
-                this.dateCreated = this.selectedBrand[0].CreateDttm;
-                this.lastUpdated = this.selectedBrand[0].UpdateDttm;
+                this.dateCreated = moment(this.selectedBrand[0].CreateDttm).format("DD-MMM-YYYY");
+                this.lastUpdated = moment(this.selectedBrand[0].UpdateDttm).format("DD-MMM-YYYY");
                 this.isActive = this.selectedBrand[0].IsActive;
                 this.selectedBrandNotes = this.selectedBrand[0].Notes;
             }

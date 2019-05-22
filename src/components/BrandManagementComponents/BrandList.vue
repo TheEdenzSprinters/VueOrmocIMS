@@ -51,8 +51,10 @@ export default {
     methods: {
         rowSelected(brandSelected){
             // Filter all brand by selected brand Id
-            this.selectedBrand = this.brandListFull.filter(x => x.Id === brandSelected[0].BrandID);
-            this.$emit('selected-brand', this.selectedBrand);
+            if(brandSelected.length > 0){
+                this.selectedBrand = this.brandListFull.filter(x => x.Id === brandSelected[0].BrandID);
+                this.$emit('selected-brand', this.selectedBrand);
+            }
         },
         fetchList(res) {
             for(var i = 0; i < res.data.Result.length; i++) {
