@@ -43,14 +43,16 @@ export default {
     data() {
         return {
             brandList: [],
-            selectedItem: "",
+            brandListFull: [],
+            selectedBrand: "",
             brandSearchQuery: "",
         }
     },
     methods: {
         rowSelected(brandSelected){
-            this.selectedItem = brandSelected;
-            this.$emit('selected-item', this.selectedItem);
+            // Filter all brand by selected brand Id
+            this.selectedBrand = this.brandListFull.filter(x => x.Id === brandSelected[0].BrandID);
+            this.$emit('selected-brand', this.selectedBrand);
         },
         fetchList(res) {
             for(var i = 0; i < res.data.Result.length; i++) {
@@ -65,6 +67,8 @@ export default {
         getBrand() {
             axios.get("http://localhost:49995/api/ItemManagement/GetAllBrands")
             .then(res => {
+                // Full brand list for filter usage
+                this.brandListFull = res.data.Result;
                 this.fetchList(res);
             })
             .catch (error => {

@@ -74,14 +74,33 @@
         <b-row class="detailWrapper">
             <b-col sm="7">
                 <label>Notes:</label>
-                <b-form-textarea id="textarea-no-resize" rows="5" no-resize></b-form-textarea>         
+                <b-form-textarea id="textarea-no-resize" :value="this.selectedBrandNotes" rows="5" no-resize></b-form-textarea>         
             </b-col>
             
             <b-col sm="5">
                 <b-container>
                     <b-row>
                         <b-col sm="6">
-                            Date Created
+                            Date Created:
+                        </b-col>
+                        <b-col sm="6">
+                            {{ this.dateCreated }}
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col sm="6">
+                            Last Updated:
+                        </b-col>
+                        <b-col sm="6">
+                            {{ this.lastUpdated }}
+                        </b-col>
+                    </b-row>
+                    <b-row>
+                        <b-col sm="6">
+                            Is Active:
+                        </b-col>
+                        <b-col sm="6">
+                            {{ this.isActive }}
                         </b-col>
                     </b-row>
                 </b-container>
@@ -94,13 +113,18 @@
 import axios from "axios";
 
 export default {
+    props: ["selectedBrand"],
     data() {
         return {
             show: false, // Modal initial state
-            newBrand: '',
-            newNotes: '',
+            newBrand: "",
+            newNotes: "",
             nameState: null,
             notesState: null,
+            dateCreated: "",
+            lastUpdated: "",
+            isActive: "",
+            selectedBrandNotes: "none",
         }
     },
     methods: {
@@ -136,6 +160,16 @@ export default {
                 alert("Brand name is required")
             }
         },
+    },
+    watch: {
+        selectedBrand: function(){
+            if(this.selectedBrand[0].Id > 0){
+                this.dateCreated = this.selectedBrand[0].CreateDttm;
+                this.lastUpdated = this.selectedBrand[0].UpdateDttm;
+                this.isActive = this.selectedBrand[0].IsActive;
+                this.selectedBrandNotes = this.selectedBrand[0].Notes;
+            }
+        }
     }
 }
 
