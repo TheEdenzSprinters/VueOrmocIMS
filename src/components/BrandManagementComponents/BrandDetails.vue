@@ -5,7 +5,7 @@
                 <h3>Brand Details</h3>              
             </b-col>
             <b-col sm="3" class="iconContainer">
-                <font-awesome-icon class="icons appPrimaryTextColor" icon="plus" @click="show=true"/>
+                <font-awesome-icon class="icons fa-2x appPrimaryTextColor" icon="plus" @click="show=true"/>
                 <!-- remove print icon for now -->
                 <!-- <font-awesome-icon class="icons appPrimaryTextColor" icon="print"/> -->
                 <b-modal
@@ -153,6 +153,7 @@ export default {
     .icons{
         margin-left: 20px;
     }
+
     .icons:hover{
         color: #9b9b9b;
     }
