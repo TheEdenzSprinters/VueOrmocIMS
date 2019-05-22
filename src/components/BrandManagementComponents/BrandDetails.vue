@@ -2,7 +2,7 @@
     <b-container fluid class="MainContainer">
         <b-row>
             <b-col sm="9">
-                <h3>Brand Details</h3>              
+                <h3>Brand {{ this.selectedBrandName }} Details</h3>
             </b-col>
             <b-col sm="3" class="iconContainer">
                 <font-awesome-icon class="icons fa-2x appPrimaryTextColor" icon="plus" @click="show=true"/>
@@ -126,6 +126,7 @@ export default {
             lastUpdated: "",
             isActive: "",
             selectedBrandNotes: "none",
+            selectedBrandName: "",
         }
     },
     methods: {
@@ -169,6 +170,7 @@ export default {
                 this.lastUpdated = moment(this.selectedBrand[0].UpdateDttm).format("DD-MMM-YYYY");
                 this.isActive = this.selectedBrand[0].IsActive;
                 this.selectedBrandNotes = this.selectedBrand[0].Notes;
+                this.selectedBrandName = this.selectedBrand[0].BrandName;
             }
         }
     }
