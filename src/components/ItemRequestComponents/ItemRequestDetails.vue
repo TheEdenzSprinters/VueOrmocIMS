@@ -1,5 +1,11 @@
 <template>
     <b-container fluid>
+        <b-alert variant="success" :show="successCountDown" fade dismissible @dismissed="successCountDown=0" @dismiss-count-down="successCountDownChanged">
+            {{msg}}
+        </b-alert>
+        <b-alert variant="danger" :show="dangerCountDown" fade dismissible @dismissed="dangerCountDown=0" @dismiss-count-down="dangerCountDownChanged">
+            {{msg}}
+        </b-alert>
         <b-row>
             <b-col sm="12">
                 <b-row>
@@ -28,7 +34,7 @@
                         </b-col>    
                         <b-col sm="5">
                             <label class="text-1" for="status">Status:</label>
-                            <b-form-select id="status" size="sm" v-model="form.StatusCd" :options="itemRequestStatusList" :disabled="!toModify"></b-form-select>
+                            <b-form-select id="status" size="sm" v-model="form.StatusCd" :state="isValidStatus" v-on:change="validateStatusChange" :options="itemRequestStatusList" :disabled="!toModify"></b-form-select>
                          </b-col>
                     </b-row>
                     <b-row>
@@ -69,8 +75,16 @@
         <b-row>
             <b-col sm="12">
                 <b-row>
-                    <b-col sm="12"> <h4>Items</h4>
-                        <ItemStockBalance/>
+                    <b-col sm="11">
+                        <h4>Items</h4>
+                    </b-col>
+                    <b-col sm="1">
+                        <font-awesome-icon class="icons appPrimaryTextColor" icon="plus" v-b-modal.add-new-item v-if="form.Id != 0"/>
+                    </b-col>
+                </b-row>
+                <b-row class="stockBalanceContainer">
+                    <b-col sm="12"> 
+                        <ItemStockBalance v-bind:item-list="addedItemList" v-on:delete-item="deleteSelectedItem"/>
                     </b-col>
                 </b-row>
             </b-col>
@@ -95,7 +109,11 @@
                 </b-row>
             </b-col>
         </b-row>
-  </b-container>
+        <b-modal id="add-new-item" size="lg" @ok="handleOk" title="Add an Item to Item Request">
+            <GeneralSearchInputComponent v-on:items-list="showResults"/>
+            <ItemSearchResultForItemRequest v-bind:item-list="itemList" v-on:selected-item-search="selectedItem"/>
+        </b-modal>
+    </b-container>
 </template>
 
 <script>
@@ -104,6 +122,8 @@ import QuotationLists from "./QuotationLists";
 import PriceScoresheet from "./PriceScoresheet";
 import axios from "axios";
 import moment from "moment";
+import GeneralSearchInputComponent from "../ItemSearchComponents/GeneralSearchInputComponent";
+import ItemSearchResultForItemRequest from "../ItemSearchComponents/ItemSearchResultForItemRequest";
 
 export default {
     name: "ItemRequestDetails",
@@ -111,7 +131,9 @@ export default {
     components: {
         ItemStockBalance,
         QuotationLists,
-        PriceScoresheet
+        PriceScoresheet,
+        GeneralSearchInputComponent,
+        ItemSearchResultForItemRequest
     },
     data() {
         return{
@@ -126,37 +148,46 @@ export default {
                 Notes: "",
                 CreateDttm: "",
                 UpdateDttm: ""
-            }
+            },
+            itemList: [],
+            addedItemList: [],
+            selectedItemToAdd: [],
+            msg: "",
+            successCountDown: 0,
+            dangerCountDown: 0,
+            dismissSecs: 3,
+            isValidStatus: null,
         }
     },
     methods: {
         onSubmit(event){
             event.preventDefault();
             if(!this.toModify){
-            axios.post("http://localhost:50006/api/PurchaseOrderManagement/InsertNewItemRequest", this.form)
-                .then(res => {
-                    if(res.data != ""){
-                        this.form.Id = res.data.Id;
-                        this.form.CreateDttm = moment(res.data.CreateDttm).format("DD MMM YYYY");
-                        this.form.UpdateDttm = moment(res.data.UpdateDttm).format("DD MMM YYYY");
-                        this.form.StatusCd = res.data.StatusCd;
-                    }
-                    this.showCancelButton = false;
-                    this.toModify = false;
-                    this.readOnly = true;
-                });
+                axios.post("http://localhost:50006/api/PurchaseOrderManagement/InsertNewItemRequest", this.form)
+                    .then(res => {
+                        if(res.data != ""){
+                            this.form.Id = res.data.Id;
+                            this.form.CreateDttm = moment(res.data.CreateDttm).format("DD MMM YYYY");
+                            this.form.UpdateDttm = moment(res.data.UpdateDttm).format("DD MMM YYYY");
+                            this.form.StatusCd = res.data.StatusCd;
+                        }
+                        this.showCancelButton = false;
+                        this.toModify = false;
+                        this.readOnly = true;
+                    });
             }
             else {
-                axios.post("http://localhost:50006/api/PurchaseOrderManagement/UpdateItemRequestById", this.form)
-                .then(res => {
-                    debugger;
-                    if(res.data != ""){
-                        
-                    }
-                    this.showCancelButton = false;
-                    this.toModify = false;
-                    this.readOnly = true;
-                });
+                if(this.isValidStatus == null){
+                    axios.post("http://localhost:50006/api/PurchaseOrderManagement/UpdateItemRequestById", this.form)
+                    .then(res => {
+                        if(res.data != ""){
+                            
+                        }
+                        this.showCancelButton = false;
+                        this.toModify = false;
+                        this.readOnly = true;
+                    });
+                }
             }
         },
         onReset(event){
@@ -176,6 +207,12 @@ export default {
             this.readOnly = true;
             
         },
+        dangerCountDownChanged(dismissCountDown){
+            this.dangerCountDown = dismissCountDown;
+        },
+        successCountDownChanged(dismissCountDown){
+            this.successCountDown = dismissCountDown;
+        },
         addNewItemRequest(){
             this.showCancelButton = true;
             this.readOnly = false;
@@ -184,7 +221,83 @@ export default {
             this.showCancelButton = true;
             this.toModify = true;
             this.readOnly = false;
-        }
+        },
+        showResults(results) {
+            this.itemList = results;
+        },
+        selectedItem(results) {
+            this.selectedItemToAdd = results;
+        },
+        handleOk(){
+            const itemMapping = {
+                ItemId: this.selectedItemToAdd[0].Id,
+                ItemRequestId: this.form.Id
+            }
+            const item = {
+                Id: this.selectedItemToAdd[0].Id,
+                ItemName: this.selectedItemToAdd[0].ItemName,
+                Notes: this.selectedItemToAdd[0].Notes,
+                BrandName: this.selectedItemToAdd[0].Brand,
+                StocksLeft: this.selectedItemToAdd[0].StocksLeft
+            }
+
+            axios.post("http://localhost:50006/api/PurchaseOrderManagement/AttachItemToItemRequest", itemMapping)
+                .then(res => {
+                    if(res.data != "" && typeof(res.data) !== "undefined"){
+                        if(res.data.isSuccess){
+                            this.successCountDown = this.dismissSecs;
+                            this.msg = res.data.Message;
+                            this.addedItemList = this.addedItemList.concat(item);
+                        }
+                        else {
+                            this.dangerCountDown = this.dismissSecs;
+                            this.msg = res.data.Message;
+                        }
+                    }
+                });
+        },
+        deleteSelectedItem(item){
+            if(item.length > 0){
+                const itemMapping = {
+                    ItemId: item[0].Id,
+                    ItemRequestId: this.form.Id
+                }
+
+                axios.post("http://localhost:50006/api/PurchaseOrderManagement/DeleteItemFromItemRequest", itemMapping)
+                    .then(res => {
+                        if(res.data != "" && typeof(res.data) !== "undefined"){
+                            if(res.data.isSuccess){
+                                this.successCountDown = this.dismissSecs;
+                                this.msg = res.data.Message;
+                                this.addedItemList = this.addedItemList.filter(obj => {return obj.Id != itemMapping.ItemId});
+                            }
+                            else {
+                                this.dangerCountDown = this.dismissSecs;
+                                this.msg = res.data.Message;
+                            }
+                        }
+                    });
+            }
+        },
+        validateStatusChange() {
+        const validateModel = {
+          Id: this.form.Id,
+          StatusCd: this.form.StatusCd
+        };
+        axios.post("http://localhost:50006/api/PurchaseOrderManagement/ValidateStatusChangeItemRequest", validateModel)
+          .then(res => {
+            if(res.data != "" && typeof(res.data) !== "undefined"){
+                if(res.data.isSuccess){
+                    this.isValidStatus = null;
+                }
+                else {
+                    this.dangerCountDown = this.dismissSecs;
+                    this.msg = res.data.Message;
+                    this.isValidStatus = false;
+                }
+            }
+          });
+      }
     },
     watch: {
         itemRequestNumber: function(){
@@ -202,6 +315,7 @@ export default {
                             this.form.StatusCd = res.data.StatusCd;
                             this.form.CreateDttm = moment(res.data.CreateDttm).format("DD MMM YYYY");
                             this.form.UpdateDttm = moment(res.data.UpdateDttm).format("DD MMM YYYY");
+                            this.addedItemList = res.data.RequestFormItems;
                         }
                     });
             }
@@ -245,8 +359,12 @@ export default {
     .icons {
         font-size: 24px;
         cursor: pointer;
-        margin-top: 15px;
+        margin-top: 5px;
         margin-right: 15px;
         float: right;
+    }
+    
+    .stockBalanceContainer { 
+        margin-bottom: 10px;
     }
 </style>
