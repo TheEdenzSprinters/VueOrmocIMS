@@ -2,7 +2,7 @@
     <b-container fluid class="MainContainer">
         <b-row>
             <b-col sm="9">
-                <h3>Brand {{ this.selectedBrandName }} Details</h3>
+                <h3>Brand <b class="appPrimaryTextColor">{{ this.selectedBrandName }}</b> Details</h3>
             </b-col>
             <b-col sm="3" class="iconContainer">
                 <font-awesome-icon class="icons fa-2x appPrimaryTextColor" icon="plus" @click="show=true"/>
@@ -99,8 +99,17 @@
                         <b-col sm="6">
                             Is Active:
                         </b-col>
-                        <b-col sm="6">
-                            {{ this.isActive }}
+                        <b-col v-if="this.isActive == true"  sm="6">
+                            <b-form-checkbox
+                            v-model="isActive"
+                            >
+                            </b-form-checkbox>
+                        </b-col>
+                        <b-col v-else sm="6">
+                            <b-form-checkbox
+                            v-model="isActive"
+                            >
+                            </b-form-checkbox>
                         </b-col>
                     </b-row>
                 </b-container>
@@ -125,8 +134,8 @@ export default {
             dateCreated: "",
             lastUpdated: "",
             isActive: "",
-            selectedBrandNotes: "none",
-            selectedBrandName: "",
+            selectedBrandNotes: "",
+            selectedBrandName: ""
         }
     },
     methods: {
@@ -141,6 +150,10 @@ export default {
                 // eslint-disable-next-line
                 console.log(error);
             })
+        },
+        updateBrand(update) {
+            // eslint-disable-next-line
+            console.log(update);
         },
         resetModal() {
             this.newBrand = '',
