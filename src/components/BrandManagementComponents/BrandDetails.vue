@@ -49,7 +49,8 @@
                                     placeholder="Enter notes..."
                                     rows="3"
                                     max-rows="6"
-                                    ></b-form-textarea>
+                                    >
+                                    </b-form-textarea>
 
                                 </b-form-group>
                             </form>
@@ -74,7 +75,12 @@
         <b-row class="detailWrapper">
             <b-col sm="7">
                 <label>Notes:</label>
-                <b-form-textarea id="textarea-no-resize" :value="this.selectedBrandNotes" rows="5" no-resize></b-form-textarea>         
+                <b-form-textarea 
+                id="textarea-no-resize"
+                v-model="selectedBrandNotes"
+                rows="5"
+                no-resize
+                ></b-form-textarea>         
             </b-col>
             
             <b-col sm="5">
@@ -112,6 +118,12 @@
                             </b-form-checkbox>
                         </b-col>
                     </b-row>
+                    <b-row>
+                        <!-- Hide submit changes button if there are no changes -->
+                        <b-col v-if="selectedBrandNotes !== initialNotes || isActive !== initialStatus">
+                            <b-button @click="updateBrand(isActive, selectedBrandNotes)">Save changes</b-button>
+                        </b-col>
+                    </b-row>
                 </b-container>
             </b-col>
         </b-row>
@@ -135,7 +147,10 @@ export default {
             lastUpdated: "",
             isActive: "",
             selectedBrandNotes: "",
-            selectedBrandName: ""
+            selectedBrandName: "",
+            selectedBrandId: "",
+            initialNotes: "",
+            initialStatus: "",
         }
     },
     methods: {
@@ -144,6 +159,8 @@ export default {
             .then(res => {
                 if(res.data.Result.BrandName !== null) {
                     this.$emit('new-brand-array', res.data.Result)
+                    // eslint-disable-next-line
+                    console.log("add brand >>>", res.data.Result)
                 }
             })
             .catch( error => {
@@ -151,9 +168,16 @@ export default {
                 console.log(error);
             })
         },
-        updateBrand(update) {
-            // eslint-disable-next-line
-            console.log(update);
+        updateBrand(newStatus, newNotes) {
+            axios.post("http://localhost:49995/api/ItemManagement/UpdateBrand", {Id: this.selectedBrandId, BrandName: this.selectedBrandName, Notes: newNotes, IsActive: newStatus})
+            .then(() => {
+                // refresh brand details
+                this.$emit('new-brand-array', {Id: this.selectedBrandId})
+            })
+            .catch( error => {
+                // eslint-disable-next-line
+                console.log(error);
+            })
         },
         resetModal() {
             this.newBrand = '',
@@ -179,10 +203,11 @@ export default {
     watch: {
         selectedBrand: function(){
             if(this.selectedBrand[0].Id > 0){
+                this.selectedBrandId = this.selectedBrand[0].Id;
                 this.dateCreated = moment(this.selectedBrand[0].CreateDttm).format("DD-MMM-YYYY");
                 this.lastUpdated = moment(this.selectedBrand[0].UpdateDttm).format("DD-MMM-YYYY");
-                this.isActive = this.selectedBrand[0].IsActive;
-                this.selectedBrandNotes = this.selectedBrand[0].Notes;
+                this.isActive = this.initialStatus = this.selectedBrand[0].IsActive;
+                this.selectedBrandNotes = this.initialNotes = this.selectedBrand[0].Notes;
                 this.selectedBrandName = this.selectedBrand[0].BrandName;
             }
         }
