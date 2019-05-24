@@ -1,32 +1,40 @@
 <template>
     <b-container fluid>
-        <b-row class="form">
-            <b-col sm="12">
-                <label class="text" for="supplier-name">Brand name</label>
+        <b-row>
+            <b-col cols="auto">
+                <label class="appPrimaryTextColor brand-name">Brand Name</label>
+            </b-col>
+            <b-col cols="8">
                 <b-form-input 
                     v-model="brandSearchQuery"
                     required 
-                    class="input-small" 
+                    class="brand-input"
                     size="sm">
 
                 </b-form-input> 
-                <div class="btnContainer">
-                    <b-button @click="brandSearch()">Search</b-button>
-                    <b-button @click="resetSearch()">Show All</b-button>
-                </div>
             </b-col>
         </b-row>
 
-        <div class="resultsContainer" overflow: auto>
-            <b-table 
-                striped 
-                hover 
+        <b-row align-h="center">
+            <b-col cols="auto">
+                <b-button @click="brandSearch()" class="btn">SEARCH</b-button>
+            </b-col>
+            <b-col cols="auto">
+                <b-button @click="resetSearch()" class="btn">SHOW ALL</b-button>
+            </b-col>
+        </b-row>
+
+        <div class="brands-table" overflow: auto>
+            <b-table
+                hover
                 selectable
                 select-mode="single"
                 selectedVariant="success"
-                :items="brandList" 
+                :items="brandList"
+                thead-class="appPrimaryTextColor"
+                tbody-class=""
                 show-empty
-                @row-selected="rowSelected" 
+                @row-selected="rowSelected"
                 >
             </b-table> 
         </div>
@@ -130,26 +138,36 @@ export default {
 </script>
 
 <style scoped>
-    .resultsContainer {
+    .brands-table {
         font-size: 12px;
     }
 
-    .btnContainer {
-        margin-left: 65px;
-        margin-bottom: 5px;
-        margin-top: 5px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-    }
-
     .btn {
-        height: 35px;
-        font-size: 15px;
-        margin-left: 10px;
-        width: 100px;
+        background-color: #283593;
+        font-size: 12px;
+        padding: 4px 12px;
+        margin: 5px 0px 10px 0px;
     }
 
     .text {
         padding-top: 20px;
+    }
+
+    .brand-input {
+        border-color: #283593;
+        height: 23px;
+    }
+
+    .brand-name {
+        font-size: 14px;
+    }
+
+    .table-head {
+        color: #283593;
+    }
+
+    .table-body {
+        color: red;
+        
     }
 </style>
