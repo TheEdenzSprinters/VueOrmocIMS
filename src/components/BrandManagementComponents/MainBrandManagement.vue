@@ -8,13 +8,7 @@
                             <b-container fluid class="searchColumn">
                                 <b-row>                                   
                                     <b-col sm="12">
-                                        <SearchField/>
-                                    </b-col>                            
-                                </b-row>
-
-                                <b-row>                                   
-                                    <b-col sm="12">
-                                        <BrandList/>
+                                        <BrandList :new-brand-array="newBrandArray" @selected-brand="passSelectedBrand"/>
                                     </b-col>                         
                                 </b-row>         
                             </b-container>
@@ -24,7 +18,7 @@
                             <b-container fluid class="searchColumn">
                                 <b-row>
                                     <b-col sm="12">
-                                        <BrandDetails/>
+                                        <BrandDetails @new-brand-array="passBrand" :selected-brand="selectedBrand"/>
                                     </b-col>
                                 </b-row>
                             </b-container>
@@ -37,13 +31,32 @@
 </template>
 
 <script>
-    import SearchField from "./SearchField";
-    import BrandList from "./BrandList";
-    import BrandDetails from "./BrandDetails"
+import BrandList from "./BrandList";
+import BrandDetails from "./BrandDetails"
 
 export default {
     name: "MainBrandManagement",
-    components: {SearchField,BrandList,BrandDetails},
+    components: {
+        BrandList,
+        BrandDetails,
+    },
+    data() {
+        return {
+            newBrandArray: [],
+            selectedBrand: [],
+        }
+    },
+    methods: {
+        passBrand(brand){
+            this.newBrandArray = brand;
+        },
+        passSelectedBrand(selectedBrand){
+            this.selectedBrand = selectedBrand;
+        }
+    },
+    created() {
+        document.title = "Brand Management";
+    },
 }
 </script>
 
@@ -55,20 +68,20 @@ export default {
         background-color: #ffffff;
     }
 
-    .searchColumn::-webkit-scrollbar
-    {
+    .searchColumn::-webkit-scrollbar {
         width: 2px;
         background-color: #F5F5F5;
     }
 
-    .searchColumn::-webkit-scrollbar-thumb
-    {
+    .searchColumn::-webkit-scrollbar-thumb {
         background-color: #283593;
         border: 1px solid #283593;
     }
-    .mainItemContainer{
+
+    .mainItemContainer {
         padding: 10px;
     }
+
     .whiteWrapper {
         background: none;        
     }

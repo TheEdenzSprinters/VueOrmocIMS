@@ -6,8 +6,10 @@
             selectable
             select-mode="single"
             selectedVariant="success"
-            :items="items" 
+            :items="itemRequestDelinquents" 
             show-empty
+            @row-selected="rowSelected"
+            :fields="fields"
            >            
         </b-table> 
 
@@ -18,6 +20,7 @@
 <script>
 export default {
     name: 'ItemRequestNotFulfilled',
+    props: ['itemRequestDelinquents'],
     data() {
         return {
             fields: [{key:'ItemRequestID' ,label: 'ItemRequestID', formatter: 'itemID'}, 'Title', 'DueDate'],
@@ -33,7 +36,7 @@ export default {
     methods: {
         rowSelected(items){
             this.selected = items;
-            this.$emit('selected-item', this.selected);
+            this.$emit('selected-item-delinquent', this.selected);
         }
     }
 }
@@ -42,9 +45,6 @@ export default {
 
 <style scoped>
     .resultsContainer {
-        font-size: 10px;
+        font-size: 12px;
     }
-    .cell{
-        line-height: 14px;
-    } 
 </style>

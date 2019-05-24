@@ -1,39 +1,50 @@
 <template>
-<div class="resultsContainer">    
+    <div class="resultsContainer">    
         <b-table 
             striped 
             hover 
             selectable
             select-mode="single"
             selectedVariant="success"
-            :items="items" 
+            :items="itemList" 
+            :fields="fields"
+            @row-selected="rowSelected" 
             show-empty>         
-
-        
         </b-table> 
 
-       
+        <b-button variant="danger" @click="deleteSelectedItem" v-if="isVisible" size="sm" class="deleteButton">Delete</b-button>
     </div>
 </template>
 
 <script>
 export default {
     name: 'ItemStockBalance',
+    props: ['itemList'],
     data() {
         return {
-            fields: [{key:'ItemStockID' ,label: 'ItemStockID', formatter: 'itemStockID'}, 'ItemName', 'Item Description', 'Brand', 'Store Room','Warehouse'],
-            items: [
-                {ItemStockID: 1, ItemName: 'Hardiflex', ItemDescription: '8x6 ft', Brand: '27 Apr 2019', StoreRoom: '20', Warehouse: '35'},
-                {ItemStockID: 2, ItemName: 'Omni Resistor', ItemDescription: '9V', Brand: '27 Apr 2019', StoreRoom: '20', Warehouse: '35'},
-                {ItemStockID: 3, ItemName: 'Ace Small Pliers', ItemDescription: '3x16', Brand: '27 Apr 2019', StoreRoom: '20', Warehouse: '35'},          
-            ],
-            selected: []
+            fields: [{key:'Id' ,label: 'Item ID'}, 'ItemName', {key:'Notes', label:'Item Description'}, 'BrandName', 'StocksLeft'],
+            selected: [],
+            isVisible: false,
         }
     },
     methods: {
         rowSelected(items){
             this.selected = items;
             this.$emit('selected-item', this.selected);
+        },
+        deleteSelectedItem(){
+            if(this.selected.length > 0){
+                this.$emit('delete-item', this.selected);
+            }
+        }
+    },
+    watch: {
+        selected: function() {
+            if(this.selected.length > 0){
+                this.isVisible = true;
+            } else {
+                this.isVisible = false;
+            }
         }
     }
 }
@@ -42,13 +53,10 @@ export default {
 
 <style scoped>
     .resultsContainer {
-        font-size: 10px;
+        font-size: 12px;
     }
-    .stockBalance{
-        padding-left: 35px;
-        width: 60px;        
-    }
-    .tableHeader{
-        font-size: 16px;
+
+    .deleteButton {
+        float: right;
     }
 </style>
