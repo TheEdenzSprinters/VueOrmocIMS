@@ -8,7 +8,7 @@
                             <b-container fluid class="searchColumn">
                                 <b-row>                                   
                                     <b-col sm="12">
-                                        <BrandList />
+                                        <BrandList :new-brand-array="newBrandArray" @selected-brand="passSelectedBrand"/>
                                     </b-col>                         
                                 </b-row>         
                             </b-container>
@@ -18,7 +18,7 @@
                             <b-container fluid class="searchColumn">
                                 <b-row>
                                     <b-col sm="12">
-                                        <BrandDetails />
+                                        <BrandDetails @new-brand-array="passBrand" :selected-brand="selectedBrand"/>
                                     </b-col>
                                 </b-row>
                             </b-container>
@@ -42,6 +42,16 @@ export default {
     },
     data() {
         return {
+            newBrandArray: [],
+            selectedBrand: [],
+        }
+    },
+    methods: {
+        passBrand(brand){
+            this.newBrandArray = brand;
+        },
+        passSelectedBrand(selectedBrand){
+            this.selectedBrand = selectedBrand;
         }
     },
     created() {
