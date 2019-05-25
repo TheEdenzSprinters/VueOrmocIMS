@@ -1,5 +1,5 @@
 <template>
-    <b-container fluid>
+    <b-container fluid class="main-intent">
         <b-row>
             <b-col cols="auto">
                 <label class="appPrimaryTextColor brand-name">Brand Name</label>
@@ -23,21 +23,23 @@
                 <b-button @click="resetSearch()" class="btn">SHOW ALL</b-button>
             </b-col>
         </b-row>
-
-        <div class="brands-table" overflow: auto>
-            <b-table
-                hover
-                selectable
-                select-mode="single"
-                selectedVariant="success"
-                :items="brandList"
-                thead-class="appPrimaryTextColor"
-                tbody-class=""
-                show-empty
-                @row-selected="rowSelected"
-                >
-            </b-table> 
-        </div>
+        <b-row class="brands-table no-intent" overflow: auto>
+            <b-col class="no-intent">
+                <b-table
+                    hover
+                    selectable
+                    select-mode="single"
+                    selectedVariant="primary"
+                    :items="brandList"
+                    thead-tr-class="appPrimaryBackgroundColor appSecondaryTextColor"
+                    show-empty
+                    striped
+                    borderless
+                    @row-selected="rowSelected"
+                    >
+                </b-table>
+            </b-col>
+        </b-row>
     </b-container>
 </template>
 
@@ -138,6 +140,14 @@ export default {
 </script>
 
 <style scoped>
+    .no-intent {
+        padding: 0;
+    }
+
+    .main-intent {
+        padding: 15px;
+    }
+
     .brands-table {
         font-size: 12px;
     }
@@ -146,11 +156,11 @@ export default {
         background-color: #283593;
         font-size: 12px;
         padding: 4px 12px;
-        margin: 5px 0px 10px 0px;
+        margin: 5px 0px 30px 0px;
     }
 
-    .text {
-        padding-top: 20px;
+    .btn:hover {
+        background-color: #7c7c7c;
     }
 
     .brand-input {
@@ -162,12 +172,9 @@ export default {
         font-size: 14px;
     }
 
-    .table-head {
-        color: #283593;
-    }
-
-    .table-body {
-        color: red;
-        
+    .table {
+        border: solid;
+        border-color: #283593;
+        border-width: 0.5px;
     }
 </style>
