@@ -1,33 +1,35 @@
 <template>
-    <b-container fluid class="whiteWrapper">
-        <b-row>
-            <b-col sm="12">
-                <b-container fluid class="appBackgroundShadeColor mainItemContainer">
-                    <b-row class="containerWrapper">
-                        <b-col class="whiteWrapper" sm="5">
-                            <b-container fluid class="searchColumn">
-                                <b-row>                                   
-                                    <b-col sm="12">
-                                        <BrandList />
-                                    </b-col>                         
-                                </b-row>         
-                            </b-container>
-                        </b-col>
 
-                         <b-col class="whiteWrapper" sm="7">
-                            <b-container fluid class="searchColumn">
-                                <b-row>
-                                    <b-col sm="12">
-                                        <BrandDetails />
-                                    </b-col>
-                                </b-row>
-                            </b-container>
-                        </b-col>
-                    </b-row>
-                </b-container>
-            </b-col>
-        </b-row>
-    </b-container>
+<b-container fluid class="whiteWrapper">
+    <b-row>
+        <b-col sm="12">
+            <b-container fluid class="appBackgroundShadeColor mainItemContainer">
+                <b-row>
+                    <b-col sm="5" class="left-col-intent">
+                        <b-container fluid class="brand-list borders">
+                            <b-row class="row-intents">                                   
+                                <b-col>
+                                    <BrandList :new-brand-array="newBrandArray" @selected-brand="passSelectedBrand"/>
+                                </b-col>                         
+                            </b-row>         
+                        </b-container>
+                    </b-col>
+
+                    <b-col sm="7" class="right-col-intent">
+                        <b-container fluid class="brand-details borders">
+                            <b-row >
+                                <b-col>
+                                    <BrandDetails @new-brand-array="passBrand" :selected-brand="selectedBrand"/>
+                                </b-col>
+                            </b-row>
+                        </b-container>
+                    </b-col>
+                </b-row>
+            </b-container>
+        </b-col>
+    </b-row>
+</b-container>
+
 </template>
 
 <script>
@@ -42,6 +44,16 @@ export default {
     },
     data() {
         return {
+            newBrandArray: [],
+            selectedBrand: [],
+        }
+    },
+    methods: {
+        passBrand(brand){
+            this.newBrandArray = brand;
+        },
+        passSelectedBrand(selectedBrand){
+            this.selectedBrand = selectedBrand;
         }
     },
     created() {
@@ -51,28 +63,47 @@ export default {
 </script>
 
 <style scoped>
-    .searchColumn {
-        max-height: 651px;
-        padding: 20px;
+    .no-intent {
+        padding: 0;
+    }
+
+    .whiteWrapper {
+        height: 100%;
+        background-color: #ffffff;
+    }
+
+    .mainItemContainer {
+        padding: 10px 10px 0px 10px;
+        min-height: 672px;
+        height: auto;
+    }
+
+    .brand-list, .brand-details {
+        height: 651px;
         overflow: auto;
         background-color: #ffffff;
     }
 
-    .searchColumn::-webkit-scrollbar {
-        width: 2px;
-        background-color: #F5F5F5;
+    .brand-list::-webkit-scrollbar {
+        width: 3px;
     }
 
-    .searchColumn::-webkit-scrollbar-thumb {
+    .brand-list::-webkit-scrollbar-thumb {
         background-color: #283593;
         border: 1px solid #283593;
     }
 
-    .mainItemContainer {
-        padding: 10px;
+    .borders {
+        border-style: solid;
+        border-color: #9b9b9b;
+        border-width: 0.5px;
     }
 
-    .whiteWrapper {
-        background: none;        
+    .left-col-intent {
+        padding: 0px 0px 0px 15px;
+    }
+
+    .right-col-intent {
+        padding: 0px 15px 0px 10px;
     }
 </style>
