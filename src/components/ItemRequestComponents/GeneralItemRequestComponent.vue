@@ -15,11 +15,12 @@
       <b-row class="form-2">
         <b-col sm="4">
           <label class="text-1" for="date-from">Date From:</label>
-          <date-picker class="form-control-sm" id="date-from" v-model="form.DateFrom" :config="options"></date-picker>
+          <datepicker :bootstrap-styling="true" input-class="form-control form-control-sm" id="date-from" v-model="form.DateFrom" :disabledDates="dateFromState.disabledDates">
+          </datepicker>
         </b-col>    
         <b-col sm="4">
           <label class="text-1" for="date=to">Date To:</label>
-          <date-picker class="form-control-sm" id="date-to" v-model="form.DateTo" :config="options"></date-picker>
+          <datepicker :bootstrap-styling="true" input-class="form-control form-control-sm" id="date-to" v-model="form.DateTo" :disabledDates="dateToState.disabledDates"></datepicker>
         </b-col>
         <b-col sm="4">
           <label class="text-1" for="status">Status:</label>
@@ -34,10 +35,11 @@
 </template>
 
 <script>
-import datePicker from 'vue-bootstrap-datetimepicker'; 
-import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
+import datepicker from 'vuejs-datepicker';
 import axios from "axios";
-   
+
+let today = new Date();
+
   export default {    
     data () {
       return {
@@ -53,10 +55,20 @@ import axios from "axios";
         },
         itemRequestList: [],
         itemRequestStatusList: [{value: null, text: "Select Status"}],
+        dateFromState: {
+          disabledDates: {
+            from: new Date(today.getFullYear(), today.getMonth(), today.getDate()+1)
+          }
+        },
+        dateToState: {
+          disabledDates: {
+            from: new Date(today.getFullYear(), today.getMonth(), today.getDate()+1)
+          }
+        }
       }
     },
     components: {
-      datePicker
+      datepicker
     },
     methods: {
       onSubmit(evt) {
