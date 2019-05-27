@@ -72,7 +72,7 @@ export default {
                     BrandID: res.data.Result[i].Id,
                     BrandName: res.data.Result[i].BrandName,
                     Status: this.setStatus(res.data.Result[i].IsActive),
-                    DateCreated: moment(res.data.Result[i].CreateDttm).format("DD-MMM-YYYY"),
+                    DateCreated: moment(res.data.Result[i].CreateDttm).format("MMM DD, YYYY"),
                 });
             }
         },
