@@ -163,8 +163,6 @@ export default {
             .then(res => {
                 if(res.data.Result.BrandName !== null) {
                     this.$emit('new-brand-array', res.data.Result)
-                    // eslint-disable-next-line
-                    console.log("add brand >>>", res.data.Result)
                 }
             })
             .catch( error => {

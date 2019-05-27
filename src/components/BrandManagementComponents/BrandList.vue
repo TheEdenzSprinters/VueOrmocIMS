@@ -124,12 +124,13 @@ export default {
     },
     watch: {
         newBrandArray: function(){
+            this.brandList = [];
             if(this.newBrandArray.Id > 0){
                 this.brandList = this.brandList.concat({
                     BrandID: this.newBrandArray.Id,
                     BrandName: this.newBrandArray.BrandName,
                     Status: this.setStatus(this.newBrandArray.IsActive),
-                    DateCreated: moment(this.newBrandArray.CreateDttm).format("DD-MMM-YYYY"),
+                    DateCreated: moment(this.newBrandArray.CreateDttm).format("MMM DD, YYYY"),
                 });
                 this.getBrand();
             }
