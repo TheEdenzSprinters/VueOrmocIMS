@@ -25,7 +25,7 @@
                         <b-container fluid>
                             <b-row v-for="measureFromList of this.measuresList" :key="measureFromList.measure" class="measure-row">
                                 <b-col cols="3" class="details-item-child measure">
-                                    {{ measureFromList.measure | capitalize }}:
+                                    {{ measureFromList.measure | capitalise }}:
                                 </b-col>
                                 <b-col offset="1" cols="4" class="borders measure-type">
                                     <p class="measure-values">{{ measureFromList.unit }}</p>
@@ -76,7 +76,7 @@ export default {
         }
     },
     filters: {
-        capitalize: function (value) {
+        capitalise: function (value) {
             if (!value) return ''
             value = value.toString()
             return value.charAt(0).toUpperCase() + value.slice(1)
