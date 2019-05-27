@@ -174,7 +174,7 @@ export default {
             axios.post("http://localhost:49995/api/ItemManagement/UpdateBrand", {Id: this.selectedBrandId, BrandName: this.selectedBrandName, Notes: newNotes, IsActive: newStatus})
             .then(() => {
                 // refresh brand details
-                this.$emit('new-brand-array', {Id: this.selectedBrandId})
+                this.$emit('new-brand-array', {BrandName: this.selectedBrandName})
             })
             .catch( error => {
                 // eslint-disable-next-line

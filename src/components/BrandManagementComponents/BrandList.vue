@@ -132,8 +132,8 @@ export default {
                     Status: this.setStatus(this.newBrandArray.IsActive),
                     DateCreated: moment(this.newBrandArray.CreateDttm).format("MMM DD, YYYY"),
                 });
-                this.getBrand();
             }
+            this.getBrand();
         }
     }
 }
