@@ -51,6 +51,7 @@ export default {
     methods: {
         passBrand(brand){
             this.newBrandArray = brand;
+            this.newBrandArray = [];
         },
         passSelectedBrand(selectedBrand){
             this.selectedBrand = selectedBrand;
