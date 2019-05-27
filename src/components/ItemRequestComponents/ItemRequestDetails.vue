@@ -319,6 +319,19 @@ export default {
                         }
                     });
             }
+            else {
+                this.form = {
+                    Id: 0,
+                    Title: "",
+                    StatusCd: null,
+                    Notes: "",
+                    CreateDttm: "",
+                    UpdateDttm: ""
+                };
+
+                this.itemList = [];
+                this.addedItemList = [];
+            }
         }
     },
     beforeMount: function(){
