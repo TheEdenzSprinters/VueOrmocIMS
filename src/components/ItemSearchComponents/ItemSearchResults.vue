@@ -27,7 +27,7 @@ export default {
     methods: {
         rowSelected(items){
             this.selected = items;
-            this.$emit('selected-item-search', this.selected);
+            this.$emit('selected-item', this.selected);
         }
     }
 }

@@ -51,7 +51,8 @@ let today = new Date();
           Title: "",
           StatusCd: null,
           DateFrom: "",
-          DateTo: ""
+          DateTo: "",
+          NextBatch: 1
         },
         itemRequestList: [],
         itemRequestStatusList: [{value: null, text: "Select Status"}],
@@ -75,9 +76,12 @@ let today = new Date();
         evt.preventDefault();
         axios.post("http://localhost:50006/api/PurchaseOrderManagement/ItemRequestFormSearch", this.form)
         .then(res => {
-          if(res.data.length > 0){
-            this.itemRequestList = res.data;
-            this.$emit("item-request-list", this.itemRequestList);
+          if(res.data != "" && res.data != [] && typeof(res.data) !== "undefined"){
+            const searchQueryResponse = {
+              form: this.form,
+              itemRequestList: res.data
+            }
+            this.$emit("item-request-list", searchQueryResponse);
           }
         }).catch(err => {
           console.log(err);
