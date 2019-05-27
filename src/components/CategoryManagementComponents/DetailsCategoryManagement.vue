@@ -124,8 +124,8 @@ export default {
             }
 
             // Reformat data for items
-            this.focusArray[0].CreateDttm = moment(this.focusArray[0].CreateDttm).format("DD-MMM-YYYY");
-            this.focusArray[0].UpdateDttm = moment(this.focusArray[0].UpdateDttm).format("DD-MMM-YYYY");
+            this.focusArray[0].CreateDttm = moment(this.focusArray[0].CreateDttm).format("MMM DD, YYYY");
+            this.focusArray[0].UpdateDttm = moment(this.focusArray[0].UpdateDttm).format("MMM DD, YYYY");
         }
     }
 }
