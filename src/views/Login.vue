@@ -1,12 +1,44 @@
 <template>
-<b-container>
+<!-- <b-container>
     <div id="login">
         <h1>Login</h1>
         <input type="text" name="username" v-model="input.username" placeholder="Username" />
         <input type="password" name="password" v-model="input.password" placeholder="Password" />
         <button type="button" v-on:click="login()">Login</button>
     </div>
+</b-container> -->
+
+<b-container fluid class="login-container">
+    <h2>Login</h2>
+    <div class="row">
+        <div class="col-md-12 form-group">
+            <input 
+                type="text"
+                class="form-control"
+                placeholder="username"
+                v-model="input.username">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 form-group">
+            <input 
+                type="password"
+                placeholder="password"
+                class="form-control"
+                v-model="input.password">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 form-group">
+            <button 
+                type="button"
+                class="btn btn-block btn-login"
+                v-on:click="login()">Login
+            </button>
+        </div>
+    </div>
 </b-container>
+
 </template>
 
 <script>
@@ -49,4 +81,19 @@ export default {
         margin-top: 200px;
         padding: 20px;
     }
+
+.login-container{
+    width: 300px;
+    max-width: 100%;
+    margin: 50px auto;
+}
+.login-container h2{
+    text-align: center;
+    font-size: 20px;
+}
+
+.login-container .btn-login{
+    background-color: #283593;
+    color: #fff;
+}
 </style>
