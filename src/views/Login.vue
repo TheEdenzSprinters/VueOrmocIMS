@@ -11,34 +11,34 @@
             <h2 class="subheader-title">Login</h2>
         </b-col>
     </b-row>
-    <b-row align-h="center" class="input-group form-group">
-        <b-col class="col-md-6 input-group-prepend">
-                <span class="fa-align-custom">
-                    <font-awesome-icon class="icon fa-align-center" icon="user" />
-                </span>
+    <b-row align-h="center" class="no-gutters row-margin">
+        <b-col cols="1" class="icon-colors custom-icon">
+            <font-awesome-icon icon="user" />
+        </b-col>
+        <b-col cols="5">
             <input 
-            type="text"
-            class="form-control input-custom"
-            placeholder="Username"
-            v-model="input.username"
-            required>
+                type="text"
+                class="form-control"
+                placeholder="Username"
+                v-model="input.username"
+                required>
         </b-col>
     </b-row>
-    <b-row align-h="center" class="input-group form-group">
-        <b-col class="col-md-6 input-group-prepend">
-            <span class="fa-align-custom">
-                <font-awesome-icon class="icon fa-align-center" icon="key" />
-            </span>
+    <b-row align-h="center" class="no-gutters row-margin">
+        <b-col cols="1" class="icon-colors custom-icon">
+            <font-awesome-icon icon="key" />
+        </b-col>
+        <b-col cols="5">
             <input 
-            type="password"
-            placeholder="Password"
-            class="form-control input-custom"
-            v-model="input.password"
-            required>
+                type="password"
+                placeholder="Password"
+                class="form-control"
+                v-model="input.password"
+                required>
         </b-col>
     </b-row>
-    <b-row align-h="center" class="input-group form-group">
-        <b-col class="col-md-3">
+    <b-row align-h="center" class="no-gutters">
+        <b-col cols="6">
             <b-button
                 @click="login()"
                 class="btn-block btn-login">Enter
@@ -96,7 +96,7 @@ export default {
 .header-title {
     font-size: 24px;
     text-align: center;
-    color: #fff;
+    color: #ffffff;
     background-color: #283593;
     padding: 5px;
     border-radius: 5px;
@@ -114,28 +114,26 @@ export default {
     margin: 150px auto;
 }
 
-.login-container .btn-login {
-    background-color: #283593;
-    color: #fff;
-}
-
-.input-group-prepend span {
-    width: 50px;
-    border-radius: 5px;
+.btn-login, .icon-colors {
     background-color: #283593;
     color: #ffffff;
-    border:0 !important;
 }
 
-.input-custom {
-    margin-left: -6px;
+.form-control {
+    border-radius: 0px 5px 5px 0px;
 }
 
-.fa-align-custom {
-    display: inline-block; 
+.custom-icon {
+    font-size: 16px;
+    border-radius: 5px 0px 0px 5px;
     text-align: center;
-    font-size: 18px;
-    padding-right: 5px;
+    border: 1.5px solid #ced4da;
+    border-right: 0px;
+    padding: 0.375rem 0rem;
+    height: calc(1.5em + 0.75rem + 2px);
 }
 
+.row-margin {
+    margin-bottom: 15px;
+}
 </style>
