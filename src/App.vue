@@ -1,14 +1,20 @@
 <template>
-  <b-container fluid id="app">
-    <b-row>
-      <b-col cols="2" class="navigation">
-        <DashNav />
-      </b-col>
-      <b-col cols="10" class="content-body">
-        <router-view />
-      </b-col>
+
+<b-container fluid id="app">
+    <b-row v-if="authenticated">
+        <b-col cols="2" class="navigation">
+            <router-link to="/login" v-on:click.native="logout()" replace>Logout</router-link>
+            <DashNav />
+        </b-col>
+        <b-col cols="10" class="content-body">
+            <router-view />
+        </b-col>
     </b-row>
-  </b-container>
+    <b-row>
+        <router-view v-if="!authenticated" @authenticated="setAuthenticated"/>
+    </b-row>
+</b-container>
+    
 </template>
 
 <script>
@@ -17,13 +23,34 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 
 export default {
-  name: "app",
-  components: {
-    DashNav,
-  },
+    name: "app",
+    components: {
+        DashNav,
+    },
+    data() {
+        return {
+            authenticated: false,
+                mockAccount: {
+                    username: "user",
+                    password: "user"
+                }
+            }
+        },
+    mounted() {
+        if(!this.authenticated) {
+            this.$router.replace({ name: "login" });
+        }
+    },
+    methods: {
+        setAuthenticated(status) {
+            this.authenticated = status;
+        },
+        logout() {
+            this.authenticated = false;
+        }
+    }
 };
 </script>
-
 
 <style>
 #app {

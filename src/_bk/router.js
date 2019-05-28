@@ -8,27 +8,15 @@ import Qoutations from './views/Quotations'
 import SupplierManagement from './views/SupplierManagement'
 import POManagement from './views/POManagement'
 import BrandManagement from './views/BrandManagement'
-import LoginComponent from "./views/Login.vue"
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
-        path: '/',
-        name: 'home',
-        component: Home
-    },
-    {
-      path: '*',
-      redirect: {
-          name: "login"
-      }
-    },
-    {
-        path: "/login",
-        name: "login",
-        component: LoginComponent
+      path: '/',
+      name: 'home',
+      component: Home
     },
     {
       path: '/category-management',

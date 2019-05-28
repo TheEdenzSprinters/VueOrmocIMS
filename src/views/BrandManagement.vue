@@ -14,6 +14,11 @@ export default {
     components: {
         Header,
         MainBrandManagement,
-    }
+    },
+    mounted() {
+        if(!this.$parent.authenticated) {
+            this.$router.replace({ name: "login" });
+        }
+    },
 }
 </script>
