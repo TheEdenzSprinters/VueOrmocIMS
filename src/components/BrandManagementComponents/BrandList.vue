@@ -72,7 +72,7 @@ export default {
                     BrandID: res.data.Result[i].Id,
                     BrandName: res.data.Result[i].BrandName,
                     Status: this.setStatus(res.data.Result[i].IsActive),
-                    DateCreated: moment(res.data.Result[i].CreateDttm).format("DD-MMM-YYYY"),
+                    DateCreated: moment(res.data.Result[i].CreateDttm).format("MMM DD, YYYY"),
                 });
             }
         },
@@ -124,15 +124,16 @@ export default {
     },
     watch: {
         newBrandArray: function(){
+            this.brandList = [];
             if(this.newBrandArray.Id > 0){
                 this.brandList = this.brandList.concat({
                     BrandID: this.newBrandArray.Id,
                     BrandName: this.newBrandArray.BrandName,
                     Status: this.setStatus(this.newBrandArray.IsActive),
-                    DateCreated: moment(this.newBrandArray.CreateDttm).format("DD-MMM-YYYY"),
+                    DateCreated: moment(this.newBrandArray.CreateDttm).format("MMM DD, YYYY"),
                 });
-                this.getBrand();
             }
+            this.getBrand();
         }
     }
 }
