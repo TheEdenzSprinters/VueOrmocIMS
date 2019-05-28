@@ -10,21 +10,21 @@
             show-empty
             @row-selected="rowSelected"
             :fields="fields"
-            :per-page="perPage"
-            :current-page="currentPage">
+            :current-page="currentPage"
+            :per-page="perPage">
         </b-table>
         
         <b-pagination v-model="currentPage"
-        :total-rows="recordCount"
-        @change="getNextBatchSearchResult"
-        align="right"
-        v-if="showPagination"
-        size="md"
-        first-text="FIRST"
-        next-text="NEXT"
-        prev-text="PREVIOUS"
-        last-text="LAST"
-        >
+            :total-rows="recordCount"
+            @change="getNextBatchSearchResult"
+            align="right"
+            v-if="showPagination"
+            size="md"
+            first-text="FIRST"
+            next-text="NEXT"
+            prev-text="PREVIOUS"
+            last-text="LAST"
+            :per-page="perPage">
         </b-pagination>
     </div>
 </template>
@@ -53,7 +53,7 @@ export default {
             this.$emit('selected-item-search', this.selected);
         },
         getNextBatchSearchResult(page){
-            if(page*this.perPage > this.itemRequestList.length){
+            if(this.itemRequestList.length < this.recordCount){
                 let form = {
                     Id: this.itemRequestSearchList.form.Id,
                     Title:  this.itemRequestSearchList.form.Title,
@@ -65,8 +65,6 @@ export default {
 
                 axios.post("http://localhost:50006/api/PurchaseOrderManagement/ItemRequestFormSearch", form)
                     .then( res => {
-                        // this.itemRequestList = this.itemRequestList.concat(res.data.SearchResult);
-
                         for(var i = 0; i < res.data.SearchResult.length; i++){
                             let singleResult = res.data.SearchResult[i];
                             singleResult.DateCreated = moment(singleResult.DateCreated).format("MMM DD, YYYY");
@@ -74,19 +72,20 @@ export default {
                         }
                     }). catch( err => {console.log(err);});
             }
-
         }
     },
     watch: {
         itemRequestSearchList: function(){
             if(this.itemRequestSearchList.itemRequestList.RecordCount > this.perPage){
                 this.showPagination = true;
-                this.recordCount = this.itemRequestSearchList.itemRequestList.RecordCount;
-                this.itemRequestList = this.itemRequestSearchList.itemRequestList.SearchResult;
+            }
 
-                for(var i = 0; i < this.itemRequestList.length; i++){
-                    this.itemRequestList[i].DateCreated = moment(this.itemRequestList[i].DateCreated).format("MMM DD, YYYY");
-                }
+            this.recordCount = this.itemRequestSearchList.itemRequestList.RecordCount;
+            this.itemRequestList = this.itemRequestSearchList.itemRequestList.SearchResult;
+            this.currentPage = 1;
+
+            for(var i = 0; i < this.itemRequestList.length; i++){
+                this.itemRequestList[i].DateCreated = moment(this.itemRequestList[i].DateCreated).format("MMM DD, YYYY");
             }
         }
     }

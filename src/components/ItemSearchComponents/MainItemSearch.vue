@@ -27,7 +27,7 @@
 
                                 <b-row>
                                     <b-col lg="12" md="12" sm="12">
-                                        <ItemSearchResults v-bind:item-list="itemList" v-on:selected-item="viewItemDetails"/>
+                                        <ItemSearchResults v-bind:item-search-list="itemSearchList" v-on:selected-item="viewItemDetails"/>
                                     </b-col>
                                 </b-row>
                             </b-container>
@@ -52,7 +52,7 @@ export default {
     name: "MainItemSearch",
     data() {
         return {
-            itemList: [],
+            itemSearchList: [],
             itemId: 0,
             arrowRight: true,
         }
@@ -60,10 +60,10 @@ export default {
     components: {GeneralSearchInputComponent, ItemAdvancedSearch, ItemSearchResults, IndividualItemsComponent},
     methods: {
         showResults(results) {
-            if(results.length !== 0){
-                this.itemList = results;
+            if(results.itemSearchResult.SearchResult.length !== 0){
+                this.itemSearchList = results;
             } else {
-                this.itemList = [];
+                this.itemSearchList = [];
             }
         },
         viewItemDetails(item){
