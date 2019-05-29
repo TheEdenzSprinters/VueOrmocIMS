@@ -1,52 +1,100 @@
 <template>
-<div class="resultsContainer" overflow: auto>
+    <div class="resultsContainer">
         <b-table 
             striped 
             hover 
             selectable
             select-mode="single"
             selectedVariant="success"
-            :items="items" 
-            show-empty>         
-        </b-table>      
+            :items="itemRequestList"
+            show-empty
+            @row-selected="rowSelected"
+            :fields="fields"
+            :per-page="perPage"
+            :current-page="currentPage">
+        </b-table>
+        
+        <b-pagination v-model="currentPage"
+        :total-rows="recordCount"
+        @change="getNextBatchSearchResult"
+        align="right"
+        v-if="showPagination"
+        size="md"
+        first-text="FIRST"
+        next-text="NEXT"
+        prev-text="PREVIOUS"
+        last-text="LAST"
+        >
+        </b-pagination>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
+import moment from 'moment';
+
 export default {
     name: 'ItemSearchResults',
+    props: ['itemRequestSearchList'],
     data() {
         return {
-            fields: [{key:'ItemRequestID' ,label: 'ItemRequestID', formatter: 'itemID'}, 'ItemName', 'Status', 'DateCreated'],
-            items: [
-                {ItemRequestID: 1, Title: 'Hardiflex 8x6 ft', Status: 'Active', DateCreated: '27 Apr 2019'},
-                {ItemRequestID: 2, Title: 'Omni Resistor', Status: 'Active', DateCreated: '27 Apr 2019'},
-                {ItemRequestID: 3, Title: 'Ace Small Pliers', Status: 'Active', DateCreated: '27 Apr 2019'},
-                {ItemRequestID: 4, Title: 'United Coco Lumber 3x2x6 ft', Status: 'Active', DateCreated: '27 Apr 2019'},
-                {ItemRequestID: 4, Title: 'United Coco Lumber 3x2x6 ft', Status: 'Active', DateCreated: '27 Apr 2019'},
-                {ItemRequestID: 4, Title: 'United Coco Lumber 3x2x6 ft', Status: 'Active', DateCreated: '27 Apr 2019'},
-                {ItemRequestID: 4, Title: 'United Coco Lumber 3x2x6 ft', Status: 'Active', DateCreated: '27 Apr 2019'},
-                              
-            ],
-            selected: []
+            fields: [{key:'Id' ,label: 'Item Request ID'}, 'Title', 'Status', {key:'DateCreated', label:'Date Created'}],
+            selected: [],
+            itemRequestList: [],
+            currentPage: 1,
+            recordCount: 0,
+            showPagination: false,
+            perPage: 10,
         }
     },
     methods: {
         rowSelected(items){
             this.selected = items;
-            this.$emit('selected-item', this.selected);
+            this.$emit('selected-item-search', this.selected);
+        },
+        getNextBatchSearchResult(page){
+            if(page*this.perPage > this.itemRequestList.length){
+                let form = {
+                    Id: this.itemRequestSearchList.form.Id,
+                    Title:  this.itemRequestSearchList.form.Title,
+                    StatusCd: this.itemRequestSearchList.form.StatusCd,
+                    DateFrom: this.itemRequestSearchList.form.DateFrom,
+                    DateTo: this.itemRequestSearchList.form.DateTo,
+                    NextBatch: page
+                }
+
+                axios.post("http://localhost:50006/api/PurchaseOrderManagement/ItemRequestFormSearch", form)
+                    .then( res => {
+                        // this.itemRequestList = this.itemRequestList.concat(res.data.SearchResult);
+
+                        for(var i = 0; i < res.data.SearchResult.length; i++){
+                            let singleResult = res.data.SearchResult[i];
+                            singleResult.DateCreated = moment(singleResult.DateCreated).format("MMM DD, YYYY");
+                            this.itemRequestList = this.itemRequestList.concat(singleResult);
+                        }
+                    }). catch( err => {console.log(err);});
+            }
+
+        }
+    },
+    watch: {
+        itemRequestSearchList: function(){
+            if(this.itemRequestSearchList.itemRequestList.RecordCount > this.perPage){
+                this.showPagination = true;
+                this.recordCount = this.itemRequestSearchList.itemRequestList.RecordCount;
+                this.itemRequestList = this.itemRequestSearchList.itemRequestList.SearchResult;
+
+                for(var i = 0; i < this.itemRequestList.length; i++){
+                    this.itemRequestList[i].DateCreated = moment(this.itemRequestList[i].DateCreated).format("MMM DD, YYYY");
+                }
+            }
         }
     }
 }
-
 </script>
 
 <style scoped>
        .resultsContainer {
-        font-size: 10px;
+        font-size: 12px;
     }
-    .cell{
-        line-height: 14px;
-    }
-
 </style>

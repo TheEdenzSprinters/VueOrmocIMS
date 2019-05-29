@@ -50,7 +50,7 @@ export default {
 }
 
 .appSecondaryBackgroundColor {
-  color: #ffffff;
+  background-color: #ffffff;
 }
 
 .appSecondaryTextColor {

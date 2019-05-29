@@ -6,12 +6,13 @@
     <b-nav-item v-on:click="setActive('categories')" :class="{active: isActive('categories')}">
       <router-link class="appSecondaryTextColor" to="/category-management">CATEGORY MANAGEMENT</router-link>
     </b-nav-item>
-    <b-nav-item v-b-toggle.sub1 class="navigation-item">
-      ITEM MANAGEMENT
+    <b-nav-item v-b-toggle.sub1 class="navigation-item" @click="toggleHiddenList">
+      ITEM MANAGEMENT&nbsp;&nbsp;<font-awesome-icon icon="angle-right" v-if="arrowRight"/>
+      <font-awesome-icon icon="angle-down" v-if="!arrowRight"/>
     </b-nav-item>
       <b-collapse id="sub1">
         <b-nav vertical class="appPrimaryBackgroundColor">
-          <b-nav-item>
+          <b-nav-item v-on:click="setActive('itemrequests')" :class="{active: isActive('itemrequests')}">
             <router-link class="appSecondaryTextColor secondaryNav" to="/item-requests">ITEM REQUEST FORM</router-link>
           </b-nav-item>
           <b-nav-item v-on:click="setActive('quotations')" :class="{active: isActive('quotations')}">
@@ -25,6 +26,9 @@
     <b-nav-item v-on:click="setActive('suppliers')" :class="{active: isActive('suppliers')}">
       <router-link class="appSecondaryTextColor" to="/suppliers-management">SUPPLIERS MANAGEMENT</router-link>
     </b-nav-item>
+    <b-nav-item v-on:click="setActive('brands')" :class="{active: isActive('brands')}">
+      <router-link class="appSecondaryTextColor" to="/brand-management">BRAND MANAGEMENT</router-link>
+    </b-nav-item>
     <b-nav-item v-on:click="setActive('items')" :class="{active: isActive('items')}">
       <router-link class="appSecondaryTextColor" to="/item-search">ITEM SEARCH</router-link>
     </b-nav-item>
@@ -35,7 +39,10 @@
 export default {
   name: "DashNav",
   data() {
-    return {activeItem: 'dashboard'}
+    return {
+      activeItem: 'dashboard',
+      arrowRight: true,
+    }
   },
   methods: {
     isActive: function(menuItem) {
@@ -43,6 +50,9 @@ export default {
     },
     setActive: function(menuItem) {
       this.activeItem = menuItem;
+    },
+    toggleHiddenList(){
+      this.arrowRight = !this.arrowRight;
     }
   }
 };

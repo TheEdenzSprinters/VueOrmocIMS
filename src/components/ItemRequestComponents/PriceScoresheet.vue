@@ -42,9 +42,6 @@ export default {
 
 <style scoped>
     .resultsContainer {
-        font-size: 10px;
+        font-size: 12px;
     }
-    .cell{
-        line-height: 14px;
-    } 
 </style>

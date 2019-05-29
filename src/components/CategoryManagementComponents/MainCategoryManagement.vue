@@ -10,9 +10,9 @@
             <b-col>
                 <b-container fluid>
                     <b-row>
-                        <b-col cols="auto" v-for="cat of catList" v-bind:key="cat.catName" class="list">
-                            <span>{{ cat.catName }}</span>
-                            <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteCategory('Category meant to be deleted now')"/>
+                        <b-col cols="auto" v-for="cat of catList" :key="cat.CategoryName" class="list" :style="{'background-color': bgcolor}">
+                            <span @click="focusArray(cat.Id)">{{ cat.CategoryName }}</span>
+                            <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteCategory(cat.Id)"/>
                         </b-col>
                     </b-row>
                 </b-container>
@@ -25,8 +25,8 @@
                 ref="modal"
                 title="Add New Category"
                 hide-footer
-                :header-bg-variant="headerBgVariant"
-                :header-text-variant="headerTextVariant"
+                header-bg-variant="primary"
+                header-text-variant="light"
                 @show="resetModal"
                 @hidden="resetModal"
                 >
@@ -65,66 +65,50 @@
                     </b-row>
                 </b-container>
             </b-modal>
-            <!-- <b-button class="button appPrimaryBackgroundColor">Add New Category</b-button>
-             <b-modal
-                id="add-cat-modal"
-                ref="modal"
-                title="Add New Category"
-                @show="resetModal"
-                @hidden="resetModal"
-                @ok="handleOk">
-
-                <form ref="form" @submit.stop.prevent="handleSubmit">
-                    <b-form-group
-                        :state="nameState"
-                        label="Category name"
-                        label-for="name-input">
-
-                        <b-form-input
-                            id="name-input"
-                            v-model="newCat"
-                            :state="nameState"
-                            required>
-
-                        </b-form-input>
-                    </b-form-group>
-                </form>
-            </b-modal> -->
-
         </b-row>
     </b-container>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "MainCategoryManagement",
-    props: ["catList"],
     data() {
         return {
             show: false, // Modal initial state
-            headerBgVariant: 'primary',
-            headerTextVariant: 'light',
             newCat: '',
             nameState: null,
+            catList: [],
+            focusArrayDetails: [],
+            bgcolor: '',
         }
     },
     methods: {
+        colorChange(x) {
+            if (x == 2) {
+                this.bgcolor = 'red';
+            }
+        },
+        focusArray(cat){
+            this.focusArrayDetails = this.catList.filter(e => { return cat === e.Id});
+            this.$emit('focus-array', this.focusArrayDetails);
+
+        },
         resetModal() {
             this.newCat = '',
             this.nameState = null
         },
-        handleOk(bvModalEvt) {
+        handleOk(modalEvt) {
             // Prevent modal from closing
-            bvModalEvt.preventDefault()
+            modalEvt.preventDefault()
             // Trigger submit handler
             this.handleSubmit()
         },
         handleSubmit() {
-            //console.log(this.newCat);
-            if (this.newCat != ''){
-                // Push the name to submitted names
-                this.catList.push({ id: this.catList.length + 1, catName: this.newCat });
-               // console.log(this.cats);
+            if (this.newCat !== ''){
+                // Push to DB the Cat name
+                this.addCategory();
                 // Hide the modal manually
                 this.$nextTick(() => {
                     this.$refs.modal.hide()
@@ -135,10 +119,44 @@ export default {
                 alert("Category name is required")
             }
         },
-        deleteCategory (message) {
-            alert(message);
+        getCategory() {
+            axios.get("http://localhost:49995/api/ItemManagement/GetAllCategories")
+            .then(res => {
+                this.catList = res.data;
+                this.$emit('go-cat', this.catList);
+            })
+            .catch (error => {
+                // eslint-disable-next-line
+                console.log(error);
+            })
         },
-
+        addCategory() {
+            axios.post("http://localhost:49995/api/ItemManagement/InsertNewCategory", {CategoryName: this.newCat, IsActive: true})
+            .then(res => {
+                if(res.data.Result.CategoryName !== null){
+                    this.catList = this.catList.concat(res.data.Result);
+                    this.$emit('go-cat', this.catList);
+                }
+            })
+            .catch (error => {
+                // eslint-disable-next-line
+                console.log(error);
+            })
+        },
+        deleteCategory(catDelete) {
+            axios.post("http://localhost:49995/api/ItemManagement/DeleteCategory", catDelete, {headers: {'Content-Type':'application/json'}})
+            .then(() => {
+                this.catList = this.catList.filter(e => { return e.Id !== catDelete; });
+                this.$emit('go-cat', this.catList);
+            })
+            .catch (error => {
+                // eslint-disable-next-line
+                console.log(error);
+            })
+        },
+    },
+    mounted() {
+        this.getCategory();
     }
 }
 </script>
@@ -197,6 +215,15 @@ export default {
         background-color: #dee1f1;
     }
 
+    .list:hover {
+        background-color: #9b9b9b;
+    }
+
+    .list:active {
+        background-color:#283593;
+        color: #dee1f1;
+    }
+
     .delete-btn-margin {
         margin: 5px 0px 0px 15px;
     }
@@ -215,12 +242,6 @@ export default {
     }
 
     .subhead {
-        font-size: 20px;
-    }
-
-    .modal-header {
-        background-color: #283593;
-        color: white;
         font-size: 20px;
     }
 </style>

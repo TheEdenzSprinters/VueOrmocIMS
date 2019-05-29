@@ -1,87 +1,119 @@
 <template>
-  <b-container fluid>    
-    <b-row class="form-1">
-      <b-col sm="6">
-        <label class="text-1" for="request-id">Item Request ID:</label>
-        <b-form-input id="request-id" class="input-small" size="sm"></b-form-input>
-      </b-col>    
-      <b-col sm="6">
-        <label class="text-1" for="title">Title:</label>
-        <b-form-input id="title" class="input-small" size="sm"></b-form-input>
-      </b-col>    
-    </b-row>
+  <b-form @submit="onSubmit">
+    <b-container fluid>    
+      <b-row class="form-1">
+        <b-col sm="4">
+          <label class="text-1" for="request-id">Item Request ID:</label>
+          <b-form-input id="request-id" size="sm" v-model="form.Id"></b-form-input>
+        </b-col>    
+        <b-col sm="8">
+          <label class="text-1" for="title">Title:</label>
+          <b-form-input id="title" size="sm" v-model="form.Title"></b-form-input>
+        </b-col>    
+      </b-row>
 
-    <b-row class="form-2">
-      <b-col sm="4">
-        <label class="text-1" for="date-from">Date From:</label>
-        <date-picker id="date-from" v-model="startDate" :config="options"></date-picker>
-      </b-col>    
-      <b-col sm="4">
-        <label class="text-1" for="date=to">Date To:</label>
-        <date-picker id="date-to" v-model="endDate" :config="options"></date-picker>
-      </b-col>
-      <b-col sm="4">
-        <label class="text-1" for="status">Status:</label>
-        <b-form-input id="status" class="input-small-1" size="sm"></b-form-input>
-      </b-col>
-      <b-col sm="12" class="searchButton">
-        <b-button class="appPrimaryBackgroundColor simpleSearch" v-on:click="ItemNameSearch(itemName)" size="sm">SEARCH</b-button>
-      </b-col>        
-    </b-row>  
-  </b-container>
+      <b-row class="form-2">
+        <b-col sm="4">
+          <label class="text-1" for="date-from">Date From:</label>
+          <datepicker :bootstrap-styling="true" input-class="form-control form-control-sm" id="date-from" v-model="form.DateFrom" :disabledDates="dateFromState.disabledDates">
+          </datepicker>
+        </b-col>    
+        <b-col sm="4">
+          <label class="text-1" for="date=to">Date To:</label>
+          <datepicker :bootstrap-styling="true" input-class="form-control form-control-sm" id="date-to" v-model="form.DateTo" :disabledDates="dateToState.disabledDates"></datepicker>
+        </b-col>
+        <b-col sm="4">
+          <label class="text-1" for="status">Status:</label>
+          <b-form-select id="status" size="sm" v-model="form.StatusCd" :options="itemRequestStatusList"></b-form-select>
+        </b-col>
+        <b-col sm="12" class="searchButton">
+          <b-button class="appPrimaryBackgroundColor simpleSearch" type="submit" size="sm">SEARCH</b-button>
+        </b-col>        
+      </b-row>  
+    </b-container>
+  </b-form>
 </template>
 
 <script>
-import 'bootstrap/dist/css/bootstrap.css'; 
-import datePicker from 'vue-bootstrap-datetimepicker'; 
-import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
-   
+import datepicker from 'vuejs-datepicker';
+import axios from "axios";
+
+let today = new Date();
+
   export default {    
     data () {
       return {
-        date: new Date(),
-        startDate: null,
-        endDate: null,
         options: {
-          format: 'DD/MM/YYYY',
-          useCurrent: false,
-        }       
+          format: 'DD/MMM/YYYY',
+        },
+        form: {
+          Id: "",
+          Title: "",
+          StatusCd: null,
+          DateFrom: "",
+          DateTo: "",
+          NextBatch: 1
+        },
+        itemRequestList: [],
+        itemRequestStatusList: [{value: null, text: "Select Status"}],
+        dateFromState: {
+          disabledDates: {
+            from: new Date(today.getFullYear(), today.getMonth(), today.getDate()+1)
+          }
+        },
+        dateToState: {
+          disabledDates: {
+            from: new Date(today.getFullYear(), today.getMonth(), today.getDate()+1)
+          }
+        }
       }
     },
     components: {
-      datePicker
+      datepicker
+    },
+    methods: {
+      onSubmit(evt) {
+        evt.preventDefault();
+        axios.post("http://localhost:50006/api/PurchaseOrderManagement/ItemRequestFormSearch", this.form)
+        .then(res => {
+          if(res.data != "" && res.data != [] && typeof(res.data) !== "undefined"){
+            const searchQueryResponse = {
+              form: this.form,
+              itemRequestList: res.data
+            }
+            this.$emit("item-request-list", searchQueryResponse);
+          }
+        }).catch(err => {
+          console.log(err);
+        });
+      }
+    },
+    beforeMount: function(){
+      axios.get("http://localhost:50006/api/PurchaseOrderManagement/GetItemRequestTicketSatus")
+        .then(res => {
+          for(var i = 0; i < res.data.length; i++){
+            var ticketStatus = {
+              value: res.data[i].Id,
+              text: res.data[i].Status
+            };
+
+            this.itemRequestStatusList = this.itemRequestStatusList.concat(ticketStatus);
+          }
+        });
     }
   }
 </script>
 
 <style scoped>
 .text-1{
-    font-size: 11px;
+    font-size: 12px;
     margin: 0%;
     padding: 0%;   
 }
-.input-small{
-    margin: 0%;
-    padding: 0%;
-    height: 25px;
-    width: 210px;
+
+.searchButton {
+    text-align: center;
+    margin: 5px 0px;
 }
-.input-small-1{
-    margin: 0%;
-    padding: 0%;
-    height: 25px;
-    width: 138px;
-}
-.row{
-    margin-right: 2px;
-}
-.btn {
-    margin: 0 auto;
-    margin-top: 5px;
-    display: block;
-    height: 30px;
-}
-.searchButton{
-    height: 40px;
-}
+
 </style>

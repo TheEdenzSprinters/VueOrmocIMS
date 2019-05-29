@@ -16,18 +16,18 @@
 
 <script>
 export default {
-    name: 'ItemSearchResults',
+    name: 'ItemSearchResultForItemRequest',
     props: ['itemList'],
     data() {
         return {
-            fields: [{key:'Id' ,label: 'Item ID'}, 'ItemName', 'Brand', 'Status', {key:'CreateDttm', label:'Date Created'}],
+            fields: [{key:'Id' ,label: 'Item ID'}, 'ItemName', 'Brand', {key:'LocationName', label:'Location'}, 'StocksLeft'],
             selected: []
         }
     },
     methods: {
         rowSelected(items){
             this.selected = items;
-            this.$emit('selected-item', this.selected);
+            this.$emit('selected-item-search', this.selected);
         }
     }
 }
