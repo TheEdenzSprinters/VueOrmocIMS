@@ -15,5 +15,10 @@ export default {
       Header, 
       MainItemSearch
     },
+    mounted() {
+        if(!this.$parent.authenticated) {
+            this.$router.replace({ name: "login" });
+        }
+    },
 }
 </script>

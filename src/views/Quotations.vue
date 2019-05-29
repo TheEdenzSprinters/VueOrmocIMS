@@ -6,7 +6,12 @@
 
 <script>
 export default {
-    name: "Quotations"
+    name: "Quotations",
+    mounted() {
+        if(!this.$parent.authenticated) {
+            this.$router.replace({ name: "login" });
+        }
+    },
 }
 </script>
 
