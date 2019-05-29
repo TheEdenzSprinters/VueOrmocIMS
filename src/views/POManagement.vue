@@ -6,7 +6,12 @@
 
 <script>
 export default {
-    name: "POManagement"
+    name: "POManagement",
+    mounted() {
+        if(!this.$parent.authenticated) {
+            this.$router.replace({ name: "login" });
+        }
+    },
 }
 </script>
 

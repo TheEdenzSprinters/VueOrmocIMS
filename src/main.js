@@ -9,10 +9,13 @@ import { faPrint,
         faTimes,
         faAngleRight, 
         faAngleDown, 
-        faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+        faTimesCircle,
+        faUser,
+        faKey
+    } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faPrint, faPlus, faEdit, faTimes, faAngleRight, faAngleDown, faTimesCircle);
+library.add(faPrint, faPlus, faEdit, faTimes, faAngleRight, faAngleDown, faTimesCircle, faUser, faKey);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

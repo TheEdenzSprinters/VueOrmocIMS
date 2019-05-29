@@ -88,7 +88,8 @@ export default {
         }
     },
     beforeMount: function(){
-        axios.get("http://localhost:50006/api/PurchaseOrderManagement/GetItemRequestFormDelinquents")
+        const currentPage = 1;
+        axios.post("http://localhost:50006/api/PurchaseOrderManagement/GetItemRequestFormDelinquents", {currentPage})
             .then( res => {
                 this.itemRequestDelinquents = res.data;
             })
