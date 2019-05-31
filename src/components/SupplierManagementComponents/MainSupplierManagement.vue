@@ -5,22 +5,13 @@
                 <b-container fluid class="appBackgroundShadeColor mainItemContainer">
                     <b-row class="containerWrapper">
                         <b-col class="whiteWrapper" sm="5">
-                            <b-container fluid class="searchColumn">
-                                <b-row>
-                                    <b-col sm="12">
-                                        <b-row>
-                                            <b-col sm="12">
-                                                <SupplierForm/>
-                                            </b-col>
-                                        </b-row>
-                                    </b-col>
-                                </b-row>
+                            <b-container fluid class="searchColumn">                              
 
                                 <b-row>
                                     <b-col sm="12">
                                         <b-row>
                                             <b-col sm="12">
-                                                <SupplierList/>
+                                                <SupplierList :new-supplier-array="newSupplierArray" @selected-supplier="viewSupplier"/>
                                             </b-col>
                                         </b-row>
                                     </b-col>
@@ -30,8 +21,8 @@
                         <b-col class="whiteWrapper" sm="7">
                             <b-container fluid class="searchColumn">
                                 <b-row>
-                                    <b-col sm="12"> <h4>Supplier A</h4>
-                                        <SupplierDetails/>
+                                    <b-col sm="12">
+                                        <SupplierDetails @new-supplier-array="passSupplier" :supplier-id="supplierId"/>
                                     </b-col>
                                 </b-row>
                             </b-container>
@@ -45,13 +36,38 @@
 </template>
 
 <script>
-    import SupplierForm from "./SupplierForm";
     import SupplierList from "./SupplierList";
     import SupplierDetails from "./SupplierDetails"
 
+
 export default {
     name: "MainSupplierManagement",
-    components: {SupplierForm,SupplierList,SupplierDetails},
+    components: {SupplierList,SupplierDetails},
+
+    data() {
+        return {
+            newSupplierArray: [],
+            supplierId:0,
+        }
+    },
+
+    methods: {
+        viewSupplier(result) {
+            if(result.length >0){
+                this.supplierId = result[0].Id;
+            }
+
+            else {
+                this.supplierId = 0;
+            }
+                
+        },
+        passSupplier(supplier) {
+            this.newSupplierArray = supplier;
+            this.newSupplierArray = [];
+        
+        }
+    }
 } 
 </script>
 
