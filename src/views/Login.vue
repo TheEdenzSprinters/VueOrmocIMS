@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import axios from "axios";
 
 export default {
     name: 'login',
@@ -64,20 +65,23 @@ export default {
     methods: {
         login() {
             if(this.input.username != "" && this.input.password != "") {
-                if(this.input.username == this.$parent.mockAccount.username && this.input.password == this.$parent.mockAccount.password) {
-                    this.$emit("authenticated", true);
-                    this.$router.replace({ name: "home" });
-                } else {
-                    // Alert about wrong credentials and reset typed fields
-                    alert("The username and / or password is incorrect");
-                    this.input = [];
-                }
+                axios.post("http://localhost:49995/api/UserManagement/Login", { UserName: this.input.username, Password: this.input.password })
+                .then(res => {
+                    if(res.data.Result.Message == "Success"){
+                        this.$emit("authenticated", true);
+                        this.$router.replace({ name: "home" });
+                    }
+                    else {
+                        alert("The username and / or password is incorrect");
+                        this.input.password = [];
+                    }
+                })
             } else {
-                // eslint-disable-next-line
-                console.log("A username and password must be present");
+                alert("Username and password are required");
             }
         }
-    }
+    },
+
 }
 </script>
 
