@@ -1,11 +1,11 @@
 <template>
-    <b-container fluid class="MainContainer">
-        <b-row>
-            <b-col sm="9">
-                <h3>Brand <b class="appPrimaryTextColor">{{ this.selectedBrandName }}</b> Details</h3>
+    <b-container fluid class="main-intent">
+        <b-row align-h="between">
+            <b-col sm="9" class="no-intent">
+                <h3 class="appPrimaryTextColor">Brand <b>{{ this.selectedBrandName }}</b> Details</h3>
             </b-col>
-            <b-col sm="3" class="iconContainer">
-                <font-awesome-icon class="icons fa-2x appPrimaryTextColor" icon="plus" @click="show=true"/>
+            <b-col sm="1">
+                <font-awesome-icon class="icon fa-2x appPrimaryTextColor" icon="plus" @click="show=true"/>
                 <!-- remove print icon for now -->
                 <!-- <font-awesome-icon class="icons appPrimaryTextColor" icon="print"/> -->
                 <b-modal
@@ -72,25 +72,29 @@
             </b-modal>
             </b-col>                                
         </b-row>
-        <b-row class="detailWrapper">
-            <b-col sm="7">
-                <label>Notes:</label>
+        <b-row class="row-height">
+            <b-col class="no-intent" >
+                <p class="appPrimaryTextColor notes-font">Notes</p>
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col cols="7" class="no-intent">
                 <b-form-textarea 
                 id="textarea-no-resize"
                 v-model="selectedBrandNotes"
                 rows="5"
+                class="notes-textarea"
                 no-resize
                 ></b-form-textarea>         
             </b-col>
-            
-            <b-col sm="5">
-                <b-container>
+            <b-col class="no-intent">
+                <b-container fluid class="details">
                     <b-row>
                         <b-col sm="6">
                             Date Created:
                         </b-col>
                         <b-col sm="6">
-                            {{ this.dateCreated }}
+                            <i><b>{{ this.dateCreated }}</b></i>
                         </b-col>
                     </b-row>
                     <b-row>
@@ -98,7 +102,7 @@
                             Last Updated:
                         </b-col>
                         <b-col sm="6">
-                            {{ this.lastUpdated }}
+                            <i><b>{{ this.lastUpdated }}</b></i>
                         </b-col>
                     </b-row>
                     <b-row>
@@ -119,9 +123,9 @@
                         </b-col>
                     </b-row>
                     <b-row>
-                        <!-- Hide submit changes button if there are no changes -->
+                        <!-- Hide\show submit changes button -->
                         <b-col v-if="selectedBrandNotes !== initialNotes || isActive !== initialStatus">
-                            <b-button @click="updateBrand(isActive, selectedBrandNotes)">Save changes</b-button>
+                            <b-button @click="updateBrand(isActive, selectedBrandNotes)" class="btn-save-changes">SAVE CHANGES</b-button>
                         </b-col>
                     </b-row>
                 </b-container>
@@ -159,8 +163,6 @@ export default {
             .then(res => {
                 if(res.data.Result.BrandName !== null) {
                     this.$emit('new-brand-array', res.data.Result)
-                    // eslint-disable-next-line
-                    console.log("add brand >>>", res.data.Result)
                 }
             })
             .catch( error => {
@@ -172,7 +174,7 @@ export default {
             axios.post("http://localhost:49995/api/ItemManagement/UpdateBrand", {Id: this.selectedBrandId, BrandName: this.selectedBrandName, Notes: newNotes, IsActive: newStatus})
             .then(() => {
                 // refresh brand details
-                this.$emit('new-brand-array', {Id: this.selectedBrandId})
+                this.$emit('new-brand-array', {BrandName: this.selectedBrandName})
             })
             .catch( error => {
                 // eslint-disable-next-line
@@ -204,8 +206,8 @@ export default {
         selectedBrand: function(){
             if(this.selectedBrand[0].Id > 0){
                 this.selectedBrandId = this.selectedBrand[0].Id;
-                this.dateCreated = moment(this.selectedBrand[0].CreateDttm).format("DD-MMM-YYYY");
-                this.lastUpdated = moment(this.selectedBrand[0].UpdateDttm).format("DD-MMM-YYYY");
+                this.dateCreated = moment(this.selectedBrand[0].CreateDttm).format("MMM DD, YYYY");
+                this.lastUpdated = moment(this.selectedBrand[0].UpdateDttm).format("MMM DD, YYYY");
                 this.isActive = this.initialStatus = this.selectedBrand[0].IsActive;
                 this.selectedBrandNotes = this.initialNotes = this.selectedBrand[0].Notes;
                 this.selectedBrandName = this.selectedBrand[0].BrandName;
@@ -221,30 +223,14 @@ export default {
         padding: 0;
     }
 
-    .iconContainer {
-        padding-left: 35px;   
+    .main-intent {
+        padding: 20px;
     }
 
-    .icons{
-        margin-left: 20px;
-    }
-
-    .icons:hover{
+    .icon:hover{
         color: #9b9b9b;
     }
 
-    .detailWrapper {
-        height: 569px;
-    }
-
-    .col-sm-7 {
-        padding-top: 40px;
-    }
-
-    .col-sm-5 {
-        padding-top: 40px;
-    }
-    
     .submit-btn {
         margin-right: 20px;
         background-color: #218838;
@@ -262,8 +248,33 @@ export default {
         font-size: 20px;
     }
 
-    .notes {
-        min-height: 80px;
-        height: auto;
+    .notes-textarea {
+        border-color: #283593;
     }
+
+    .notes-font {
+        font-size: 14px;
+        margin-top: 10px;
+    }
+
+    .row-height {
+        height: 35px;
+    }
+
+    .details {
+        color: #283593;
+        font-size: 14px;
+    }
+
+    .btn-save-changes {
+        background-color: #283593;
+        font-size: 12px;
+        padding: 4px 12px;
+        margin-top: 40px;
+    }
+
+    .btn-save-changes:hover {
+        background-color: #7c7c7c;
+    }
+
 </style>

@@ -111,7 +111,7 @@
         </b-row>
         <b-modal id="add-new-item" size="lg" @ok="handleOk" title="Add an Item to Item Request">
             <GeneralSearchInputComponent v-on:items-list="showResults"/>
-            <ItemSearchResultForItemRequest v-bind:item-list="itemList" v-on:selected-item-search="selectedItem"/>
+            <ItemSearchResultForItemRequest v-bind:item-search-list="itemSearchList" v-on:selected-item-search="selectedItem"/>
         </b-modal>
     </b-container>
 </template>
@@ -149,7 +149,7 @@ export default {
                 CreateDttm: "",
                 UpdateDttm: ""
             },
-            itemList: [],
+            itemSearchList: [],
             addedItemList: [],
             selectedItemToAdd: [],
             msg: "",
@@ -223,7 +223,7 @@ export default {
             this.readOnly = false;
         },
         showResults(results) {
-            this.itemList = results;
+            this.itemSearchList = results;
         },
         selectedItem(results) {
             this.selectedItemToAdd = results;
@@ -318,6 +318,19 @@ export default {
                             this.addedItemList = res.data.RequestFormItems;
                         }
                     });
+            }
+            else {
+                this.form = {
+                    Id: 0,
+                    Title: "",
+                    StatusCd: null,
+                    Notes: "",
+                    CreateDttm: "",
+                    UpdateDttm: ""
+                };
+
+                this.itemSearchList = [];
+                this.addedItemList = [];
             }
         }
     },

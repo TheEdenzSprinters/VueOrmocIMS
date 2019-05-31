@@ -15,5 +15,10 @@ export default {
       Header, 
       MainSupplierManagement
     },
+    mounted() {
+        if(!this.$parent.authenticated) {
+            this.$router.replace({ name: "login" });
+        }
+    },
 }
 </script>

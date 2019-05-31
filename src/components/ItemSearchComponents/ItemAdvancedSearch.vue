@@ -43,7 +43,8 @@ export default {
                 SubCategoryId: null,
                 StatusCd: null,
                 Location: null,
-                Tag: ''
+                Tag: '',
+                NextBatch: 1
             },
             itemList: [],
             categoryList: [{value: null, text: "Select a Category"}],
@@ -57,8 +58,11 @@ export default {
             evt.preventDefault();
             axios.post("http://localhost:49995/api/ItemManagement/ItemsByAdvancedSearch", this.form)
             .then(res => {
-                this.itemList = res.data.Result;
-                this.$emit('item-list', this.itemList);
+                const itemResultList = {
+                    form: this.form,
+                    itemSearchResult: res.data
+                }
+                this.$emit('item-list', itemResultList);
             }).catch(err => {console.log(err);});
         },
         updateSubCategoryList() {

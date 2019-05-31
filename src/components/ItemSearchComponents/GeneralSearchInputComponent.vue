@@ -43,11 +43,17 @@ export default {
         },
         ItemNameSearch(item){
             if(item !== ""){
-                let itemName = item;
-                axios.post("http://localhost:49995/api/ItemManagement/ItemsBySimpleSearch",{itemName})
+                let query = {
+                    ItemName: item,
+                    NextBatch: 1
+                }
+                axios.post("http://localhost:49995/api/ItemManagement/ItemsBySimpleSearch",query)
                     .then(res => {
-                        this.itemList = res.data.Result;
-                        this.$emit('items-list', this.itemList);
+                        const itemResultList = {
+                            ItemName: this.itemName,
+                            itemSearchResult: res.data
+                        }
+                        this.$emit('items-list', itemResultList);
                     })
                     .catch(err => console.log(err));
             }
