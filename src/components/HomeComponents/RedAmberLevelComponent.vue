@@ -13,6 +13,9 @@
           </b-card-text>
         </b-card-body>
       </b-col>
+
+      <div class="vl"></div>
+     
       <b-col sm="6">
         <b-card-body title="Amber Levels">
           <b-card-text>
@@ -24,9 +27,12 @@
           </b-card-text>
         </b-card-body>
       </b-col>
-    </b-row>
+    
+    </b-row>   
+        <div slot="footer"><small class="text-muted">Items With Low Stock Level <b-button href="#">View All Items</b-button></small></div>     
   </b-card>
 </div>
+
 </template>
 
 <script>
@@ -37,22 +43,53 @@
     li{
         list-style: none;
         font-size: 12px;
-        padding-left: 10px;
-        padding-right: 0%;    
+     
     }
     ul{
         margin: 0%;
-        padding: 0%;
+        padding: 0px 0px 0px 30px;
     }
     .card-body{
         background-color: #283593;
-        -webkit-text-fill-color: white;
-        border: 1px;
-        border: solid;
-        border-color: white; 
-        padding-right: 0%;
-        height: 230px;       
+        -webkit-text-fill-color: white;  
+        padding: 0%;
+        height: 230px;
+         
+    }
+    .card-title{
+      padding-left: 20px;
+      padding-top: 10px
+    }
+    .btn{
+      height: 32px;
+      width: 120px;
+      font-size: 14px;    
+      float:right;      
+     
     }
 
+    .text-muted{
+      font-size: 22px;
+      -webkit-text-fill-color: black;
+    }
+
+    .card-footer{
+      background-color: white; 
+      border: none;     
+    }
+
+    .card{
+      border-radius: 0px;
+    }
+
+    .vl {
+      border-left: 1px solid white;
+      height: 180px;
+      position: absolute;
+      right: 50%;
+      margin-left: -3px;
+      top: 0;
+      margin-top: 28px;
+    }
    
 </style>
