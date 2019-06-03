@@ -43,7 +43,7 @@
                                             </b-col>
                                             <b-col lg="8" md="8" sm="8" class="inputColumn">
                                                 <b-form-select id="category" name="category" v-model="form.categoryId" :options="categoryList" :disabled="readOnly" :required="true" size="sm" v-on:change="updateSubCategoryList()"></b-form-select>
-                                                <span class="customModalTrigger">Add New Category</span>
+                                                <span class="customModalTrigger" @click="triggerAddNewCategory">Add New Category</span>
                                             </b-col>
                                         </b-row>
                                         <b-row class="generalInfoContainer">
@@ -52,7 +52,7 @@
                                             </b-col>
                                             <b-col lg="8" md="8" sm="8" class="inputColumn">
                                                 <b-form-select id="subCategory" name="subCategory" v-model="form.subCategoryId" :options="subCategoryList" :disabled="readOnly" :required="true" size="sm" v-on:change="getItemDetailList()"></b-form-select>
-                                                <span class="customModalTrigger">Add New Sub-Category</span>
+                                                <span class="customModalTrigger" @click="triggerAddNewSubCategory">Add New Sub-Category</span>
                                             </b-col>
                                         </b-row>
                                         <b-row class="generalInfoContainer">
@@ -225,6 +225,18 @@
             <b-modal id="brand-name-verify" size="md" @ok="handleAddBrandName" title="Brand Name does not exist." v-model="showWarningBrandModal">
                 <p class="modalContent">Brand <span class="emphasizeText">{{this.brandName}}</span> does not exist. Do you want to add new brand?</p>
             </b-modal>
+            <b-modal id="add-new-category" size="md" @ok="handleAddCategory" title="Add new Category." v-model="showAddNewCategory">
+                <label for="newCategoryName">Enter New Category</label>
+                <b-input id="newCategoryName" name="newCategoryName" v-model="newCategoryName"></b-input>
+            </b-modal>
+            <b-modal id="add-new-subcategory" size="md" @ok="handleAddSubCategory" title="Add new Sub-Category." v-model="showAddNewSubCategory">
+                <label for="categoryForNewSubCategory">Choose Category for New Subcategory</label>
+                <b-form-select id="categoryForNewSubCategory" name="categoryForNewSubCategory" 
+                    v-model="categoryForNewSubCategory" :options="categoryList" :disabled="readOnly" 
+                    :required="true" size="sm"></b-form-select>
+                <label for="newSubCategoryName">Enter New Sub-Category</label>
+                <b-input id="newSubCategoryName" name="newSubCategoryName" v-model="newSubCategoryName"></b-input>
+            </b-modal>
         </b-form>
     </div>
 </template>
@@ -256,8 +268,8 @@ export default {
                 UpdateDttm: "",
                 isActive: true,
                 tags: "",
-                unitPrice: 0,
-                retailPrice: 0,
+                unitPrice: "",
+                retailPrice: "",
                 itemDetail: [],
             },
             showCancelButton: false,
@@ -273,6 +285,11 @@ export default {
             showWarningBrandModal: false,
             brandIsFocused: false,
             popoverShow: false,
+            showAddNewCategory: false,
+            showAddNewSubCategory: false,
+            newCategoryName: "",
+            newSubCategoryName: "",
+            categoryForNewSubCategory: null,
         };
     },
     methods: {
@@ -427,6 +444,37 @@ export default {
         },
         selectedBrand(event){
             this.brandIsFocused = false;
+        },
+        handleAddCategory(){
+            const categoryName = this.newCategoryName;
+            axios.post("http://localhost:49995/api/ItemManagement/InsertNewCategory", {categoryName})
+                .then( res => {
+                    const newCategory = {value: res.data.Result.Id, text: res.data.Result.CategoryName};
+                    this.categoryList = this.categoryList.concat(newCategory);
+                })
+        },
+        handleAddSubCategory(){
+            const subCategory = {
+                CategoryId: this.categoryForNewSubCategory,
+                SubCategoryName: this.newSubCategoryName
+            }
+            axios.post("http://localhost:49995/api/ItemManagement/InsertNewSubCategory", subCategory)
+                .then( res => {
+                    const newSubCategory = {value: res.data.Result.Id, text: res.data.Result.SubCategoryName};
+                    if(this.form.categoryId == res.data.Result.CategoryID){
+                        this.subCategoryList = this.subCategoryList.concat(newSubCategory);
+                    }
+                });
+        },
+        triggerAddNewCategory(){
+            if(!this.readOnly){
+                this.showAddNewCategory = true;
+            }
+        },
+        triggerAddNewSubCategory(){
+            if(!this.readOnly){
+                this.showAddNewSubCategory = true;
+            }
         }
     },
     beforeMount: function() {
