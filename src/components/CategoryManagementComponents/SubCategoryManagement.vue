@@ -8,12 +8,12 @@
         </b-row>
         <b-row>
             <b-col>
-                <b-container fluid v-for="cat of catList" v-bind:key="cat.CategoryName">
+                <b-container fluid v-for="cat of catList" v-bind:key="cat.index">
                     <b-row class="headline-2">
                         <span>{{ cat.CategoryName }}</span>
                     </b-row>
                     <b-row>
-                        <div v-for="subCat of subCats" v-bind:key="subCat.SubCategoryName">
+                        <div v-for="subCat of subCats" v-bind:key="subCat.index">
                             <b-col v-if="cat.Id == subCat.CategoryID" cols="auto" class="list">
                                 <span @click="focusArray(subCat.Id)">{{ subCat.SubCategoryName }}</span>
                                 <font-awesome-icon class="icons appPrimaryTextColor delete-btn-margin" icon="times-circle" v-on:click="deleteSubCategory(subCat.Id)"/>
