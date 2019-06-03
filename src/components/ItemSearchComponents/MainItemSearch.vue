@@ -14,12 +14,12 @@
 
                                 <b-row>
                                     <b-col lg="12" md="12" sm="12" class="advancedSearchContainer">
-                                        <span v-b-toggle.advanceSearch v-on:click="changeIconDirection()" class="advancedSearchToggle">Advanced Search&nbsp;
+                                        <span v-on:click="changeIconDirection()" class="advancedSearchToggle">Advanced Search&nbsp;
                                             <font-awesome-icon icon="angle-right" v-if="arrowRight"/>
                                             <font-awesome-icon icon="angle-down" v-if="!arrowRight"/>
                                         </span>
                                         <hr class="advancedSearchDivider"/>
-                                        <b-collapse id="advanceSearch">
+                                        <b-collapse v-model="collapseAdvancedSearch" id="advanceSearch">
                                             <ItemAdvancedSearch v-on:item-list="showResults" />
                                         </b-collapse>
                                     </b-col>
@@ -55,11 +55,17 @@ export default {
             itemSearchList: [],
             itemId: 0,
             arrowRight: true,
+            collapseAdvancedSearch: false,
         }
     },
     components: {GeneralSearchInputComponent, ItemAdvancedSearch, ItemSearchResults, IndividualItemsComponent},
     methods: {
         showResults(results) {
+            if(typeof(results.isSimpleSearch) !== "undefined"){
+                this.arrowRight = true;
+            this.collapseAdvancedSearch = false;
+            }
+
             if(results.itemSearchResult.SearchResult.length !== 0){
                 this.itemSearchList = results;
             } else {
@@ -75,6 +81,7 @@ export default {
         },
         changeIconDirection(){
             this.arrowRight = !this.arrowRight;
+            this.collapseAdvancedSearch = !this.collapseAdvancedSearch;
         }
     },
 }

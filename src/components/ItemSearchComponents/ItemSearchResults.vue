@@ -64,7 +64,7 @@ export default {
                         .then( res => {
                             for(var i = 0; i < res.data.SearchResult.length; i++){
                                 let singleResult = res.data.SearchResult[i];
-                                singleResult.DateCreated = moment(singleResult.DateCreated).format("MMM DD, YYYY");
+                                singleResult.DateCreated = moment(singleResult.DateCreated).format("MMM DD,YYYY");
                                 this.itemList = this.itemList.concat(singleResult);
                             }
                         }).catch( err => {console.log(err);});
@@ -77,7 +77,7 @@ export default {
                         .then( res => {
                             for(var i = 0; i < res.data.SearchResult.length; i++){
                                 let singleResult = res.data.SearchResult[i];
-                                singleResult.DateCreated = moment(singleResult.DateCreated).format("MMM DD, YYYY");
+                                singleResult.DateCreated = moment(singleResult.DateCreated).format("MMM DD,YYYY");
                                 this.itemList = this.itemList.concat(singleResult);
                             }
                         }).catch( err => {console.log(err);});
@@ -87,16 +87,22 @@ export default {
     },
     watch: {
         itemSearchList: function() {
-            if(this.itemSearchList.itemSearchResult.RecordCount > this.perPage){
-                this.showPagination = true;
-            }
+            if(typeof(this.itemSearchList.itemSearchResult) !== "undefined"){
+                if(this.itemSearchList.itemSearchResult.RecordCount > this.perPage){
+                    this.showPagination = true;
+                }
 
-            this.recordCount = this.itemSearchList.itemSearchResult.RecordCount;
-            this.itemList = this.itemSearchList.itemSearchResult.SearchResult;
-            this.currentPage = 1;
-            
-            for(var i = 0; i < this.itemList.length; i++){
-                this.itemList.CreateDttm = moment(this.itemList.CreateDttm).format("MMM DD, YYYY");
+                this.recordCount = this.itemSearchList.itemSearchResult.RecordCount;
+                this.itemList = this.itemSearchList.itemSearchResult.SearchResult;
+                this.currentPage = 1;
+                
+                for(var i = 0; i < this.itemList.length; i++){
+                    this.itemList[i].CreateDttm = moment(this.itemList[i].CreateDttm).format("MMM DD,YYYY");
+                }
+            }
+            else {
+                this.itemList = [];
+                this.recordCount = 0;
             }
         }
     }

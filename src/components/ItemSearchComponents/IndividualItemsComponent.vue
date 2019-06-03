@@ -43,6 +43,7 @@
                                             </b-col>
                                             <b-col lg="8" md="8" sm="8" class="inputColumn">
                                                 <b-form-select id="category" name="category" v-model="form.categoryId" :options="categoryList" :disabled="readOnly" :required="true" size="sm" v-on:change="updateSubCategoryList()"></b-form-select>
+                                                <span class="customModalTrigger" @click="triggerAddNewCategory">Add New Category</span>
                                             </b-col>
                                         </b-row>
                                         <b-row class="generalInfoContainer">
@@ -51,6 +52,7 @@
                                             </b-col>
                                             <b-col lg="8" md="8" sm="8" class="inputColumn">
                                                 <b-form-select id="subCategory" name="subCategory" v-model="form.subCategoryId" :options="subCategoryList" :disabled="readOnly" :required="true" size="sm" v-on:change="getItemDetailList()"></b-form-select>
+                                                <span class="customModalTrigger" @click="triggerAddNewSubCategory">Add New Sub-Category</span>
                                             </b-col>
                                         </b-row>
                                         <b-row class="generalInfoContainer">
@@ -58,7 +60,21 @@
                                                 Brand
                                             </b-col>
                                             <b-col lg="8" md="8" sm="8" class="inputColumn">
-                                                <b-input block id="brand" name="brand" v-model="form.brandName" :readonly="readOnly" :required="true" size="sm"/>
+                                                <b-input block id="brand" name="brand" v-model="brandName" placeholder="Type a Brand Name" :readonly="readOnly" 
+                                                     :required="true" size="sm"/>
+                                                     <span class="customModalTrigger" v-if="!brandIsFocused" v-on:click="triggerBrandFocus(true)">Search for Brands</span>
+                                                     <div v-if="brandIsFocused" class="simpleSearchContainer">
+                                                        
+                                                        <vue-bootstrap-typeahead
+                                                            :data="brandNameList"
+                                                            v-model="brandName"
+                                                            size="sm"
+                                                            v-if="!readOnly"
+                                                            placeholder="Search for a Brand Name"
+                                                            @hit="brandIsFocused = false"
+                                                        />
+                                                        <b-button @click="triggerBrandFocus(false)" variant="danger" size="sm">Cancel</b-button>
+                                                     </div>
                                             </b-col>
                                         </b-row>
                                         <b-row class="generalInfoContainer">
@@ -107,6 +123,22 @@
                                             </b-col>
                                             <b-col lg="5" md="5" sm="5" class="inputColumn">
                                                 <b-input block id="warningThresholdQty" name="warningThresholdQty" v-model="form.warningThresholdQty" :readonly="readOnly" :required="true" size="sm"/>
+                                            </b-col>
+                                        </b-row>
+                                        <b-row class="generalInfoContainer">
+                                            <b-col lg="7" md="7" sm="7" class="labelColumn">
+                                            Unit Price
+                                            </b-col>
+                                            <b-col lg="5" md="5" sm="5" class="inputColumn">
+                                                <b-input block id="unitPrice" name="unitPrice" v-model="form.unitPrice" :readonly="readOnly" :required="true" size="sm"/>
+                                            </b-col>
+                                        </b-row>
+                                        <b-row class="generalInfoContainer">
+                                            <b-col lg="7" md="7" sm="7" class="labelColumn">
+                                            Retail Price
+                                            </b-col>
+                                            <b-col lg="5" md="5" sm="5" class="inputColumn">
+                                                <b-input block id="retailPrice" name="retailPrice" v-model="form.retailPrice" :readonly="readOnly" :required="true" size="sm"/>
                                             </b-col>
                                         </b-row>
                                     </b-container>
@@ -190,24 +222,41 @@
                 <b-button type="submit" variant="success" class="formButton" size="sm">Submit</b-button>
                 <b-button type="reset" class="formButton" size="sm">Cancel</b-button>
             </div>
+            <b-modal id="brand-name-verify" size="md" @ok="handleAddBrandName" title="Brand Name does not exist." v-model="showWarningBrandModal">
+                <p class="modalContent">Brand <span class="emphasizeText">{{this.brandName}}</span> does not exist. Do you want to add new brand?</p>
+            </b-modal>
+            <b-modal id="add-new-category" size="md" @ok="handleAddCategory" title="Add new Category." v-model="showAddNewCategory">
+                <label for="newCategoryName">Enter New Category</label>
+                <b-input id="newCategoryName" name="newCategoryName" v-model="newCategoryName"></b-input>
+            </b-modal>
+            <b-modal id="add-new-subcategory" size="md" @ok="handleAddSubCategory" title="Add new Sub-Category." v-model="showAddNewSubCategory">
+                <label for="categoryForNewSubCategory">Choose Category for New Subcategory</label>
+                <b-form-select id="categoryForNewSubCategory" name="categoryForNewSubCategory" 
+                    v-model="categoryForNewSubCategory" :options="categoryList" :disabled="readOnly" 
+                    :required="true" size="sm"></b-form-select>
+                <label for="newSubCategoryName">Enter New Sub-Category</label>
+                <b-input id="newSubCategoryName" name="newSubCategoryName" v-model="newSubCategoryName"></b-input>
+            </b-modal>
         </b-form>
     </div>
 </template>
 
 <script>
 import axios from "axios";
-import moment from "moment";
+import moment, { parseZone } from "moment";
+import _ from "underscore";
+import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
 
 export default {
     name: "IndividualItemsComponent",
     props: ['itemNumber'],
+    components: {VueBootstrapTypeahead},
     data() {
         return {
             form: {
                 itemName: "",
                 categoryId: null,
                 subCategoryId: null,
-                brandName: "",
                 locationId: null,
                 sku: "",
                 quantity: "",
@@ -219,6 +268,8 @@ export default {
                 UpdateDttm: "",
                 isActive: true,
                 tags: "",
+                unitPrice: "",
+                retailPrice: "",
                 itemDetail: [],
             },
             showCancelButton: false,
@@ -229,37 +280,93 @@ export default {
             statusList: [{value: null, text: "Select a Status"}],
             locationList: [{value: null, text: "Select a Location"}],
             itemId: 0,
+            brandNameList: [],
+            brandName: "",
+            showWarningBrandModal: false,
+            brandIsFocused: false,
+            popoverShow: false,
+            showAddNewCategory: false,
+            showAddNewSubCategory: false,
+            newCategoryName: "",
+            newSubCategoryName: "",
+            categoryForNewSubCategory: null,
         };
     },
     methods: {
         onSubmit(evt){
             evt.preventDefault();
             const item = this.form;
-            if(!this.toModify){
-                axios.post("http://localhost:49995/api/ItemManagement/InsertNewItem", item)
-                    .then(res => {
-                        this.itemId = res.data.Result.Id;
-                        this.showCancelButton = false;
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        this.showCancelButton = false;
-                    })
-            } else {
-                item.Id = this.itemNumber;
-                axios.post("http://localhost:49995/api/ItemManagement/UpdateExistingItem", item)
-                    .then(res => {
-                        this.showCancelButton = false;
-                        this.readOnly = true;
-                        this.toModify = false;
-                    })
-                    .catch(err => {
-                        console.log(err);
-                        this.showCancelButton = false;
-                        this.readOnly = true;
-                        this.toModify = false;
-                    })
-            }
+            item.brandName = this.brandName;
+            const brandName = this.brandName;
+
+            axios.post("http://localhost:49995/api/ItemManagement/ValidateBrandNameExist", {BrandName: item.brandName})
+                .then(res => {
+                    if (parseInt(res.data.Result) > 0){
+                        if(!this.toModify){
+                            axios.post("http://localhost:49995/api/ItemManagement/InsertNewItem", item)
+                                .then(res => {
+                                    this.itemId = res.data.Result.Id;
+                                    this.showCancelButton = false;
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                    this.showCancelButton = false;
+                                })
+                        } else {
+                            item.Id = this.itemNumber;
+                            axios.post("http://localhost:49995/api/ItemManagement/UpdateExistingItem", item)
+                                .then(res => {
+                                    this.showCancelButton = false;
+                                    this.readOnly = true;
+                                    this.toModify = false;
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                    this.showCancelButton = false;
+                                    this.readOnly = true;
+                                    this.toModify = false;
+                                })
+                        }
+                    }
+                    else {
+                        this.showWarningBrandModal = true;
+                    }
+                })
+        },
+        handleAddBrandName(){
+            axios.post("http://localhost:49995/api/ItemManagement/InsertNewBrand", {BrandName: this.brandName})
+                .then(res => {
+                    if(typeof(res.data) !== "undefined" && res.data.Result.Id > 0){
+                        if(!this.toModify){
+                            const item = this.form;
+                            item.brandName = this.brandName;
+
+                            axios.post("http://localhost:49995/api/ItemManagement/InsertNewItem", item)
+                                .then(res => {
+                                    this.itemId = res.data.Result.Id;
+                                    this.showCancelButton = false;
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                    this.showCancelButton = false;
+                                })
+                        } else {
+                            item.Id = this.itemNumber;
+                            axios.post("http://localhost:49995/api/ItemManagement/UpdateExistingItem", item)
+                                .then(res => {
+                                    this.showCancelButton = false;
+                                    this.readOnly = true;
+                                    this.toModify = false;
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                    this.showCancelButton = false;
+                                    this.readOnly = true;
+                                    this.toModify = false;
+                                })
+                        } 
+                    }
+                })
         },
         onReset(evt){
             evt.preventDefault();
@@ -320,6 +427,54 @@ export default {
                     this.readOnly = false;
                 })
                 .catch(err => {});
+        },
+        getBrandNameList(name) {
+            const brandModel = {BrandName: this.brandName};
+
+            axios.post("http://localhost:49995/api/ItemManagement/BrandsAutoComplete", brandModel)
+                .then(res => {
+                    this.brandNameList = res.data;
+                })
+                .catch(err => { });
+        },
+        triggerBrandFocus(trigger){
+            if(!this.readOnly){
+                this.brandIsFocused = trigger;
+            }
+        },
+        selectedBrand(event){
+            this.brandIsFocused = false;
+        },
+        handleAddCategory(){
+            const categoryName = this.newCategoryName;
+            axios.post("http://localhost:49995/api/ItemManagement/InsertNewCategory", {categoryName})
+                .then( res => {
+                    const newCategory = {value: res.data.Result.Id, text: res.data.Result.CategoryName};
+                    this.categoryList = this.categoryList.concat(newCategory);
+                })
+        },
+        handleAddSubCategory(){
+            const subCategory = {
+                CategoryId: this.categoryForNewSubCategory,
+                SubCategoryName: this.newSubCategoryName
+            }
+            axios.post("http://localhost:49995/api/ItemManagement/InsertNewSubCategory", subCategory)
+                .then( res => {
+                    const newSubCategory = {value: res.data.Result.Id, text: res.data.Result.SubCategoryName};
+                    if(this.form.categoryId == res.data.Result.CategoryID){
+                        this.subCategoryList = this.subCategoryList.concat(newSubCategory);
+                    }
+                });
+        },
+        triggerAddNewCategory(){
+            if(!this.readOnly){
+                this.showAddNewCategory = true;
+            }
+        },
+        triggerAddNewSubCategory(){
+            if(!this.readOnly){
+                this.showAddNewSubCategory = true;
+            }
         }
     },
     beforeMount: function() {
@@ -365,25 +520,28 @@ export default {
                                     var subCatItem = {
                                         value: res2.data[i].Id, text: res2.data[i].SubCategoryName
                                     }
-                                    this.itemId = this.itemNumber;
+
                                     this.subCategoryList = this.subCategoryList.concat(subCatItem);
-                                    this.form.itemName = res.data.Result.ItemName;
-                                    this.form.categoryId = res.data.Result.CategoryId;
-                                    this.form.subCategoryId = res.data.Result.SubCategoryId;
-                                    this.form.brandName = res.data.Result.BrandName;
-                                    this.form.locationId = res.data.Result.LocationId;
-                                    this.form.quantity = res.data.Result.Quantity;
-                                    this.form.measuredBy = res.data.Result.MeasuredBy;
-                                    this.form.sku = res.data.Result.Sku;
-                                    this.form.notes = res.data.Result.Notes;
-                                    this.form.isActive = res.data.Result.StatusCd.toLowerCase();
-                                    this.form.CreateDttm = moment(res.data.Result.CreateDttm).format("DD-MMM-YYYY");
-                                    this.form.UpdateDttm = moment(res.data.Result.UpdateDttm).format("DD-MMM-YYYY");
-                                    this.form.itemDetail = res.data.Result.ItemDetail;
-                                    this.form.thresholdQty = res.data.Result.ThresholdQty;
-                                    this.form.warningThresholdQty = res.data.Result.WarningThresholdQty;
-                                    console.log(this.form.itemDetail);
                                 }
+                                this.itemId = this.itemNumber;
+                                this.subCategoryList = this.subCategoryList.concat(subCatItem);
+                                this.form.itemName = res.data.Result.ItemName;
+                                this.form.categoryId = res.data.Result.CategoryId;
+                                this.form.subCategoryId = res.data.Result.SubCategoryId;
+                                this.brandName = res.data.Result.BrandName;
+                                this.form.locationId = res.data.Result.LocationId;
+                                this.form.quantity = res.data.Result.Quantity;
+                                this.form.measuredBy = res.data.Result.MeasuredBy;
+                                this.form.sku = res.data.Result.Sku;
+                                this.form.notes = res.data.Result.Notes;
+                                this.form.isActive = res.data.Result.StatusCd.toLowerCase();
+                                this.form.CreateDttm = moment(res.data.Result.CreateDttm).format("DD-MMM-YYYY");
+                                this.form.UpdateDttm = moment(res.data.Result.UpdateDttm).format("DD-MMM-YYYY");
+                                this.form.itemDetail = res.data.Result.ItemDetail;
+                                this.form.thresholdQty = res.data.Result.ThresholdQty;
+                                this.form.warningThresholdQty = res.data.Result.WarningThresholdQty;
+                                this.form.unitPrice = res.data.Result.UnitPrice;
+                                this.form.retailPrice = res.data.Result.RetailPrice;
                             })
                             .catch(err => {console.log(err);});
                     }
@@ -403,11 +561,15 @@ export default {
                     UpdateDttm: "",
                     isActive: false,
                     tags: "",
+                    unitPrice: 0,
+                    retailPrice: 0,
                     itemDetail: [],
                 }
                 this.itemId = 0;
             }
         },
+        brandName: 
+            _.debounce(function(name) {this.getBrandNameList(name)}, 500),
     }
 }
 </script>
@@ -487,5 +649,27 @@ export default {
 
     .buttonContainer {
         float: right;
+    }
+
+    .emphasizeText {
+        font-weight: bold;
+    }
+
+    .modalContent {
+        font-size: 14px;
+    }
+
+    .customModalTrigger {
+        cursor: pointer;
+    }
+
+    .customModalTrigger:hover {
+        text-decoration: underline;
+    }
+
+    .simpleSearchContainer {
+        margin-top: 5px;
+        padding-top: 5px;
+        border-top: 1px solid #efefef
     }
 </style>

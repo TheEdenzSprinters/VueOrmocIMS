@@ -51,7 +51,8 @@ export default {
                     .then(res => {
                         const itemResultList = {
                             ItemName: this.itemName,
-                            itemSearchResult: res.data
+                            itemSearchResult: res.data,
+                            isSimpleSearch: true,
                         }
                         this.$emit('items-list', itemResultList);
                     })
