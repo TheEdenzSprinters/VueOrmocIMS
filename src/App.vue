@@ -29,12 +29,8 @@ export default {
     data() {
         return {
             authenticated: false,
-                mockAccount: {
-                    username: "user",
-                    password: "user"
-                }
-            }
-        },
+        }
+    },
     mounted() {
         if(!this.authenticated) {
             this.$router.replace({ name: "login" });
@@ -46,7 +42,7 @@ export default {
         },
         logout() {
             this.authenticated = false;
-        }
+        },
     }
 };
 </script>
