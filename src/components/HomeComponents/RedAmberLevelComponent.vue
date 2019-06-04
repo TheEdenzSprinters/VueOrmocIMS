@@ -5,10 +5,9 @@
       <b-col sm="6">
         <b-card-body title="Red Levels">
           <b-card-text>
-            <ul>
-                <li>Nippon Paint Red</li>
-                <li>Unitec Elbow Pipe</li>
-                <li>Firefly 9W Led Bulbs</li>
+            <p v-if="showNoRedLevelItems">No Items to display.</p>
+            <ul v-if="!showNoRedLevelItems">
+                <li v-for="items in redLevelItems" :key="items.Id">{{items.ItemName}}</li>
             </ul>
           </b-card-text>
         </b-card-body>
@@ -19,10 +18,9 @@
       <b-col sm="6">
         <b-card-body title="Amber Levels">
           <b-card-text>
-            <ul>
-                <li>9 inch Nail</li>
-                <li>Vulcaseal 330ml</li>
-                <li>10" dia Fan Belt</li>
+            <p v-if="showNoAmberLevelItems">No Items to display.</p>
+            <ul v-if="!showNoAmberLevelItems">
+                <li v-for="items in amberLevelItems" :key="items.Id">{{items.ItemName}}</li>
             </ul>
           </b-card-text>
         </b-card-body>
@@ -36,7 +34,46 @@
 </template>
 
 <script>
-  
+import axios from "axios";
+
+export default{
+  name: "RedAmberLevelComponent",
+  data(){
+    return {
+      redLevelItems: [],
+      showNoRedLevelItems: true,
+      amberLevelItems: [],
+      showNoAmberLevelItems: true,
+    }
+  },
+  methods: {
+
+  },
+  mounted(){
+    axios.get("http://localhost:49995/api/ItemManagement/GetRedLevelItems")
+      .then( res => {
+        if(res.data.length > 0){
+          this.redLevelItems = res.data;
+          this.showNoRedLevelItems = false;
+        }
+        else {
+          this.showNoRedLevelItems = true;
+        }
+      });
+
+    axios.get("http://localhost:49995/api/ItemManagement/GetAmberLevelItems")
+      .then( res => {
+        if(res.data.length > 0){
+          this.amberLevelItems = res.data;
+          this.showNoAmberLevelItems = false;
+        }
+        else {
+          this.showNoAmberLevelItems = true;
+        }
+      })
+  },
+}
+
 </script>
 
 <style scoped>

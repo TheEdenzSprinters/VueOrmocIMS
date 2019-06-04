@@ -5,10 +5,9 @@
         <b-col sm="6">
             <b-card-body title="Oldest Stocks in Inventory">
                 <b-card-text>
-                    <ul>
-                        <li>Nippon Paint Red</li>
-                        <li>Unitec Elbow Pipe</li>
-                        <li>Firefly 9W Led Bulbs</li>
+                    <p v-if="showNoOldStocks">No Items to display.</p>
+                    <ul v-if="!showNoOldStocks">
+                        <li v-for="items in oldStocks" :key="items.Id">{{items.ItemName}}</li>
                     </ul>
                 </b-card-text>
             </b-card-body>       
@@ -23,7 +22,30 @@
 </template>
 
 <script>
-   
+   import axios from "axios";
+
+   export default {
+       name: "InventoryComponent",
+       data() {
+           return{
+               oldStocks: [],
+               showNoOldStocks: true,
+           }
+       },
+       mounted() {
+           axios.get("http://localhost:49995/api/ItemManagement/GetOldestStocks")
+            .then( res => {
+                if(res.data.length > 0){
+                    this.oldStocks = res.data;
+                    this.showNoOldStocks = false;
+                }
+                else {
+                    this.oldStocks = [];
+                    this.showNoOldStocks = true;
+                }
+            });
+       },
+   }
 </script>
 
 <style scoped>
