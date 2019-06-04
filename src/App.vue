@@ -3,7 +3,6 @@
 <b-container fluid id="app">
     <b-row v-if="this.authenticated">
         <b-col cols="2" class="navigation">
-            <router-link to="/login" @click.native="logout()" replace>Logout</router-link>
             <DashNav />
         </b-col>
         <b-col cols="10" class="content-body">
@@ -42,11 +41,6 @@ export default {
     methods: {
         setAuthenticated(status) {
             localStorage.setItem("authenticated", status);
-        },
-        logout() {
-            localStorage.setItem("authenticated", "false");
-            // reload page after logout
-            window.location.reload();
         },
     }
 };
