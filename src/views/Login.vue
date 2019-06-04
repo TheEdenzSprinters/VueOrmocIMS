@@ -68,6 +68,7 @@ export default {
                 axios.post("http://localhost:49995/api/UserManagement/Login", { UserName: this.input.username, Password: this.input.password })
                 .then(res => {
                     if(res.data.Result.Message == "Success"){
+                        localStorage.setItem("userName", this.input.username)
                         this.$emit("authenticated", true);
                         this.$router.replace({ name: "/" });
                         // reload page after login
