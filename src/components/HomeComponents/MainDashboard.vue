@@ -1,8 +1,8 @@
 <template>
     <b-container fluid class="whiteContainer">
         <b-row>
-            <b-col sm="12">
-                <p>7 May 2019</p>
+            <b-col sm="12" class="date-container">
+               {{dateToday}} 
             </b-col>
         </b-row>
         <b-container fluid class="appBackgroundShadeColor mainItemContainer">
@@ -56,11 +56,25 @@ import RedAmberLevelComponent from "./RedAmberLevelComponent";
 import PurchasesComponent from "./PurchasesComponent";
 import InventoryComponent from "./InventoryComponent";
 import TransitViewComponent from "./TransitViewComponent";
+import moment from 'moment';
+
+
 
 export default {
     name: "MainDashboard",
-    components: {RedAmberLevelComponent,PurchasesComponent,InventoryComponent,TransitViewComponent}
+    components: {RedAmberLevelComponent,PurchasesComponent,InventoryComponent,TransitViewComponent},
+    
+    data() {
+        return {
+            dateToday: "",
+                    }
+    },
+    mounted() {
+        this.dateToday=moment().format("MMMM DD, YYYY");  
+    }
+    
 }
+
 </script>
 
 <style scoped>
@@ -78,9 +92,13 @@ export default {
         padding: 10px;
     }
 
+.date-container {
+    padding-left: 20px;
+    padding-bottom: 5px;
+    font-size: 18px;
+    font-weight: 550;
+}
 
 </style>
 
-<style scoped>
 
-</style>
