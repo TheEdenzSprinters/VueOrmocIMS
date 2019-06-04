@@ -1,9 +1,9 @@
 <template>
 
 <b-container fluid id="app">
-    <b-row v-if="authenticated">
+    <b-row v-if="this.authenticated">
         <b-col cols="2" class="navigation">
-            <router-link to="/login" v-on:click.native="logout()" replace>Logout</router-link>
+            <router-link to="/login" @click.native="logout()" replace>Logout</router-link>
             <DashNav />
         </b-col>
         <b-col cols="10" class="content-body">
@@ -11,7 +11,7 @@
         </b-col>
     </b-row>
     <b-row>
-        <router-view v-if="!authenticated" @authenticated="setAuthenticated"/>
+        <router-view v-if="!this.authenticated" @authenticated="setAuthenticated"/>
     </b-row>
 </b-container>
     
@@ -21,27 +21,32 @@
 import DashNav from "./components/GlobalComponents/DashNav";
 import "bootstrap/dist/css/bootstrap.css";
 
-export default {
+export default {    
     name: "app",
     components: {
         DashNav,
     },
     data() {
         return {
-            authenticated: false,
+            authenticated: Boolean,
         }
     },
     mounted() {
+        // assign local storage var as a boolean
+        this.authenticated = (localStorage.authenticated !== "false");
+
         if(!this.authenticated) {
             this.$router.replace({ name: "login" });
         }
     },
     methods: {
         setAuthenticated(status) {
-            this.authenticated = status;
+            localStorage.setItem("authenticated", status);
         },
         logout() {
-            this.authenticated = false;
+            localStorage.setItem("authenticated", "false");
+            // reload page after logout
+            window.location.reload();
         },
     }
 };
