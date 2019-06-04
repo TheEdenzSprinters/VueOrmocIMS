@@ -69,7 +69,9 @@ export default {
                 .then(res => {
                     if(res.data.Result.Message == "Success"){
                         this.$emit("authenticated", true);
-                        this.$router.replace({ name: "home" });
+                        this.$router.replace({ name: "/" });
+                        // reload page after login
+                        window.location.reload();
                     }
                     else {
                         alert("The username and / or password is incorrect");
