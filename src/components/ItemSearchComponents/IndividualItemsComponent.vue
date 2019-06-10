@@ -222,22 +222,22 @@
                 <b-button type="submit" variant="success" class="formButton" size="sm">Submit</b-button>
                 <b-button type="reset" class="formButton" size="sm">Cancel</b-button>
             </div>
-            <b-modal id="brand-name-verify" size="md" @ok="handleAddBrandName" title="Brand Name does not exist." v-model="showWarningBrandModal">
-                <p class="modalContent">Brand <span class="emphasizeText">{{this.brandName}}</span> does not exist. Do you want to add new brand?</p>
-            </b-modal>
-            <b-modal id="add-new-category" size="md" @ok="handleAddCategory" title="Add new Category." v-model="showAddNewCategory">
-                <label for="newCategoryName">Enter New Category</label>
-                <b-input id="newCategoryName" name="newCategoryName" v-model="newCategoryName"></b-input>
-            </b-modal>
-            <b-modal id="add-new-subcategory" size="md" @ok="handleAddSubCategory" title="Add new Sub-Category." v-model="showAddNewSubCategory">
-                <label for="categoryForNewSubCategory">Choose Category for New Subcategory</label>
-                <b-form-select id="categoryForNewSubCategory" name="categoryForNewSubCategory" 
-                    v-model="categoryForNewSubCategory" :options="categoryList" :disabled="readOnly" 
-                    :required="true" size="sm"></b-form-select>
-                <label for="newSubCategoryName">Enter New Sub-Category</label>
-                <b-input id="newSubCategoryName" name="newSubCategoryName" v-model="newSubCategoryName"></b-input>
-            </b-modal>
         </b-form>
+         <b-modal id="brand-name-verify" size="md" @ok="handleAddBrandName" title="Brand Name does not exist." v-model="showWarningBrandModal">
+            <p class="modalContent">Brand <span class="emphasizeText">{{this.brandName}}</span> does not exist. Do you want to add new brand?</p>
+        </b-modal>
+        <b-modal id="add-new-category" size="md" @ok="handleAddCategory" title="Add new Category." v-model="showAddNewCategory">
+            <label for="newCategoryName">Enter New Category</label>
+            <b-input id="newCategoryName" name="newCategoryName" v-model="newCategoryName"></b-input>
+        </b-modal>
+        <b-modal id="add-new-subcategory" size="md" @ok="handleAddSubCategory" title="Add new Sub-Category." v-model="showAddNewSubCategory">
+            <label for="categoryForNewSubCategoryChoice">Choose Category for New Subcategory</label>
+            <b-form-select id="categoryForNewSubCategoryChoice" name="categoryForNewSubCategoryChoice"
+                v-model="categoryForNewSubCategory" :options="categoryList" :disabled="readOnly" 
+                :required="true" size="sm"></b-form-select>
+            <label for="newSubCategoryName">Enter New Sub-Category</label>
+            <b-input id="newSubCategoryName" name="newSubCategoryName" v-model="newSubCategoryName"></b-input>
+        </b-modal>
     </div>
 </template>
 
