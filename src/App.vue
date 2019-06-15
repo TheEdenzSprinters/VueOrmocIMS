@@ -32,7 +32,7 @@ export default {
     },
     mounted() {
         // assign local storage var as a boolean
-        this.authenticated = (localStorage.authenticated !== "false");
+        this.authenticated = (localStorage.authenticated === "true");
 
         if(!this.authenticated) {
             this.$router.replace({ name: "login" });
