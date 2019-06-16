@@ -27,7 +27,7 @@
       </b-col>
     
     </b-row>   
-        <div slot="footer"><small class="text-muted">Items With Low Stock Level <b-button href="#">View All Items</b-button></small></div>     
+        <div slot="footer"><small class="text-muted">Items With Low Stock Level <b-button class="appPrimaryBackgroundColor" href="#">View All Items</b-button></small></div>     
   </b-card>
 </div>
 
