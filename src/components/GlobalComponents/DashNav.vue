@@ -10,11 +10,11 @@
     <b-nav-item v-on:click="setActive('categories')" :class="{active: isActive('categories')}">
     <router-link class="appSecondaryTextColor" to="/category-management">CATEGORY MANAGEMENT</router-link>
     </b-nav-item>
-    <b-nav-item v-b-toggle.sub1 class="navigation-item" @click="toggleHiddenList">
+    <!-- <b-nav-item v-b-toggle.sub1 class="navigation-item" @click="toggleHiddenList">
     ITEM MANAGEMENT&nbsp;&nbsp;<font-awesome-icon icon="angle-right" v-if="arrowRight"/>
     <font-awesome-icon icon="angle-down" v-if="!arrowRight"/>
-    </b-nav-item>
-    <b-collapse id="sub1">
+    </b-nav-item> -->
+    <!-- <b-collapse id="sub1">
         <b-nav vertical class="appPrimaryBackgroundColor">
         <b-nav-item v-on:click="setActive('itemrequests')" :class="{active: isActive('itemrequests')}">
             <router-link class="appSecondaryTextColor secondaryNav" to="/item-requests">ITEM REQUEST FORM</router-link>
@@ -23,10 +23,10 @@
             <router-link class="appSecondaryTextColor secondaryNav" to="/quotations">SUPPLIER QUOTATIONS</router-link>
         </b-nav-item>
         </b-nav>
-    </b-collapse>
-    <b-nav-item v-on:click="setActive('po')" :class="{active: isActive('po')}">
+    </b-collapse> -->
+    <!-- <b-nav-item v-on:click="setActive('po')" :class="{active: isActive('po')}">
     <router-link class="appSecondaryTextColor" to="/po-management">P.O. MANAGEMENT</router-link>
-    </b-nav-item>
+    </b-nav-item> -->
     <b-nav-item v-on:click="setActive('suppliers')" :class="{active: isActive('suppliers')}">
     <router-link class="appSecondaryTextColor" to="/suppliers-management">SUPPLIERS MANAGEMENT</router-link>
     </b-nav-item>
@@ -34,7 +34,7 @@
     <router-link class="appSecondaryTextColor" to="/brand-management">BRAND MANAGEMENT</router-link>
     </b-nav-item>
     <b-nav-item v-on:click="setActive('items')" :class="{active: isActive('items')}">
-    <router-link class="appSecondaryTextColor" to="/item-search">ITEM SEARCH</router-link>
+    <router-link class="appSecondaryTextColor" to="/item-search">ITEM MANAGEMENT</router-link>
     </b-nav-item>
 </b-nav>
 
