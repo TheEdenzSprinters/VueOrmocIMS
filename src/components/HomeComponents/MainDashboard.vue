@@ -17,14 +17,14 @@
                                     </b-col>
                                 </b-row>
                             </b-container>                           
-                              <br>
-                             <b-container class="cardContainer">
+                              <!-- <br> -->
+                             <!-- <b-container class="cardContainer">
                                 <b-row class="card">
                                     <b-col sm="12">
                                         <PurchasesComponent/>
                                     </b-col>
                                 </b-row>
-                            </b-container>                           
+                            </b-container>                            -->
                         </b-col>
 
                         <b-col sm="6">
@@ -35,14 +35,14 @@
                                     </b-col>
                                 </b-row>
                             </b-container>                            
-                                <br>
-                             <b-container class="cardContainer">
+                                <!-- <br> -->
+                             <!-- <b-container class="cardContainer">
                                 <b-row class="card">
                                     <b-col sm="12">
                                         <TransitViewComponent/>
                                     </b-col>
                                 </b-row>
-                            </b-container>                            
+                            </b-container>                             -->
                         </b-col>
                     </b-row>           
                 </b-col>
