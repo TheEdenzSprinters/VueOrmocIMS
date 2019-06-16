@@ -39,7 +39,7 @@
       </b-col>
 
     </b-row>
-    <div slot="footer"><small class="text-muted">Items In Transit<b-button class="appPrimaryBackgroundColor" href="#">Track Order Status</b-button></small></div>
+    <div slot="footer"><small class="text-muted">Items In Transit</small><b-button class="appPrimaryBackgroundColor" href="#">Track Order Status</b-button></div>
   </b-card>
 </div>
 </template>

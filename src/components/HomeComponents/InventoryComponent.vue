@@ -16,7 +16,7 @@
             <b-card-img src="https://picsum.photos/400/400/?image=20" class="rounded-0"></b-card-img>
         </b-col>
     </b-row>
-     <div slot="footer"><small class="text-muted">Aging Stocks<b-button class="appPrimaryBackgroundColor" href="#">Review Stocks</b-button></small></div>
+     <div slot="footer"><small class="text-muted">Aging Stocks</small><b-button class="appPrimaryBackgroundColor" href="#">Review Stocks</b-button></div>
   </b-card>
 </div>
 </template>

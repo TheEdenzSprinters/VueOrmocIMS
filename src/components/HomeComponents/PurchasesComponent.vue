@@ -39,7 +39,7 @@
       </b-col>
 
     </b-row>
-    <div slot="footer"><small class="text-muted">Purchase Orders<b-button class="appPrimaryBackgroundColor" href="#">Review Orders</b-button></small></div>
+    <div slot="footer"><small class="text-muted">Purchase Orders</small><b-button class="appPrimaryBackgroundColor" href="#">Review Orders</b-button></div>
   </b-card>
 </div>
 </template>
