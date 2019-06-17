@@ -7,7 +7,7 @@
                 <b-row>
                     <b-col sm="5" class="left-col-intent">
                         <b-container fluid class="brand-list borders">
-                            <b-row class="row-intents">                                   
+                            <b-row>                                   
                                 <b-col>
                                     <BrandList :new-brand-array="newBrandArray" @selected-brand="passSelectedBrand"/>
                                 </b-col>                         
@@ -17,7 +17,7 @@
 
                     <b-col sm="7" class="right-col-intent">
                         <b-container fluid class="brand-details borders">
-                            <b-row >
+                            <b-row>
                                 <b-col>
                                     <BrandDetails @new-brand-array="passBrand" :selected-brand="selectedBrand"/>
                                 </b-col>
