@@ -74,6 +74,21 @@
         </b-row>
         <b-row class="row-height">
             <b-col class="no-intent" >
+                <p class="appPrimaryTextColor notes-font">Brand Name</p>
+            </b-col>
+        </b-row>
+        <b-row>
+            <b-col cols="4" class="no-intent">
+                <b-form-input 
+                v-model="selectedBrandName" 
+                id="item-name" 
+                class="input-brand" 
+                size="sm"
+                ></b-form-input>
+            </b-col>
+        </b-row>
+        <b-row class="row-height">
+            <b-col class="no-intent" >
                 <p class="appPrimaryTextColor notes-font">Notes</p>
             </b-col>
         </b-row>
@@ -124,8 +139,8 @@
                     </b-row>
                     <b-row>
                         <!-- Hide\show submit changes button -->
-                        <b-col v-if="selectedBrandNotes !== initialNotes || isActive !== initialStatus">
-                            <b-button @click="updateBrand(isActive, selectedBrandNotes)" class="btn-save-changes">SAVE CHANGES</b-button>
+                        <b-col v-if="selectedBrandNotes !== initialNotes || isActive !== initialStatus || selectedBrandName !== initialBrandName ">
+                            <b-button @click="updateBrand(isActive, selectedBrandNotes, selectedBrandName)" class="btn-save-changes">SAVE CHANGES</b-button>
                         </b-col>
                     </b-row>
                 </b-container>
@@ -156,6 +171,7 @@ export default {
             selectedBrandId: "",
             initialNotes: "",
             initialStatus: "",
+            initialBrandName: "",
         }
     },
     methods: {
@@ -171,8 +187,8 @@ export default {
                 console.log(error);
             })
         },
-        updateBrand(newStatus, newNotes) {
-            axios.post(host + "api/ItemManagement/UpdateBrand", {Id: this.selectedBrandId, BrandName: this.selectedBrandName, Notes: newNotes, IsActive: newStatus})
+        updateBrand(newStatus, newNotes, newBrandName) {
+            axios.post(host + "api/ItemManagement/UpdateBrand", {Id: this.selectedBrandId, BrandName: newBrandName, Notes: newNotes, IsActive: newStatus})
             .then(() => {
                 // refresh brand details
                 this.$emit('new-brand-array', {BrandName: this.selectedBrandName})
@@ -211,7 +227,7 @@ export default {
                 this.lastUpdated = moment(this.selectedBrand[0].UpdateDttm).format("MMM DD, YYYY");
                 this.isActive = this.initialStatus = this.selectedBrand[0].IsActive;
                 this.selectedBrandNotes = this.initialNotes = this.selectedBrand[0].Notes;
-                this.selectedBrandName = this.selectedBrand[0].BrandName;
+                this.selectedBrandName = this.initialBrandName = this.selectedBrand[0].BrandName;
             }
         }
     }
@@ -249,7 +265,7 @@ export default {
         font-size: 20px;
     }
 
-    .notes-textarea {
+    .notes-textarea, .input-brand {
         border-color: #283593;
     }
 
