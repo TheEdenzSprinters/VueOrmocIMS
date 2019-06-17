@@ -124,6 +124,7 @@ import axios from "axios";
 import moment from "moment";
 import GeneralSearchInputComponent from "../ItemSearchComponents/GeneralSearchInputComponent";
 import ItemSearchResultForItemRequest from "../ItemSearchComponents/ItemSearchResultForItemRequest";
+import { host2 } from "../../variables.js";
 
 export default {
     name: "ItemRequestDetails",
@@ -163,7 +164,7 @@ export default {
         onSubmit(event){
             event.preventDefault();
             if(!this.toModify){
-                axios.post("http://localhost:50006/api/PurchaseOrderManagement/InsertNewItemRequest", this.form)
+                axios.post(host2 + "api/PurchaseOrderManagement/InsertNewItemRequest", this.form)
                     .then(res => {
                         if(res.data != ""){
                             this.form.Id = res.data.Id;
@@ -178,7 +179,7 @@ export default {
             }
             else {
                 if(this.isValidStatus == null){
-                    axios.post("http://localhost:50006/api/PurchaseOrderManagement/UpdateItemRequestById", this.form)
+                    axios.post(host2 + "api/PurchaseOrderManagement/UpdateItemRequestById", this.form)
                     .then(res => {
                         if(res.data != ""){
                             
@@ -241,7 +242,7 @@ export default {
                 StocksLeft: this.selectedItemToAdd[0].StocksLeft
             }
 
-            axios.post("http://localhost:50006/api/PurchaseOrderManagement/AttachItemToItemRequest", itemMapping)
+            axios.post(host2 + "api/PurchaseOrderManagement/AttachItemToItemRequest", itemMapping)
                 .then(res => {
                     if(res.data != "" && typeof(res.data) !== "undefined"){
                         if(res.data.isSuccess){
@@ -263,7 +264,7 @@ export default {
                     ItemRequestId: this.form.Id
                 }
 
-                axios.post("http://localhost:50006/api/PurchaseOrderManagement/DeleteItemFromItemRequest", itemMapping)
+                axios.post(host2 + "api/PurchaseOrderManagement/DeleteItemFromItemRequest", itemMapping)
                     .then(res => {
                         if(res.data != "" && typeof(res.data) !== "undefined"){
                             if(res.data.isSuccess){
@@ -284,7 +285,7 @@ export default {
           Id: this.form.Id,
           StatusCd: this.form.StatusCd
         };
-        axios.post("http://localhost:50006/api/PurchaseOrderManagement/ValidateStatusChangeItemRequest", validateModel)
+        axios.post(host2 + "api/PurchaseOrderManagement/ValidateStatusChangeItemRequest", validateModel)
           .then(res => {
             if(res.data != "" && typeof(res.data) !== "undefined"){
                 if(res.data.isSuccess){
@@ -306,7 +307,7 @@ export default {
             this.showCancelButton = false;
             const Id = this.itemRequestNumber;
             if(Id != 0){
-                axios.post("http://localhost:50006/api/PurchaseOrderManagement/GetItemRequestFormById", {Id})
+                axios.post(host2 + "api/PurchaseOrderManagement/GetItemRequestFormById", {Id})
                     .then(res => {
                         if(res.data != ""){
                             this.form.Id = res.data.Id;
@@ -335,7 +336,7 @@ export default {
         }
     },
     beforeMount: function(){
-        axios.get("http://localhost:50006/api/PurchaseOrderManagement/GetItemRequestTicketSatus")
+        axios.get(host2 + "api/PurchaseOrderManagement/GetItemRequestTicketSatus")
         .then(res => {
           for(var i = 0; i < res.data.length; i++){
             var ticketStatus = {

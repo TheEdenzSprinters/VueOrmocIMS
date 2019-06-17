@@ -35,6 +35,7 @@
 
 <script>
 import axios from "axios";
+import { host } from "../../variables.js";
 
 export default{
   name: "RedAmberLevelComponent",
@@ -50,7 +51,7 @@ export default{
 
   },
   mounted(){
-    axios.get("http://localhost:49995/api/ItemManagement/GetRedLevelItems")
+    axios.get(host + "api/ItemManagement/GetRedLevelItems")
       .then( res => {
         if(res.data.length > 0){
           this.redLevelItems = res.data;
@@ -61,7 +62,7 @@ export default{
         }
       });
 
-    axios.get("http://localhost:49995/api/ItemManagement/GetAmberLevelItems")
+    axios.get(host + "api/ItemManagement/GetAmberLevelItems")
       .then( res => {
         if(res.data.length > 0){
           this.amberLevelItems = res.data;

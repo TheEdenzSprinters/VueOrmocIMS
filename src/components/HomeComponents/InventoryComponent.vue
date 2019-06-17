@@ -22,7 +22,8 @@
 </template>
 
 <script>
-   import axios from "axios";
+    import axios from "axios";
+    import { host } from "../../variables.js";
 
    export default {
        name: "InventoryComponent",
@@ -33,7 +34,7 @@
            }
        },
        mounted() {
-           axios.get("http://localhost:49995/api/ItemManagement/GetOldestStocks")
+           axios.get(host + "api/ItemManagement/GetOldestStocks")
             .then( res => {
                 if(res.data.length > 0){
                     this.oldStocks = res.data;

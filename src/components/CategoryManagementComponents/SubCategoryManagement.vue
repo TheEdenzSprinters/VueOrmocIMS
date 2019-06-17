@@ -87,6 +87,7 @@
 
 <script>
 import axios from "axios";
+import { host } from "../../variables.js";
 
 export default {
     props: ['catList'],
@@ -138,7 +139,7 @@ export default {
             }
         },
         getSubCategory() {
-            axios.get("http://localhost:49995/api/ItemManagement/GetAllSubCategories")
+            axios.get(host + "api/ItemManagement/GetAllSubCategories")
             .then(res => {
                 this.subCats = res.data;
             })
@@ -148,7 +149,7 @@ export default {
             })
         },
         addSubCategory() {
-            axios.post("http://localhost:49995/api/ItemManagement/InsertNewSubCategory", {CategoryId: this.catSelect, SubCategoryName: this.newSubCat, IsActive: true})
+            axios.post(host + "api/ItemManagement/InsertNewSubCategory", {CategoryId: this.catSelect, SubCategoryName: this.newSubCat, IsActive: true})
             .then(res => {
                 if(res.data.length !== 0){
                     this.subCats = this.subCats.concat(res.data.Result);
@@ -160,7 +161,7 @@ export default {
             });
         },
         deleteSubCategory (subCatDelete) {
-            axios.post("http://localhost:49995/api/ItemManagement/DeleteSubCategory", subCatDelete, {headers: {'Content-Type':'application/json'}})
+            axios.post(host + "api/ItemManagement/DeleteSubCategory", subCatDelete, {headers: {'Content-Type':'application/json'}})
             .then(res => {
                 if(res.data.Result == "SubCategory deleted." ) {
                     this.subCats = this.subCats.filter(e => { return e.Id !== subCatDelete; });

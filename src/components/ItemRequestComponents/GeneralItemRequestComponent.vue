@@ -37,6 +37,7 @@
 <script>
 import datepicker from 'vuejs-datepicker';
 import axios from "axios";
+import { host2 } from "../../variables.js";
 
 let today = new Date();
 
@@ -74,7 +75,7 @@ let today = new Date();
     methods: {
       onSubmit(evt) {
         evt.preventDefault();
-        axios.post("http://localhost:50006/api/PurchaseOrderManagement/ItemRequestFormSearch", this.form)
+        axios.post(host2 + "api/PurchaseOrderManagement/ItemRequestFormSearch", this.form)
         .then(res => {
           if(res.data != "" && res.data != [] && typeof(res.data) !== "undefined"){
             const searchQueryResponse = {
@@ -89,7 +90,7 @@ let today = new Date();
       }
     },
     beforeMount: function(){
-      axios.get("http://localhost:50006/api/PurchaseOrderManagement/GetItemRequestTicketSatus")
+      axios.get(host2 + "api/PurchaseOrderManagement/GetItemRequestTicketSatus")
         .then(res => {
           for(var i = 0; i < res.data.length; i++){
             var ticketStatus = {

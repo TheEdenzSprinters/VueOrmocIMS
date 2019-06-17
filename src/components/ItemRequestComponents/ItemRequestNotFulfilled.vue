@@ -33,6 +33,7 @@
 <script>
 import axios from "axios";
 import moment from "moment";
+import { host2 } from "../../variables.js";
 
 export default {
     name: 'ItemRequestNotFulfilled',
@@ -57,7 +58,7 @@ export default {
             if(this.itemRequestList.length < this.recordCount){
                 const currentPage = page;
 
-                axios.post("http://localhost:50006/api/PurchaseOrderManagement/GetItemRequestFormDelinquents", {currentPage})
+                axios.post(host2 + "api/PurchaseOrderManagement/GetItemRequestFormDelinquents", {currentPage})
                     .then( res => {
                         for(var i = 0; i < res.data.SearchResult.length; i++){
                             let singleResult = res.data.SearchResult[i];

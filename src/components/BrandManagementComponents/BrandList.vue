@@ -46,6 +46,7 @@
 <script>
 import axios from "axios";
 import moment from "moment";
+import { host } from "../../variables.js";
 
 export default {
     name: "BrandList",
@@ -77,7 +78,7 @@ export default {
             }
         },
         getBrand() {
-            axios.get("http://localhost:49995/api/ItemManagement/GetAllBrands")
+            axios.get(host + "api/ItemManagement/GetAllBrands")
             .then(res => {
                 // Full brand list for filter usage
                 this.brandListFull = res.data.Result;
@@ -100,7 +101,7 @@ export default {
                 let param = {brandName: this.brandSearchQuery};
                 // let param = `"${this.brandSearchQuery}"`; // approach to send variable in quotes
 
-                axios.post("http://localhost:49995/api/ItemManagement/SearchBrands", param, {headers: {'Content-Type':'application/json'}})
+                axios.post(host + "api/ItemManagement/SearchBrands", param, {headers: {'Content-Type':'application/json'}})
                 .then(res => {
                     this.brandList = [];
                     this.fetchList(res);

@@ -16,6 +16,7 @@
 import _ from "underscore";
 import axios from "axios";
 import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
+import { host } from "../../variables.js";
 
 export default {
     name: 'GeneralSearchInputComponent',
@@ -31,7 +32,7 @@ export default {
     methods: {
         async getItems(query){
             let searchString = query;
-            axios.post("http://localhost:49995/api/ItemManagement/ItemAutoComplete",{searchString})
+            axios.post(host + "api/ItemManagement/ItemAutoComplete",{searchString})
                 .then(res => {
                         if(res.data.Result !== ""){ 
                             this.items = res.data.Result;
@@ -47,7 +48,7 @@ export default {
                     ItemName: item,
                     NextBatch: 1
                 }
-                axios.post("http://localhost:49995/api/ItemManagement/ItemsBySimpleSearch",query)
+                axios.post(host + "api/ItemManagement/ItemsBySimpleSearch",query)
                     .then(res => {
                         const itemResultList = {
                             ItemName: this.itemName,

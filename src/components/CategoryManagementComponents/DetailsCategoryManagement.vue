@@ -63,6 +63,7 @@
 <script>
 import axios from "axios";
 import moment from "moment";
+import { host } from "../../variables.js";
 
 export default {
     name: "DetailsCategoryManagement",
@@ -88,7 +89,7 @@ export default {
             this.categorySub = this.catNameFiltered[0].CategoryName;
         },
         getSubByCat(catId) {
-            axios.post("http://localhost:49995/api/ItemManagement/GetAllSubCategoriesByCategory", {CategoryId: catId})
+            axios.post(host + "api/ItemManagement/GetAllSubCategoriesByCategory", {CategoryId: catId})
             .then(res => {
                 for(var i = 0; res.data.length > i; i++ ){
                     this.subCatsByCat = this.subCatsByCat.concat(res.data[i].SubCategoryName);
@@ -100,7 +101,7 @@ export default {
             })
         },
         getUnits(subCatId) {
-            axios.post("http://localhost:49995/api/ItemManagement/GetItemDetailBySubCategoryId", {SubCategoryId: subCatId})
+            axios.post(host + "api/ItemManagement/GetItemDetailBySubCategoryId", {SubCategoryId: subCatId})
             .then(res => {
                 if(res.data.Result.length > 0) {
                     for(var i = 0; res.data.Result.length > i; i++) {

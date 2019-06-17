@@ -71,6 +71,7 @@
 
 <script>
 import axios from "axios";
+import { host } from "../../variables.js";
 
 export default {
     name: "MainCategoryManagement",
@@ -120,7 +121,7 @@ export default {
             }
         },
         getCategory() {
-            axios.get("http://localhost:49995/api/ItemManagement/GetAllCategories")
+            axios.get(host + "api/ItemManagement/GetAllCategories")
             .then(res => {
                 this.catList = res.data;
                 this.$emit('go-cat', this.catList);
@@ -131,7 +132,7 @@ export default {
             })
         },
         addCategory() {
-            axios.post("http://localhost:49995/api/ItemManagement/InsertNewCategory", {CategoryName: this.newCat, IsActive: true})
+            axios.post(host + "api/ItemManagement/InsertNewCategory", {CategoryName: this.newCat, IsActive: true})
             .then(res => {
                 if(res.data.Result.CategoryName !== null){
                     this.catList = this.catList.concat(res.data.Result);
@@ -144,7 +145,7 @@ export default {
             })
         },
         deleteCategory(catDelete) {
-            axios.post("http://localhost:49995/api/ItemManagement/DeleteCategory", catDelete, {headers: {'Content-Type':'application/json'}})
+            axios.post(host + "api/ItemManagement/DeleteCategory", catDelete, {headers: {'Content-Type':'application/json'}})
             .then(() => {
                 this.catList = this.catList.filter(e => { return e.Id !== catDelete; });
                 this.$emit('go-cat', this.catList);
