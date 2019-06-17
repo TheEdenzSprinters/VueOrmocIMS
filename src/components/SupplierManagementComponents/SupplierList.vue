@@ -7,8 +7,8 @@
                 <label class="text" for="address">Address</label>
                 <b-form-input class="input-small" size="sm" v-model="addressSearchQuery"></b-form-input>
                 <div class="btnContainer">
-                    <b-button href="#" @click="supplierSearch()">Search</b-button>
-                    <b-button href="#" @click="resetSearch()">Show All</b-button>
+                    <b-button @click="supplierSearch()" class="btn">Search</b-button>
+                    <b-button @click="resetSearch()" class="btn">Show All</b-button>
                 </div>
             </b-col>
         </b-row>
@@ -136,27 +136,33 @@ export default {
 </script>
 
 <style scoped>
-       .resultsContainer {
+    .resultsContainer {
         font-size: 10px;
     }
     .cell{
         line-height: 14px;
     }
 
-     .text{
-     margin-bottom: 0%;
-     padding-top: 10px;     
- }
- .btnContainer{
-     margin-left: 65px;
-     margin-bottom: 5px;
-     margin-top: 5px;
- }
- .btn{
-     height: 35px;
-     font-size: 15px;
-     margin-left: 10px;
-     width: 100px;
- }
+    .text {
+        margin-bottom: 0%;
+        padding-top: 10px;     
+    }
+    .btnContainer{
+        margin-left: 65px;
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+
+    .btn {
+        background-color: #283593;
+        height: 35px;
+        font-size: 15px;
+        margin-left: 10px;
+        width: 100px;
+    }
+
+     .btn:hover {
+        background-color: #7c7c7c;
+    }
 
 </style>
