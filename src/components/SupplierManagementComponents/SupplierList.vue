@@ -1,33 +1,44 @@
 <template>
- <b-container>
-        <b-row class="form">
-            <b-col sm="12">
-                <label class="text" for="supplier-name">Supplier Name</label>
-                <b-form-input class="input-small" size="sm" v-model="supplierSearchQuery"></b-form-input>
-                <label class="text" for="address">Address</label>
-                <b-form-input class="input-small" size="sm" v-model="addressSearchQuery"></b-form-input>
-                <div class="btnContainer">
-                    <b-button @click="supplierSearch()" class="btn">Search</b-button>
-                    <b-button @click="resetSearch()" class="btn">Show All</b-button>
-                </div>
-            </b-col>
-        </b-row>
-        <div class="resultsContainer" overflow: auto>
+
+<b-container fluid class="main-intent">
+    <b-row>
+        <b-col cols="4">
+            <label class="text appPrimaryTextColor" for="supplier-name">Supplier Name</label>
+        </b-col>
+        <b-col cols="7">
+            <b-form-input class="supplier-input" size="sm" v-model="supplierSearchQuery"></b-form-input>
+        </b-col>
+    </b-row>
+    <b-row class="input-intent">
+        <b-col cols="4">
+            <label class="text appPrimaryTextColor" for="address">Address</label>
+        </b-col>
+        <b-col cols="7">
+            <b-form-input class="supplier-input" size="sm" v-model="addressSearchQuery"></b-form-input>
+        </b-col>
+        <b-col align-h="center">
+            <div class="btnContainer">
+                <b-button @click="supplierSearch()" class="btn">SEARCH</b-button>
+                <b-button @click="resetSearch()" class="btn">SHOW ALL</b-button>
+            </div>
+        </b-col>
+    </b-row>
+    <div class="resultsContainer" overflow: auto>
         <b-table 
             striped 
             hover 
             selectable
             select-mode="single"
-            selectedVariant="success"
-            :items="supplierList" 
+            selectedVariant="primary"
+            :items="supplierList"
+            thead-tr-class="appPrimaryBackgroundColor appSecondaryTextColor"
             show-empty
+            borderless
             @row-selected="rowSelected" 
             >
         </b-table> 
-      
     </div>
-    </b-container>
-
+</b-container>
 
 </template>
 
@@ -136,33 +147,53 @@ export default {
 </script>
 
 <style scoped>
+    .no-intent {
+        padding: 0;
+    }
+
+    .main-intent {
+        padding: 15px 0px 0px 0px;
+    }
+
     .resultsContainer {
         font-size: 10px;
     }
+
     .cell{
         line-height: 14px;
     }
 
     .text {
         margin-bottom: 0%;
-        padding-top: 10px;     
     }
-    .btnContainer{
-        margin-left: 65px;
-        margin-bottom: 5px;
-        margin-top: 5px;
+
+    .btnContainer {
+        margin: 5px 0px 5px 65px;
     }
 
     .btn {
         background-color: #283593;
-        height: 35px;
-        font-size: 15px;
-        margin-left: 10px;
-        width: 100px;
+        font-size: 12px;
+        padding: 4px 12px;
+        margin: 7px 30px 15px 0px;
     }
 
-     .btn:hover {
+    .btn:hover {
         background-color: #7c7c7c;
     }
 
+    .table {
+        border: solid;
+        border-color: #283593;
+        border-width: 0.5px;
+    }
+
+    .supplier-input {
+        border-color: #283593;
+        height: 23px;
+    }
+
+    .input-intent {
+        margin-top: 5px;
+    }    
 </style>
