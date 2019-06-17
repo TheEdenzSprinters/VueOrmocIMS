@@ -51,6 +51,7 @@
 
 <script>
 import axios from "axios";
+import { host } from "../variables.js";
 
 export default {
     name: 'login',
@@ -65,7 +66,7 @@ export default {
     methods: {
         login() {
             if(this.input.username != "" && this.input.password != "") {
-                axios.post("http://localhost:49995/api/UserManagement/Login", { UserName: this.input.username, Password: this.input.password })
+                axios.post(host + "api/UserManagement/Login", { UserName: this.input.username, Password: this.input.password })
                 .then(res => {
                     if(res.data.Result.Message == "Success"){
                         localStorage.setItem("userName", this.input.username)

@@ -156,7 +156,7 @@
 
 <script>
 import axios from "axios";
-
+import { host } from "../../variables.js";
 
 export default {
     data() {
@@ -186,7 +186,7 @@ export default {
     props:['supplierId'],
      methods: {               
         addSupplier() {
-            axios.post("http://localhost:49995/api/ItemManagement/CreateNewSupplier", {SupplierName: this.newSupplier, SupplierAddress: this.newSupplierAddress, Email: this.newSupplierEmail, TelephoneNumber: this.newSupplierPhone, Notes: this.newNotes})
+            axios.post(host + "api/ItemManagement/CreateNewSupplier", {SupplierName: this.newSupplier, SupplierAddress: this.newSupplierAddress, Email: this.newSupplierEmail, TelephoneNumber: this.newSupplierPhone, Notes: this.newNotes})
             .then(res => {                
                     if(res.data.Result.SupplierName !== null) {
                     this.$emit('new-supplier-array', res.data.Result)                              
@@ -198,7 +198,7 @@ export default {
             })
         },
         updateSupplier() {
-            axios.post("http://localhost:49995/api/ItemManagement/UpdateSupplier", {Id: this.newSupplierId, SupplierName: this.supplierName, SupplierAddress: this.supplierAddress, TelephoneNumber: this.supplierContact, Email: this.supplierEmail, Notes: this.notes, Status: this.status})
+            axios.post(host + "api/ItemManagement/UpdateSupplier", {Id: this.newSupplierId, SupplierName: this.supplierName, SupplierAddress: this.supplierAddress, TelephoneNumber: this.supplierContact, Email: this.supplierEmail, Notes: this.notes, Status: this.status})
             .then(() => {
                 
                 this.$emit('update-supplier', {Id: this.selectedSupplierId})
@@ -242,7 +242,7 @@ export default {
             this.newSupplierId= this.supplierId;
 
             if(Id >0){
-                axios.post("http://localhost:49995/api/ItemManagement/ViewSupplierById",{Id})
+                axios.post(host + "api/ItemManagement/ViewSupplierById",{Id})
                 .then(res => {                   
                     this.supplierName = res.data.Result.SupplierName;
                     this.supplierAddress = res.data.Result.SupplierAddress;

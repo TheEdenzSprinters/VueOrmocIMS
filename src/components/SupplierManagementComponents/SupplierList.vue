@@ -33,7 +33,7 @@
 
 <script>
 import axios from "axios";
-
+import { host } from "../../variables.js";
 
 export default {
     name: 'SupplierList',
@@ -67,7 +67,7 @@ export default {
             }
         },
         getSupplier() {
-            axios.get("http://localhost:49995/api/ItemManagement/GetAllSuppliers")
+            axios.get(host + "api/ItemManagement/GetAllSuppliers")
             .then(res => {
                 
                 this.supplierListFull = res.data.Result;
@@ -88,7 +88,7 @@ export default {
                     SupplierAddress: this.addressSearchQuery
                 }                    
 
-                axios.post("http://localhost:49995/api/ItemManagement/SuppliersSearch",query, {headers: {'Content-Type':'application/json'}})
+                axios.post(host + "api/ItemManagement/SuppliersSearch",query, {headers: {'Content-Type':'application/json'}})
                 .then(res => {
                     this.supplierList = [];
                     this.fetchList(res);

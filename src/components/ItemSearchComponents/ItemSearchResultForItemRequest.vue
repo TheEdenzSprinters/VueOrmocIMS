@@ -31,6 +31,7 @@
 
 <script>
 import axios from "axios";
+import { host } from "../../variables.js";
 
 export default {
     name: 'ItemSearchResultForItemRequest',
@@ -58,7 +59,7 @@ export default {
                     NextBatch: page
                 }
 
-                axios.post("http://localhost:49995/api/ItemManagement/ItemsBySimpleSearch", query)
+                axios.post(host + "api/ItemManagement/ItemsBySimpleSearch", query)
                     .then( res => {
                         this.itemList = this.itemList.concat(res.data.SearchResult);
                     }).catch( err => {console.log(err);});

@@ -29,6 +29,7 @@
 
 <script>
 import axios from "axios";
+import { host } from "../../variables.js";
 
 export default {
     name: "ItemAdvancedSearch",
@@ -56,7 +57,7 @@ export default {
     methods: {
         submitAdvancedSearch(evt){
             evt.preventDefault();
-            axios.post("http://localhost:49995/api/ItemManagement/ItemsByAdvancedSearch", this.form)
+            axios.post(host + "api/ItemManagement/ItemsByAdvancedSearch", this.form)
             .then(res => {
                 const itemResultList = {
                     form: this.form,
@@ -68,7 +69,7 @@ export default {
         updateSubCategoryList() {
             if(this.form.CategoryId != null){
                 const CategoryId = this.form.CategoryId;
-                axios.post("http://localhost:49995/api/ItemManagement/GetAllSubCategoriesByCategory", {CategoryId})
+                axios.post(host + "api/ItemManagement/GetAllSubCategoriesByCategory", {CategoryId})
                     .then(res => {
                         this.subCategoryList = [{value: null, text: "Select a SubCategory"}];
                         for(var i = 0; i < res.data.length; i++){
@@ -84,7 +85,7 @@ export default {
         },
     },
     beforeMount: function() {
-        axios.get("http://localhost:49995/api/ItemManagement/GetAllCategories")
+        axios.get(host + "api/ItemManagement/GetAllCategories")
             .then(res => {
                 for(var i = 0; i < res.data.length; i++){
                     var catItem = {
@@ -96,7 +97,7 @@ export default {
             })
             .catch(err => {console.log(err)});
 
-        axios.get("http://localhost:49995/api/ItemManagement/GetAllLocations")
+        axios.get(host + "api/ItemManagement/GetAllLocations")
             .then(res => {
                 for(var i = 0; i < res.data.Result.length; i++){
                     var locItem = {
@@ -108,7 +109,7 @@ export default {
             })
             .catch(err => {console.log(err);});
 
-        axios.get("http://localhost:49995/api/ItemManagement/GetAllItemStatus")
+        axios.get(host + "api/ItemManagement/GetAllItemStatus")
             .then(res => {
                 for(var i = 0; i < res.data.Result.length; i++){
                     var statItem = {

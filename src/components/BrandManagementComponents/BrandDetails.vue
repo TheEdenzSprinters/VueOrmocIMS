@@ -137,6 +137,7 @@
 <script>
 import axios from "axios";
 import moment from "moment";
+import { host } from "../../variables.js";
 
 export default {
     props: ["selectedBrand"],
@@ -159,7 +160,7 @@ export default {
     },
     methods: {
         addBrand() {
-            axios.post("http://localhost:49995/api/ItemManagement/InsertNewBrand", {BrandName: this.newBrand, Notes: this.newNotes, IsActive: true})
+            axios.post(host + "api/ItemManagement/InsertNewBrand", {BrandName: this.newBrand, Notes: this.newNotes, IsActive: true})
             .then(res => {
                 if(res.data.Result.BrandName !== null) {
                     this.$emit('new-brand-array', res.data.Result)
@@ -171,7 +172,7 @@ export default {
             })
         },
         updateBrand(newStatus, newNotes) {
-            axios.post("http://localhost:49995/api/ItemManagement/UpdateBrand", {Id: this.selectedBrandId, BrandName: this.selectedBrandName, Notes: newNotes, IsActive: newStatus})
+            axios.post(host + "api/ItemManagement/UpdateBrand", {Id: this.selectedBrandId, BrandName: this.selectedBrandName, Notes: newNotes, IsActive: newStatus})
             .then(() => {
                 // refresh brand details
                 this.$emit('new-brand-array', {BrandName: this.selectedBrandName})

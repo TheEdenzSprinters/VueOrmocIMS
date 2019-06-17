@@ -246,6 +246,7 @@ import axios from "axios";
 import moment, { parseZone } from "moment";
 import _ from "underscore";
 import VueBootstrapTypeahead from "vue-bootstrap-typeahead";
+import { host } from "../../variables.js";
 
 export default {
     name: "IndividualItemsComponent",
@@ -299,11 +300,11 @@ export default {
             item.brandName = this.brandName;
             const brandName = this.brandName;
 
-            axios.post("http://localhost:49995/api/ItemManagement/ValidateBrandNameExist", {BrandName: item.brandName})
+            axios.post(host + "api/ItemManagement/ValidateBrandNameExist", {BrandName: item.brandName})
                 .then(res => {
                     if (parseInt(res.data.Result) > 0){
                         if(!this.toModify){
-                            axios.post("http://localhost:49995/api/ItemManagement/InsertNewItem", item)
+                            axios.post(host + "api/ItemManagement/InsertNewItem", item)
                                 .then(res => {
                                     this.itemId = res.data.Result.Id;
                                     this.showCancelButton = false;
@@ -314,7 +315,7 @@ export default {
                                 })
                         } else {
                             item.Id = this.itemNumber;
-                            axios.post("http://localhost:49995/api/ItemManagement/UpdateExistingItem", item)
+                            axios.post(host + "api/ItemManagement/UpdateExistingItem", item)
                                 .then(res => {
                                     this.showCancelButton = false;
                                     this.readOnly = true;
@@ -334,14 +335,14 @@ export default {
                 })
         },
         handleAddBrandName(){
-            axios.post("http://localhost:49995/api/ItemManagement/InsertNewBrand", {BrandName: this.brandName})
+            axios.post(host + "api/ItemManagement/InsertNewBrand", {BrandName: this.brandName})
                 .then(res => {
                     if(typeof(res.data) !== "undefined" && res.data.Result.Id > 0){
                         if(!this.toModify){
                             const item = this.form;
                             item.brandName = this.brandName;
 
-                            axios.post("http://localhost:49995/api/ItemManagement/InsertNewItem", item)
+                            axios.post(host + "api/ItemManagement/InsertNewItem", item)
                                 .then(res => {
                                     this.itemId = res.data.Result.Id;
                                     this.showCancelButton = false;
@@ -352,7 +353,7 @@ export default {
                                 })
                         } else {
                             item.Id = this.itemNumber;
-                            axios.post("http://localhost:49995/api/ItemManagement/UpdateExistingItem", item)
+                            axios.post(host + "api/ItemManagement/UpdateExistingItem", item)
                                 .then(res => {
                                     this.showCancelButton = false;
                                     this.readOnly = true;
@@ -389,7 +390,7 @@ export default {
         updateSubCategoryList() {
             if(this.form.categoryId != null){
                 const CategoryId = this.form.categoryId;
-                axios.post("http://localhost:49995/api/ItemManagement/GetAllSubCategoriesByCategory", {CategoryId})
+                axios.post(host + "api/ItemManagement/GetAllSubCategoriesByCategory", {CategoryId})
                     .then(res => {
                         this.subCategoryList = [{value: null, text: "Select a SubCategory"}];
                         for(var i = 0; i < res.data.length; i++){
@@ -406,7 +407,7 @@ export default {
         getItemDetailList() {
             if(this.form.subCategoryId != null){
                 const SubCategoryId = this.form.subCategoryId;
-                axios.post("http://localhost:49995/api/ItemManagement/GetItemDetailBySubCategoryId", {SubCategoryId})
+                axios.post(host + "api/ItemManagement/GetItemDetailBySubCategoryId", {SubCategoryId})
                     .then(res => {
                         if(res.data.Result.length != 0){
                             this.form.itemDetail = res.data.Result;
@@ -420,7 +421,7 @@ export default {
         triggerItemStatusChange() {
             const status = {Id: this.itemId, StatusCd: this.form.isActive};
 
-            axios.post("http://localhost:49995/api/ItemManagement/UpdateItemStatusById", status)
+            axios.post(host + "api/ItemManagement/UpdateItemStatusById", status)
                 .then(res => {
                     alert(res.data.Result);
                     this.toModify = true;
@@ -431,7 +432,7 @@ export default {
         getBrandNameList(name) {
             const brandModel = {BrandName: this.brandName};
 
-            axios.post("http://localhost:49995/api/ItemManagement/BrandsAutoComplete", brandModel)
+            axios.post(host + "api/ItemManagement/BrandsAutoComplete", brandModel)
                 .then(res => {
                     this.brandNameList = res.data;
                 })
@@ -447,7 +448,7 @@ export default {
         },
         handleAddCategory(){
             const categoryName = this.newCategoryName;
-            axios.post("http://localhost:49995/api/ItemManagement/InsertNewCategory", {categoryName})
+            axios.post(host + "api/ItemManagement/InsertNewCategory", {categoryName})
                 .then( res => {
                     const newCategory = {value: res.data.Result.Id, text: res.data.Result.CategoryName};
                     this.categoryList = this.categoryList.concat(newCategory);
@@ -458,7 +459,7 @@ export default {
                 CategoryId: this.categoryForNewSubCategory,
                 SubCategoryName: this.newSubCategoryName
             }
-            axios.post("http://localhost:49995/api/ItemManagement/InsertNewSubCategory", subCategory)
+            axios.post(host + "api/ItemManagement/InsertNewSubCategory", subCategory)
                 .then( res => {
                     const newSubCategory = {value: res.data.Result.Id, text: res.data.Result.SubCategoryName};
                     if(this.form.categoryId == res.data.Result.CategoryID){
@@ -478,7 +479,7 @@ export default {
         }
     },
     beforeMount: function() {
-        axios.get("http://localhost:49995/api/ItemManagement/GetAllCategories")
+        axios.get(host + "api/ItemManagement/GetAllCategories")
             .then(res => {
                 for(var i = 0; i < res.data.length; i++){
                     var catItem = {
@@ -490,7 +491,7 @@ export default {
             })
             .catch(err => {console.log(err)});
 
-        axios.get("http://localhost:49995/api/ItemManagement/GetAllLocations")
+        axios.get(host + "api/ItemManagement/GetAllLocations")
             .then(res => {
                 for(var i = 0; i < res.data.Result.length; i++){
                     var locItem = {
@@ -509,11 +510,11 @@ export default {
             this.showCancelButton = false;
             const Id = this.itemNumber;
             if(Id != ""){
-            axios.post("http://localhost:49995/api/ItemManagement/GetItemById", {Id})
+            axios.post(host + "api/ItemManagement/GetItemById", {Id})
                 .then(res => {
                     if(res.data.Result != ""){
                         const CategoryId = res.data.Result.CategoryId;
-                        axios.post("http://localhost:49995/api/ItemManagement/GetAllSubCategoriesByCategory", {CategoryId})
+                        axios.post(host + "api/ItemManagement/GetAllSubCategoriesByCategory", {CategoryId})
                             .then(res2 => {
                                 this.subCategoryList = [{value: null, text: "Select a SubCategory"}];
                                 for(var i = 0; i < res2.data.length; i++){
