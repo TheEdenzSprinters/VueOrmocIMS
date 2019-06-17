@@ -140,7 +140,7 @@
             <b-container>
                 <b-row sm="12" class="btn-container">
             <b-col sm="4">
-                 <b-button size="sm" v-on:click= "updateSupplier">Save Changes</b-button>
+                 <b-button size="sm" v-on:click= "updateSupplier" class="btn-save-changes">Save Changes</b-button>
             </b-col>
                        
             <b-col sm="8">
@@ -261,25 +261,51 @@ export default {
 </script>
 
 <style scoped>
-.input-small{
-    width: 370px;
-}
-.input-small1{
-    height: 80px;
-    width: 420px;
-}
-.iconContainer{
-  margin-left: 430px;
-}
-.icons {
-  font-size: 24px;
-  cursor: pointer;
-  margin-top: 15px;
-  margin-right: 15px;
-}
-.btn-container {
-    margin-top: 30px;
-}
+    .input-small{
+        width: 370px;
+    }
 
+    .input-small1{
+        height: 80px;
+        width: 420px;
+    }
+
+    .iconContainer{
+    margin-left: 430px;
+    }
+
+    .icons {
+    font-size: 24px;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-right: 15px;
+    }
+
+    .btn-container {
+        margin-top: 30px;
+    }
+
+    .submit-btn {
+        margin-right: 20px;
+        background-color: #218838;
+        font-size: 20px;
+        padding: 0px 15px;
+    }
+
+    .cancel-btn {
+        background-color: #7c7c7c;
+        font-size: 20px;
+        padding: 0px 15px;
+    }
+    
+    .btn-save-changes {
+        background-color: #283593;
+        font-size: 12px;
+        padding: 4px 12px;
+    }
+
+    .btn-save-changes:hover {
+        background-color: #7c7c7c;
+    }
 </style>
 
