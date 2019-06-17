@@ -418,7 +418,7 @@ export default {
             }
         },
         triggerItemStatusChange() {
-            const status = {Id: this.ItemId, StatusCd: this.form.isActive};
+            const status = {Id: this.itemId, StatusCd: this.form.isActive};
 
             axios.post("http://localhost:49995/api/ItemManagement/UpdateItemStatusById", status)
                 .then(res => {
