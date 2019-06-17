@@ -134,9 +134,14 @@ export default {
         addCategory() {
             axios.post(host + "api/ItemManagement/InsertNewCategory", {CategoryName: this.newCat, IsActive: true})
             .then(res => {
-                if(res.data.Result.CategoryName !== null){
-                    this.catList = this.catList.concat(res.data.Result);
-                    this.$emit('go-cat', this.catList);
+                if(res.data.Result.CategoryName !== null) {
+                    if(res.data.Result.IsSuccess){
+                        this.catList = this.catList.concat(res.data.Result);
+                        this.$emit('go-cat', this.catList);
+                    }
+                    else {
+                        alert(res.data.Result.Message);
+                    }
                 }
             })
             .catch (error => {
