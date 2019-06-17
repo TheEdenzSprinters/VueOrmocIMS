@@ -58,7 +58,7 @@ import ItemRequestNotFulfilled from "./ItemRequestNotFulfilled";
 import ItemRequestDetails from "./ItemRequestDetails";
 
 import axios from "axios";
-
+import { host2 } from "../../variables.js";
 
 export default {
     name: "MainItemRequest",
@@ -89,7 +89,7 @@ export default {
     },
     beforeMount: function(){
         const currentPage = 1;
-        axios.post("http://localhost:50006/api/PurchaseOrderManagement/GetItemRequestFormDelinquents", {currentPage})
+        axios.post(host2 + "api/PurchaseOrderManagement/GetItemRequestFormDelinquents", {currentPage})
             .then( res => {
                 this.itemRequestDelinquents = res.data;
             })

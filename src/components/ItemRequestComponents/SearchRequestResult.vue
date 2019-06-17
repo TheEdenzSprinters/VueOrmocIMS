@@ -32,6 +32,7 @@
 <script>
 import axios from 'axios';
 import moment from 'moment';
+import { host2 } from "../../variables.js";
 
 export default {
     name: 'ItemSearchResults',
@@ -63,7 +64,7 @@ export default {
                     NextBatch: page
                 }
 
-                axios.post("http://localhost:50006/api/PurchaseOrderManagement/ItemRequestFormSearch", form)
+                axios.post(host2 + "api/PurchaseOrderManagement/ItemRequestFormSearch", form)
                     .then( res => {
                         for(var i = 0; i < res.data.SearchResult.length; i++){
                             let singleResult = res.data.SearchResult[i];
